@@ -10,6 +10,7 @@ class Search extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        // todo add view properties
     }
 
     render() {
