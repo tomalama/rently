@@ -1,25 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+// React
+import React, { Component } from "react";
+import { BrowserRouter, Switch } from "react-router-dom";
 
-import Navigation from "../Navigation";
-import LandingPage from "../Landing";
-import SignUpPage from "../SignUp";
-import SignInPage from "../SignIn";
-import HomePage from "../Home";
-import AccountPage from "../Account";
-import withAuthentication from "../Session/withAuthentication";
-import * as routes from "../../constants/routes";
+// General
+import AppRoute from "../layout/AppRoute";
+import MainLayout from "../layout/MainLayout";
+import Home from "../Home";
 
-const App = () => (
-  <Router>
-    <div className="app">
-      <Navigation />
-      <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-      <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
-      <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
-      <Route exact path={routes.HOME} component={() => <HomePage />} />
-      <Route exact path={routes.ACCOUNT} component={() => <AccountPage />} />
-    </div>
-  </Router>
-);
-export default withAuthentication(App);
+// Admin
+import Login from "../auth/Login";
+
+// Agent
+import SignUp from "../auth/SignUp";
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <AppRoute exact path="/" layout={MainLayout} component={Home} />
+          <AppRoute exact path="/login" layout={MainLayout} component={Login} />
+          <AppRoute
+            exact
+            path="/signup"
+            layout={MainLayout}
+            component={SignUp}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+}
+
+export default App;
