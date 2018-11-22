@@ -11,9 +11,12 @@ import { signUp } from "../../store/actions/auth";
 class SignUp extends Component {
   state = {
     email: "",
+    username: "",
     password: "",
     firstName: "",
-    lastName: ""
+    lastName: "",
+    type: "customer",
+    maxRent: ""
   };
 
   handleChange = e => {
@@ -39,6 +42,10 @@ class SignUp extends Component {
             <input type="email" id="email" onChange={this.handleChange} />
           </div>
           <div>
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" onChange={this.handleChange} />
+          </div>
+          <div>
             <label htmlFor="password">Password</label>
             <input type="password" id="password" onChange={this.handleChange} />
           </div>
@@ -50,6 +57,19 @@ class SignUp extends Component {
             <label htmlFor="lastName">Last Name</label>
             <input type="text" id="lastName" onChange={this.handleChange} />
           </div>
+          <div>
+            <label htmlFor="type">Type</label>
+            <select id="type" onChange={this.handleChange}>
+              <option value="customer">Customer</option>
+              <option value="owner">Owner</option>
+            </select>
+          </div>
+          {this.state.type === "customer" && (
+            <div>
+              <label htmlFor="maxRent">Maximum Rent per Month</label>
+              <input type="number" id="maxRent" onChange={this.handleChange} />
+            </div>
+          )}
           <div>
             <button>Sign Up</button>
             <div>{authError ? <p>{authError}</p> : null}</div>
