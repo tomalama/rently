@@ -12,7 +12,7 @@ import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
 import firebase from "./config";
 
 // App
-import App from "./components/App";
+import App from "./containers/App";
 import rootReducer from "./store/reducers";
 
 const store = createStore(
