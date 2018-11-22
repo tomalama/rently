@@ -40,8 +40,11 @@ export const signUp = newUser => {
           .collection("users")
           .doc(resp.user.uid)
           .set({
+            username: newUser.username,
             firstName: newUser.firstName,
-            lastName: newUser.lastName
+            lastName: newUser.lastName,
+            type: newUser.type,
+            maxRent: newUser.maxRent
           });
       })
       .then(() => {

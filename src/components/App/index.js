@@ -8,10 +8,10 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../Home";
 
 // Admin
-import Login from "../auth/Login";
+import Login from "../Login";
 
 // Agent
-import SignUp from "../auth/SignUp";
+import SignUp from "../SignUp";
 
 class App extends Component {
   render() {
