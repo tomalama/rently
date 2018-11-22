@@ -44,7 +44,8 @@ export const signUp = newUser => {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             type: newUser.type,
-            maxRent: newUser.maxRent
+            maxRent: newUser.maxRent,
+            created: firestore.FieldValue.serverTimestamp()
           });
       })
       .then(() => {
