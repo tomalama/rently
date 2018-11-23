@@ -2,11 +2,25 @@
 import React, { Component } from "react";
 
 class Search extends Component {
+    state = {
+        location: [],
+        typeOfProperty: "",
+        numberOfBedrooms: "",
+        numberOfBathrooms: "",
+        minimalRent: "",
+        maximalRent: ""
+    };
+
     handleChange = e => {
         this.setState({
-          [e.target.id]: e.target.value
-        });
+          [e.target.id]: e.target.value}
+        );
     };
+
+    validation = () => {
+        return this.state.location && this.state.typeOfProperty && this.state.numberOfBedrooms 
+            && this.state.numberOfBathrooms && this.state.minimalRent && this.state.maximalRent;
+    }
 
     handleSubmit = e => {
         e.preventDefault();
@@ -39,6 +53,9 @@ class Search extends Component {
                         <input type="number" id="minimalRent" step="0.01" onChange={this.handleChange}></input>
                         <label htmlFor="maximalRent">Maximal desired rent</label>
                         <input type ="number" id="maximalRent" step="0.01" onChange={this.handleChange}></input>
+                    </div>
+                    <div>
+                        <button disabled={!this.validation()}>Search</button>
                     </div>
                 </form>
             </div>
