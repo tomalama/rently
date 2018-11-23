@@ -18,8 +18,8 @@ class Search extends Component {
     };
 
     validation = () => {
-        return this.state.location && this.state.typeOfProperty && this.state.numberOfBedrooms 
-            && this.state.numberOfBathrooms && this.state.minimalRent && this.state.maximalRent;
+        return this.state.location || this.state.typeOfProperty || this.state.numberOfBedrooms 
+            || this.state.numberOfBathrooms || this.state.minimalRent || this.state.maximalRent;
     }
 
     handleSubmit = e => {
@@ -58,6 +58,10 @@ class Search extends Component {
                         <button disabled={!this.validation()}>Search</button>
                     </div>
                 </form>
+                {   
+                    !this.validation() ? <p style={{color: 'red'}}>Form cannot be empty</p>
+                    : ""
+                }
             </div>
         )
     }
