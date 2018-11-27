@@ -37,21 +37,32 @@ class Login extends Component {
           <form onSubmit={this.handleSubmit}>
             <h5 className="Log-into-rently">Log into rently</h5>
             <div>
-              <input type="email" id="email" onChange={this.handleChange} />
+              <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+                onChange={this.handleChange}
+              />
             </div>
             <div>
               <input
                 type="password"
                 id="password"
+                placeholder="Password"
                 onChange={this.handleChange}
               />
             </div>
             <div>
-              <button className="login-button">Login</button>
+              <button className="login-button">Log In</button>
               <div>{authError ? <p>{authError}</p> : null}</div>
             </div>
           </form>
         </div>
+        <img
+          className="logo"
+          src={window.location.origin + "/img/logo.svg"}
+          alt={"logo"}
+        />
       </div>
     );
   }

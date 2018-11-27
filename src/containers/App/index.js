@@ -16,10 +16,14 @@ import Login from "../../components/Login";
 // Agent
 import SignUp from "../../components/SignUp";
 
+// CSS
+import "./App.scss";
+
 class App extends Component {
   render() {
     const { auth } = this.props;
-    const layout = (auth && auth.uid) ? AuthenticatedContainer : UnAuthenticatedContainer;
+    const layout =
+      auth && auth.uid ? AuthenticatedContainer : UnAuthenticatedContainer;
     return (
       <BrowserRouter>
         <Switch>
@@ -31,8 +35,6 @@ class App extends Component {
     );
   }
 }
-
-
 
 const mapStateToProps = state => {
   return {
