@@ -5,6 +5,10 @@ import React, { Component } from "react";
 import Slider, {createSliderWithTooltip} from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
+//Dropdown
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -20,18 +24,12 @@ const moneyMarks = {
 
 class Search extends Component {
     state = {
-        location: "",
-        typeOfProperty: "",
+        location: "Ottawa",
+        typeOfProperty: "House",
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
         maximalRent: 0
-    };
-
-    handleChange = e => {
-        this.setState({
-          [e.target.id]: e.target.value}
-        );
     };
 
     bedroomFormatter = v => {
@@ -45,24 +43,36 @@ class Search extends Component {
     moneyFormatter = v => {
         return `$${v}`
     }
+
+    handleLocationChange = e => {
+        this.setState({
+            location: e
+        })
+    }
+
+    handleTypeOfPropertyChange = e => {
+        this.setState({
+            typeOfProperty: e
+        })
+    }
     
     handleBedroomChange = e => {
         this.setState({
-            numberOfBedrooms: e}
-        )   
+            numberOfBedrooms: e
+        })   
     }
 
     handleBathroomChange = e => {
         this.setState({
-            numberOfBathrooms: e}
-        )
+            numberOfBathrooms: e
+        })
     }
 
     handleRentalChange = e => {
         this.setState({
             minimalRent: e[0],
-            maximalRent: e[1]}
-        )
+            maximalRent: e[1]
+        })
     }
 
     validation = () => {
@@ -75,6 +85,8 @@ class Search extends Component {
         // todo add view properties
     }
 
+    
+
     render() {
         return (
             <div>
@@ -82,14 +94,19 @@ class Search extends Component {
                     <h2>Search Properties</h2>
                     <div>
                         <label htmlFor="location">Location</label>
-                        {/* todo radiobox for each location */}
+                        <Dropdown
+                            options={["Ottawa", "Gatineau", "All of Ottawa and Gatineau"]}
+                            value={this.state.location}
+                            onChange={this.handleLocationChange}
+                        />
                     </div>
                     <div>
                         <label htmlFor="typeOfProperty">Type of property</label>
-                        <select id="typeOfProperty">
-                            <option value="House">House</option>
-                            <option value="Apartment">Apartment</option>
-                        </select>
+                        <Dropdown
+                            options={["House", "Apartment"]}
+                            value={this.state.typeOfProperty}
+                            onChange={this.handleTypeOfPropertyChange}
+                        />
                     </div>
                     <div>
                         <label htmlFor="numberOfBedrooms">Number of bedrooms</label>
@@ -146,4 +163,4 @@ class Search extends Component {
     }
 }
 
-export default Search
+export default Search;
