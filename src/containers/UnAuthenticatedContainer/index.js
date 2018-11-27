@@ -7,6 +7,7 @@ class Navbar extends Component {
       <Link to="/">Home</Link>
       <NavLink to="/signup">Sign Up</NavLink>
       <NavLink to="/login">Login</NavLink>
+      <NavLink to="/add-property">Add Property</NavLink>
     </nav>
   }
 }
