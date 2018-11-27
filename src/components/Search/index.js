@@ -1,14 +1,31 @@
 // React
 import React, { Component } from "react";
 
+// Slider
+import Slider, {createSliderWithTooltip} from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
+const SliderWithTooltip = createSliderWithTooltip(Slider);
+const Range = createSliderWithTooltip(Slider.Range);
+
+const roomMarks = {
+    0: <strong>0</strong>,
+    10: <strong>10</strong>
+}
+
+const moneyMarks = {
+    0: <strong>0</strong>,
+    200000: <strong>200K</strong>
+}
+
 class Search extends Component {
     state = {
-        location: [],
+        location: "",
         typeOfProperty: "",
-        numberOfBedrooms: "",
-        numberOfBathrooms: "",
-        minimalRent: "",
-        maximalRent: ""
+        numberOfBedrooms: 0,
+        numberOfBathrooms: 0,
+        minimalRent: 0,
+        maximalRent: 0
     };
 
     handleChange = e => {
@@ -16,6 +33,37 @@ class Search extends Component {
           [e.target.id]: e.target.value}
         );
     };
+
+    bedroomFormatter = v => {
+        return `${v} bedrooms`
+    }
+
+    bathroomFormatter = v => {
+        return `${v} bathrooms`
+    }
+
+    moneyFormatter = v => {
+        return `$${v}`
+    }
+    
+    handleBedroomChange = e => {
+        this.setState({
+            numberOfBedrooms: e}
+        )   
+    }
+
+    handleBathroomChange = e => {
+        this.setState({
+            numberOfBathrooms: e}
+        )
+    }
+
+    handleRentalChange = e => {
+        this.setState({
+            minimalRent: e[0],
+            maximalRent: e[1]}
+        )
+    }
 
     validation = () => {
         return this.state.location || this.state.typeOfProperty || this.state.numberOfBedrooms 
@@ -38,21 +86,52 @@ class Search extends Component {
                     </div>
                     <div>
                         <label htmlFor="typeOfProperty">Type of property</label>
-                        <input type="text" id="typeOfProperty" onChange={this.handleChange}></input>
+                        <select id="typeOfProperty">
+                            <option value="House">House</option>
+                            <option value="Apartment">Apartment</option>
+                        </select>
                     </div>
                     <div>
                         <label htmlFor="numberOfBedrooms">Number of bedrooms</label>
-                        <input type="number" id="numberOfBedrooms" step="1" onChange={this.handleChange}></input>
+                        <div>
+                            <SliderWithTooltip
+                                tipFormatter={this.bedroomFormatter}
+                                marks={roomMarks}
+                                min={0}
+                                max={10}
+                                step={1}
+                                value={this.state.numberOfBedrooms}
+                                onChange={this.handleBedroomChange}
+                            />
+                        </div>
                     </div>
                     <div>
                         <label htmlFor="numberOfBathrooms">Number of bathrooms</label>
-                        <input type="number" id="numberOfBathrooms" step="1" onChange={this.handleChange}></input>
+                        <div>
+                            <SliderWithTooltip
+                                tipFormatter={this.bathroomFormatter}
+                                marks={roomMarks}
+                                min={0}
+                                max={10}
+                                step={1}
+                                value={this.state.numberOfBathrooms}
+                                onChange={this.handleBathroomChange}/>
+                        </div>
                     </div>
                     <div>
-                        <label htmlFor="minimalRent">Minimal desired rent</label>
-                        <input type="number" id="minimalRent" step="0.01" onChange={this.handleChange}></input>
-                        <label htmlFor="maximalRent">Maximal desired rent</label>
-                        <input type ="number" id="maximalRent" step="0.01" onChange={this.handleChange}></input>
+                        <label htmlFor="rentalFee">Rental Fee</label>
+                        <div>
+                            <Range
+                                tipFormatter={this.moneyFormatter}
+                                marks={moneyMarks}
+                                allowCross={false}
+                                min={0}
+                                max={200000}
+                                step={100}
+                                defaultValue={[0, 200000]}
+                                onChange={this.handleRentalChange}
+                            />
+                        </div>
                     </div>
                     <div>
                         <button disabled={!this.validation()}>Search</button>
