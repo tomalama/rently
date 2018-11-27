@@ -8,6 +8,9 @@ import { Redirect } from "react-router-dom";
 // Actions
 import { login } from "../../store/actions/auth";
 
+// CSS
+import "./Login.scss";
+
 class Login extends Component {
   state = {
     email: "",
@@ -29,22 +32,26 @@ class Login extends Component {
     const { authError, auth } = this.props;
     if (auth.uid) return <Redirect to="/" />;
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h5>Login</h5>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={this.handleChange} />
-          </div>
-          <div>
-            <button>Login</button>
-            <div>{authError ? <p>{authError}</p> : null}</div>
-          </div>
-        </form>
+      <div className="wrapper">
+        <div className="login">
+          <form onSubmit={this.handleSubmit}>
+            <h5 className="Log-into-rently">Log into rently</h5>
+            <div>
+              <input type="email" id="email" onChange={this.handleChange} />
+            </div>
+            <div>
+              <input
+                type="password"
+                id="password"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <button className="login-button">Login</button>
+              <div>{authError ? <p>{authError}</p> : null}</div>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
