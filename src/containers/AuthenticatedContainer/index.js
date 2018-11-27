@@ -9,33 +9,28 @@ import { signOut } from "../../store/actions/auth";
 class NavBar extends Component {
   
   render() {
+
+    const { signOut, user } = this.props;
+
     return <nav>
       <Link to="/">Home</Link>
-      <a href="/" onClick={this.props.signOut}>Log Out</a>
+      { user.type === "owner" &&
+        <Link to="/update-property">Update Property</Link>
+      }
+      <a href="/" onClick={signOut}>Log Out</a>
     </nav>;
-  }
-
-  componentDidMount() {
-    console.log(this);
   }
 }
 
-// const mapStateToProps = state => ({
-//   user: state.firestore.ordered.users
-// })
+const mapStateToProps = state => ({
+  user: state.firebase.profile
+})
 
-// const mapDispatchToProps = dispatch => ({
-//   signOut: () => dispatch(signOut())
-// })
+const mapDispatchToProps = dispatch => ({
+  signOut: () => dispatch(signOut())
+})
 
-// const ConnectedNavBar = compose(
-//   firestoreConnect(['users']),
-//   connect(mapStateToProps, mapDispatchToProps)
-// )(NavBar);
-
-const ConnectedNavBar = compose(
-  firestoreConnect((props) => )
-)(NavBar);
+const ConnectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 export default class AuthenticatedContainer extends Component {
   render() {

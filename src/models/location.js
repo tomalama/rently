@@ -8,6 +8,6 @@ export class Location {
 
     constructor(properties) {
 
-        this.properties = properties;
+        this.properties = properties ? properties : '';
     }
 }
