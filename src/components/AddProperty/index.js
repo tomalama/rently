@@ -22,7 +22,8 @@ class AddProperty extends Component {
     location: 'Ottawa',
     numBedrooms: '',
     numBathrooms: '',
-    numOtherRooms: ''
+    numOtherRooms: '',
+    images: []
   };
 
   handleChange = e => {
@@ -30,6 +31,14 @@ class AddProperty extends Component {
       [e.target.id]: e.target.value
     });
   };
+
+  handleFileChange = e => {
+    if (e.target.files.length >= 5) {
+      alert("You may only upload a maximum of 5 images")
+    } else {
+      this.setState({ images: e.target.files });
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -195,6 +204,12 @@ class AddProperty extends Component {
           </label>       
 
           <br />    
+
+          <div className="image-upload">
+            <input type="file" multiple="multiple" onChange={this.handleFileChange} />
+          </div>
+
+          <br />
 
           <input type="submit" value="Add Property" />
         </form>
