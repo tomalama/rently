@@ -1,13 +1,18 @@
 // React
 import React, { Component } from "react";
 
+// Redux
+import { connect } from "react-redux";
+
+// Actions
+import { addProperty } from "../../store/actions/property";
+
 const propertyTypes = ['House', 'Apartment'];
 
-export default class AddProperty extends Component {
+class AddProperty extends Component {
 
   state = {
     propertyType: '',
-    address: '',
     rent: '',
     streetNumber: '',
     streetName: '',
@@ -27,8 +32,9 @@ export default class AddProperty extends Component {
     });
   };
 
-  handleSubmit = (event) => {
-
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.addProperty(this.state)
   }
 
   render() {
@@ -197,3 +203,21 @@ export default class AddProperty extends Component {
     );
   }
 }
+
+const mapStateToProps = ({state}) => {
+  return {
+    state
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addProperty: newProperty => dispatch(addProperty(newProperty))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddProperty);
+

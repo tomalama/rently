@@ -8,6 +8,7 @@ class NavBar extends Component {
     return <nav>
       <Link to="/">Home</Link>
       <a href="/" onClick={this.props.signOut}>Log Out</a>
+      <a href="/" onClick={this.props.signOut}>Add Property</a>
     </nav>;
   }
 }
