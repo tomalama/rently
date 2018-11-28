@@ -17,16 +17,15 @@ class AddProperty extends Component {
     streetNumber: '',
     streetName: '',
     city: '',
-    province: '',
+    province: 'ON',
     postalCode: '',
-    location: '',
+    location: 'Ottawa',
     numBedrooms: '',
     numBathrooms: '',
     numOtherRooms: ''
   };
 
   handleChange = e => {
-    console.log(`${e.target.id} changed`);
     this.setState({
       [e.target.id]: e.target.value
     });
