@@ -1,14 +1,15 @@
 // React
 import React, { Component } from "react";
 
-//Search
 import Search from "../Search";
+import Browse from "../Browse";
 
 class Home extends Component {
   render() {
     return (
       <div>
         <Search />
+        <Browse />
       </div>
     )
   }

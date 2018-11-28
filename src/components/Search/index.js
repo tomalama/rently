@@ -9,6 +9,8 @@ import 'rc-slider/assets/index.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+import './Search.scss'
+
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -89,75 +91,77 @@ class Search extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <h2>Search Properties</h2>
-                    <div>
-                        <label htmlFor="location">Location</label>
-                        <Dropdown
-                            options={["Ottawa", "Gatineau", "All of Ottawa and Gatineau"]}
-                            value={this.state.location}
-                            onChange={this.handleLocationChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="typeOfProperty">Type of property</label>
-                        <Dropdown
-                            options={["House", "Apartment"]}
-                            value={this.state.typeOfProperty}
-                            onChange={this.handleTypeOfPropertyChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="numberOfBedrooms">Number of bedrooms</label>
-                        <div>
-                            <SliderWithTooltip
-                                tipFormatter={this.bedroomFormatter}
-                                marks={roomMarks}
-                                min={0}
-                                max={10}
-                                step={1}
-                                value={this.state.numberOfBedrooms}
-                                onChange={this.handleBedroomChange}
+            <div className="form-container">
+                <div className="form-body">
+                    <form onSubmit={this.handleSubmit}>
+                        <h2>Filter</h2>
+                        <div className="input-field">
+                            <label htmlFor="location">Location</label>
+                            <Dropdown
+                                options={["Ottawa", "Gatineau", "All of Ottawa and Gatineau"]}
+                                value={this.state.location}
+                                onChange={this.handleLocationChange}
                             />
                         </div>
-                    </div>
-                    <div>
-                        <label htmlFor="numberOfBathrooms">Number of bathrooms</label>
-                        <div>
-                            <SliderWithTooltip
-                                tipFormatter={this.bathroomFormatter}
-                                marks={roomMarks}
-                                min={0}
-                                max={10}
-                                step={1}
-                                value={this.state.numberOfBathrooms}
-                                onChange={this.handleBathroomChange}/>
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="rentalFee">Rental Fee</label>
-                        <div>
-                            <Range
-                                tipFormatter={this.moneyFormatter}
-                                marks={moneyMarks}
-                                allowCross={false}
-                                min={0}
-                                max={200000}
-                                step={100}
-                                defaultValue={[0, 200000]}
-                                onChange={this.handleRentalChange}
+                        <div className="input-field">
+                            <label htmlFor="typeOfProperty">Type of property</label>
+                            <Dropdown
+                                options={["House", "Apartment"]}
+                                value={this.state.typeOfProperty}
+                                onChange={this.handleTypeOfPropertyChange}
                             />
                         </div>
-                    </div>
-                    <div>
-                        <button disabled={!this.validation()}>Search</button>
-                    </div>
-                </form>
-                {   
-                    !this.validation() ? <p style={{color: 'red'}}>Form cannot be empty</p>
-                    : ""
-                }
+                        <div className="input-field">
+                            <label htmlFor="numberOfBedrooms">Number of bedrooms</label>
+                            <div>
+                                <SliderWithTooltip
+                                    tipFormatter={this.bedroomFormatter}
+                                    marks={roomMarks}
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    value={this.state.numberOfBedrooms}
+                                    onChange={this.handleBedroomChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="numberOfBathrooms">Number of bathrooms</label>
+                            <div>
+                                <SliderWithTooltip
+                                    tipFormatter={this.bathroomFormatter}
+                                    marks={roomMarks}
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    value={this.state.numberOfBathrooms}
+                                    onChange={this.handleBathroomChange}/>
+                            </div>
+                        </div>
+                        <div className="input-field">
+                            <label htmlFor="rentalFee">Rental Fee</label>
+                            <div>
+                                <Range
+                                    tipFormatter={this.moneyFormatter}
+                                    marks={moneyMarks}
+                                    allowCross={false}
+                                    min={0}
+                                    max={200000}
+                                    step={100}
+                                    defaultValue={[0, 200000]}
+                                    onChange={this.handleRentalChange}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <button disabled={!this.validation()}>Search</button>
+                        </div>
+                    </form>
+                    {   
+                        !this.validation() ? <p style={{color: 'red'}}>Form cannot be empty</p>
+                        : ""
+                    }
+                </div>
             </div>
         )
     }
