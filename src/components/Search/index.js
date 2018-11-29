@@ -1,6 +1,12 @@
 // React
 import React, { Component } from "react";
 
+//Redux
+import { connect } from 'react-redux';
+
+//Actions
+import { search } from '../../store/actions/search';
+
 // Slider
 import Slider, {createSliderWithTooltip} from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -31,7 +37,7 @@ class Search extends Component {
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 0
+        maximalRent: 200000
     };
 
     bedroomFormatter = v => {
@@ -84,10 +90,8 @@ class Search extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        // todo add view properties
+        this.props.search(this.state);
     }
-
-    
 
     render() {
         return (
@@ -148,13 +152,12 @@ class Search extends Component {
                                     min={0}
                                     max={200000}
                                     step={100}
-                                    defaultValue={[0, 200000]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
                         </div>
                         <div>
-                            <button disabled={!this.validation()}>Search</button>
+                            <button>Search</button>
                         </div>
                     </form>
                     {   
@@ -165,6 +168,27 @@ class Search extends Component {
             </div>
         )
     }
+
+    componentDidUpdate(){
+        console.log('this');
+    }
 }
 
-export default Search;
+const mapStateToProps = state => {
+    return {
+        // authError: state.auth.authError,
+        // auth: state.firebase.auth
+        properties: state.properties
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        search: filter => dispatch(search(filter))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Search);

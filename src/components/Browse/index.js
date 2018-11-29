@@ -16,7 +16,6 @@ class Browse extends Component {
     };
     
     renderProperty(property) {
-        // return <div>{property.location}</div>
         return (
             <div className="card" key={property.streetName}>
                 <span className="card-header" style={{backgroundImage: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsxk7HOaKjZk3rlDtNngrk2KWnhJuNI6MCLVlIso9KFIp6ICRbMg)"}}>
@@ -50,9 +49,18 @@ class Browse extends Component {
     }
 }
 
-export default compose(
-    firestoreConnect(['properties']),
-    connect((state, props) => ({
-        properties: state.firestore.ordered.properties
-    }))
-)(Browse)
+const mapStateToProps = state => {
+    return {
+        properties: state.properties
+    }
+}
+
+// export default compose(
+//     firestoreConnect(['properties']),
+//     connect((state, props) => ({
+//         properties: state.firestore.ordered.properties
+//     })),
+//     connect(mapStateToProps)
+// )(Browse)
+
+export default connect(mapStateToProps)(Browse)
