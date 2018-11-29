@@ -1,14 +1,5 @@
 const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 
-const addPropertyToArray = querySnapshot => {
-    if(this.props.properties.size > 0) {
-        this.props.properties.forEach((docSnapshot) => {
-            const data = docSnapshot.data();
-            this.state.propertyItems.push(data);
-        })
-    }
-}
-
 export const search = filter => {
     return (dispatch, getState, { getFirestore }) => {
         const db = getFirestore();
