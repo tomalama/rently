@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import { addProperty } from "../../store/actions/property";
+import { provinces, locations } from "../../constants/geographic-info";
 import ImageView from "../Misc/ImageView";
 
-
-const propertyTypes = ['House', 'Apartment'];
 const MAX_IMAGES = 5;
 
 class AddProperty extends Component {
@@ -153,8 +152,7 @@ class AddProperty extends Component {
               <label className="add-property-form__label">
                 Province:
                 <select id="province" onChange={this.handleChange}>
-                  <option value="ON">ON</option>
-                  <option value="NB">NB</option>
+                  {provinces.map(province => <option value={province} key={province}>{province}</option>)}
                 </select>
               </label>
 
@@ -178,8 +176,7 @@ class AddProperty extends Component {
             <label className="add-property-form__label">
               Location:
               <select id="location" onChange={this.handleChange}>
-                  <option value="Ottawa">Ottawa</option>
-                  <option value="Toronto">Toronto</option>
+                {locations.map(location => <option value={location} key={location}>{location}</option>)}
               </select>
             </label>
           </div>
