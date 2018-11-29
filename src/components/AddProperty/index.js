@@ -1,13 +1,13 @@
-// React
 import React, { Component } from "react";
-
-// Redux
 import { connect } from "react-redux";
+import _ from "lodash";
 
-// Actions
 import { addProperty } from "../../store/actions/property";
+import ImageView from "../Misc/ImageView";
+
 
 const propertyTypes = ['House', 'Apartment'];
+const MAX_IMAGES = 5;
 
 class AddProperty extends Component {
 
@@ -23,7 +23,8 @@ class AddProperty extends Component {
     numBedrooms: '',
     numBathrooms: '',
     numOtherRooms: '',
-    images: []
+    images: [],
+    imagePreviews: []
   };
 
   handleChange = e => {
@@ -37,12 +38,26 @@ class AddProperty extends Component {
       alert("You may only upload a maximum of 5 images")
     } else {
       this.setState({ images: e.target.files });
+      Array.from(e.target.files).forEach((image, index) => {
+        this.updateImagePreview(image, index);
+      });
     }
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.addProperty(this.state)
+  }
+
+  updateImagePreview = (file, index) => {
+    let reader = new FileReader();
+    reader.onloadend = () => {      
+      // I know this is bad practice but whatever lmao
+      this.state.imagePreviews[index] = reader.result;
+      this.forceUpdate();
+    };
+
+    reader.readAsDataURL(file);
   }
 
   render() {
@@ -207,6 +222,9 @@ class AddProperty extends Component {
 
           <div className="image-upload">
             <input type="file" multiple="multiple" onChange={this.handleFileChange} />
+            <div className="image-container">
+              {_.range(MAX_IMAGES).map((img, index) => <ImageView image={this.state.imagePreviews[index]} key={index}/>)}
+            </div>
           </div>
 
           <br />
