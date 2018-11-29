@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { compose } from 'redux'
 import { connect } from "react-redux";
 import { signOut } from "../../store/actions/auth";
 import * as _ from "lodash";
+import { firebaseConnect, isLoaded } from 'react-redux-firebase'
+
 import "./style.scss"
 
 export class NavigationBar extends Component {
@@ -15,6 +18,10 @@ export class NavigationBar extends Component {
 
   getNavbarLinks = () => {
     const { user } = this.props;
+    if (!isLoaded(user)) {
+      return [];
+    }
+
     switch (user.type) {
       case "customer":
         return [
@@ -37,6 +44,10 @@ export class NavigationBar extends Component {
 
   getDropdownLinks = () => {
     const { user } = this.props;
+    if (!isLoaded(user)) {
+      return [];
+    }
+
     switch (user.type) {
       case "customer":
         return [
@@ -80,13 +91,13 @@ export class NavigationBar extends Component {
   render() {
     const { user, auth } = this.props;
     const { showDropdown } = this.state;
-    
+
     return <nav ref={node => this.node = node}>
       <img className="logo" src={window.location.origin + "/img/logo.svg"} alt={"logo"}/>
       <div className="right-links">
         {
           _.map(this.getNavbarLinks(), (link, idx) => {
-            return <a key={idx} className={"right-link " + link.class} href={link.url}>{link.title}</a>;
+            return <a key={idx} className={"right-link " + (link.class ? link.class : "")} href={link.url}>{link.title}</a>;
           })
         }
         { (auth.uid && user) &&
@@ -94,7 +105,7 @@ export class NavigationBar extends Component {
               onClick={() => {this.setState({ showDropdown: true });}}
               onMouseOver={() => {this.setState({ showDropdown: true});}}>
               {user.firstName}
-              <img className="arrow-down" src={window.location.origin + "/img/arrow_down.svg"} alt={""} />
+              {isLoaded(user) && <img className="arrow-down" src={window.location.origin + "/img/arrow_down.svg"} alt={""} /> }
           </button>
         }
       </div>
@@ -125,4 +136,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);
+export default compose(
+  firebaseConnect(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(NavigationBar);

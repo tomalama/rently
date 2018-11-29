@@ -1,6 +1,6 @@
 nav {
   position: relative;
-  height: 80px;
+  height: 90px;
   background-color: #0a002a;
   display: flex;
   align-items: center;
@@ -98,6 +98,7 @@ nav {
     font-weight: 900;
     color: #f76632;
     cursor: pointer;
+    border: 1px solid transparent;
 
     &:hover {
       opacity: 1.0;
