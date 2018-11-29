@@ -5,6 +5,8 @@ import React, { Component } from "react";
 import Search from "../Search";
 import Browse from "../Browse";
 
+import "./Home.scss"
+
 class Home extends Component {
   render() {
     return (
