@@ -14,7 +14,8 @@ import Login from "../../components/Login";
 // Agent
 import SignUp from "../../components/SignUp";
 
-import UpdateProperty from "../../components/UpdateProperty"
+// Owner
+import AddProperty from "../../components/AddProperty";
 
 class App extends Component {
   render() {
@@ -26,7 +27,7 @@ class App extends Component {
           <AppRoute exact path="/" layout={layout} component={Home} />
           <AppRoute exact path="/login" layout={layout} component={Login} />
           <AppRoute exact path="/signup" layout={layout} component={SignUp} />
-          <AppRoute exact path="/update-property" layout={layout} component={UpdateProperty} />
+          <AppRoute exact path="/add-property" layout={layout} component={AddProperty} />
         </Switch>
       </BrowserRouter>
     );
