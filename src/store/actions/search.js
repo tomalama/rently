@@ -1,3 +1,14 @@
+const SEARCH_SUCCESS = "SEARCH_SUCCESS"
+
+const addPropertyToArray = querySnapshot => {
+    if(this.props.properties.size > 0) {
+        this.props.properties.forEach((docSnapshot) => {
+            const data = docSnapshot.data();
+            this.state.propertyItems.push(data);
+        })
+    }
+}
+
 export const search = filter => {
     return (dispatch, getState, { getFirestore }) => {
         const db = getFirestore();
@@ -14,9 +25,24 @@ export const search = filter => {
 
         properties.then(properties => {
                 dispatch({ 
-                    type: "SEARCH_SUCCESS",
+                    type: SEARCH_SUCCESS,
                     payload: properties
                 })
             })
+    }
+}
+
+export const searchAll = () => {
+    return(dispatch, getState, { getFirestore }) => {
+        const db = getFirestore();
+
+        const allProperties = db.collection('properties').get()
+
+        allProperties.then(properties => {
+            dispatch({
+                type: SEARCH_SUCCESS,
+                payload: properties
+            })
+        })
     }
 }

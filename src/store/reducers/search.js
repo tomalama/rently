@@ -1,4 +1,6 @@
-export default function searchReducer(state = [], action) {
+const initState = []
+
+const searchReducer = (state = initState, action) => {
     switch (action.type) {
         case 'SEARCH_SUCCESS': {
             console.log("Search success");
@@ -13,3 +15,5 @@ export default function searchReducer(state = [], action) {
             return state;
     }
 }
+
+export default searchReducer

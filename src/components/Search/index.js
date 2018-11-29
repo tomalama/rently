@@ -15,6 +15,7 @@ import 'rc-slider/assets/index.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+//Components
 import './Search.scss'
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
@@ -27,7 +28,7 @@ const roomMarks = {
 
 const moneyMarks = {
     0: <strong>0</strong>,
-    200000: <strong>200K</strong>
+    100000: <strong>100K</strong>
 }
 
 class Search extends Component {
@@ -37,7 +38,7 @@ class Search extends Component {
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 200000
+        maximalRent: 100000
     };
 
     bedroomFormatter = v => {
@@ -60,7 +61,7 @@ class Search extends Component {
 
     handleTypeOfPropertyChange = e => {
         this.setState({
-            typeOfProperty: e
+            typeOfProperty: e.value
         })
     }
     
@@ -90,6 +91,7 @@ class Search extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        console.log(this.state);
         this.props.search(this.state);
     }
 
@@ -124,6 +126,7 @@ class Search extends Component {
                                     min={0}
                                     max={10}
                                     step={1}
+                                    included={false}
                                     value={this.state.numberOfBedrooms}
                                     onChange={this.handleBedroomChange}
                                 />
@@ -138,6 +141,7 @@ class Search extends Component {
                                     min={0}
                                     max={10}
                                     step={1}
+                                    included={false}
                                     value={this.state.numberOfBathrooms}
                                     onChange={this.handleBathroomChange}/>
                             </div>
@@ -150,8 +154,9 @@ class Search extends Component {
                                     marks={moneyMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={200000}
+                                    max={100000}
                                     step={100}
+                                    defaultValue={[0, 100000]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
@@ -168,16 +173,10 @@ class Search extends Component {
             </div>
         )
     }
-
-    componentDidUpdate(){
-        console.log('this');
-    }
 }
 
 const mapStateToProps = state => {
     return {
-        // authError: state.auth.authError,
-        // auth: state.firebase.auth
         properties: state.properties
     };
 };
