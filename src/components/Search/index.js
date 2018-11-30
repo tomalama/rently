@@ -161,7 +161,7 @@ class Search extends Component {
                             </div>
                         </div>
                         <div>
-                            <button>Search</button>
+                            <button className="search-button">Search</button>
                         </div>
                     </form>
                     {   

@@ -2,6 +2,7 @@
     max-width: 1100px;
     width: 75vw;
 	margin: 0 auto;
+	height: 90vh;
 }
 
 .cards {
@@ -77,3 +78,43 @@ img {
 	max-width: 100%; // stop images from breaking out of their bounding boxes.
 }
 
+
+.rc-pagination-item-active {
+    border-radius: 50%;
+    background-color: #e86e42;
+    border-color: #e86e42;
+}
+
+.rc-pagination-item {
+    border-radius: 50%;
+    margin-right: 2%;
+    float: none;
+}
+
+.rc-pagination-item:hover a{
+    color: #e86e42;
+}
+
+.rc-pagination-item:hover {
+    border-color: #e86e42;
+}
+
+.rc-pagination-next, .rc-pagination-prev {
+    margin-right: 2%;
+    float: none;
+    border: 0;
+}
+
+.rc-pagination-next a, .rc-pagination-prev a{
+    color: #e86e42;
+    font-size: 1.5em;
+}
+
+ul {
+    text-align: center;
+    width: 100%;
+}
+
+li {
+    display: inline-block;
+}

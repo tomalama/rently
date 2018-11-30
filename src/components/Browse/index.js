@@ -87,12 +87,14 @@ class Browse extends Component {
                             && this.props.properties.map((element, index) => this.renderProperty(element, index))}
                     </div>
                 </div>
-                <Pagination
-                    current={this.state.currentPage}
-                    pageSize={this.state.pageSize}
-                    total={this.props.querySize}
-                    onChange={this.onChange}
-                />
+                <div>
+                    <Pagination className="pagination"
+                            current={this.state.currentPage}
+                            pageSize={this.state.pageSize}
+                            total={this.props.querySize}
+                            onChange={this.onChange}
+                        />
+                </div>
             </div>
         )
     }
