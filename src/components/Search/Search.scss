@@ -20,7 +20,7 @@ h2 {
 }
 
 label {
-    color: #aca8a9;
+    color: #0a002a;
     margin-bottom: 5%;
     display: inline-block;
 }
@@ -32,4 +32,13 @@ label {
     font-size: 3vh;
     background-color: #e86e42;
     border: none;
+}
+
+.rc-slider-tooltip-inner {
+    border-radius: 2px;
+    background-color: #e86e42;
+}
+
+.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+    border-top-color: #e86e42;
 }
