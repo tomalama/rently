@@ -13,15 +13,33 @@ import { searchAll } from '../../store/actions/search';
 
 import './Browse.scss';
 
+const CARD_WIDTH = 286;
+const CARD_HEIGHT = 261;
+
 class Browse extends Component {
-    state = {
-        currentPage: 1,
-        pageSize: 6
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            currentPage: 1,
+            pageSize: 1,
+            browserWidth: window.innerWidth * .75,
+            browserHeight: window.innerHeight
+        };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+    updateWindowDimensions = () => {
+        this.setState({
+            browserWidth: window.innerWidth * .75,
+            browserHeight: window.innerHeight,
+            pageSize: Math.floor(this.state.browserWidth/CARD_WIDTH) *
+                Math.floor(this.state.browserHeight/CARD_HEIGHT)
+        })
+    }
     
     renderProperty = (property, index) => {
-        var lowerRange = (this.state.currentPage - 1) * 6
-        var upperRange = (this.state.currentPage) * 6
+        var lowerRange = (this.state.currentPage - 1) * this.state.pageSize
+        var upperRange = (this.state.currentPage) * this.state.pageSize
         if(index >= lowerRange && index < upperRange)
         return (
             <div className="card" key={index}>
@@ -41,18 +59,23 @@ class Browse extends Component {
     }
 
     onChange = (page) => {
-        console.log(page);
         this.setState({
             currentPage: page
         })
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
     componentDidMount() {
         this.props.searchAll();
+        
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
     }
 
     render() {
-        console.log(this.props.properties)
         return (
             <div>
                 <div className="card-container">
