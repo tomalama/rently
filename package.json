@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^5.5.9",
+    "lodash": "^4.17.11",
     "node-sass": "^4.10.0",
     "prop-types": "^15.6.2",
     "rc-pagination": "^1.17.3",
