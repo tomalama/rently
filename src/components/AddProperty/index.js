@@ -17,9 +17,9 @@ class AddProperty extends Component {
     streetNumber: '',
     streetName: '',
     city: '',
-    province: 'ON',
+    province: provinces[0],
     postalCode: '',
-    location: 'Ottawa',
+    location: locations[0],
     numBedrooms: '',
     numBathrooms: '',
     numOtherRooms: '',
@@ -155,18 +155,9 @@ class AddProperty extends Component {
                     <div>City</div>
                   </span>
                   <span className='add-property-form__input-composition'>
-                    <select id='province' value={this.state.province} onChange={this.handleChange}>
-                          <option value='ON'>Ontario</option>
-                          <option value='QC'>Quebec</option>
-                          <option value='NS'>Nova Scotia</option>
-                          <option value='NB'>New Brunswick</option>
-                          <option value='MB'>Manitoba</option>
-                          <option value='BC'>British Columbia</option>
-                          <option value='PE'>Prince Edward Island</option>
-                          <option value='SK'>Saskatchewan</option>
-                          <option value='AB'>Alberta</option>
-                          <option value='NL'>Newfoundland and Labrador</option>
-                    </select>
+                  <select id="province" onChange={this.handleChange}>
+                    {provinces.map(province => <option value={province} key={province}>{province}</option>)}
+                  </select>
                     <div>Province</div>
                   </span>
                   <br />
@@ -184,10 +175,9 @@ class AddProperty extends Component {
               <div className='property-form__row'>
                 <div className='property-form__label'>Location:</div>
                 <div className='property-form__input'>
-                  <select id="location" value={this.state.location} onChange={this.handleChange}>
-                      <option value="Ottawa">Ottawa</option>
-                      <option value="Toronto">Toronto</option>
-                  </select>
+                <select id="location" onChange={this.handleChange}>
+                  {locations.map(location => <option value={location} key={location}>{location}</option>)}
+                </select>
                 </div>
               </div>
               <div className='property-form__row'>
