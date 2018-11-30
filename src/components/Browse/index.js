@@ -4,14 +4,25 @@ import React, {Component} from 'react';
 //Redux
 import { connect } from 'react-redux';
 
+//Paginate
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
+
 //Actions
 import { searchAll } from '../../store/actions/search';
 
 import './Browse.scss';
 
 class Browse extends Component {
+    state = {
+        currentPage: 1,
+        pageSize: 6
+    };
     
     renderProperty = (property, index) => {
+        var lowerRange = (this.state.currentPage - 1) * 6
+        var upperRange = (this.state.currentPage) * 6
+        if(index >= lowerRange && index < upperRange)
         return (
             <div className="card" key={index}>
                 <span className="card-header" style={{backgroundImage: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsxk7HOaKjZk3rlDtNngrk2KWnhJuNI6MCLVlIso9KFIp6ICRbMg)"}}>
@@ -29,15 +40,11 @@ class Browse extends Component {
         )
     }
 
-    addPropertyToArray = querySnapshot => {
-        const propertyItems = []
-        if(this.props.properties.size > 0) {
-            this.props.properties.forEach((docSnapshot) => {
-                const data = docSnapshot.data();
-                propertyItems.push(data);
-            })
-        }
-        return propertyItems;
+    onChange = (page) => {
+        console.log(page);
+        this.setState({
+            currentPage: page
+        })
     }
 
     componentDidMount() {
@@ -45,13 +52,24 @@ class Browse extends Component {
     }
 
     render() {
+        console.log(this.props.properties)
         return (
-            <div className="card-container">
-                <div className="cards">
+            <div>
+                <div className="card-container">
                     {this.props.properties !== undefined 
-                        && (this.addPropertyToArray(this.props.properties))
-                            .map((element,index) => this.renderProperty(element, index))}
+                        && this.props.properties.length < 1 
+                        && <div className="no-results">No results found</div>}
+                    <div className="cards">
+                        {this.props.properties !== undefined 
+                            && this.props.properties.map((element, index) => this.renderProperty(element, index))}
+                    </div>
                 </div>
+                <Pagination
+                    current={this.state.currentPage}
+                    pageSize={this.state.pageSize}
+                    total={this.props.querySize}
+                    onChange={this.onChange}
+                />
             </div>
         )
     }
@@ -59,7 +77,9 @@ class Browse extends Component {
 
 const mapStateToProps = state => {
     return {
-        properties: state.search.properties
+        properties: state.search.properties,
+        querySnapshot: state.search.querySnapshot,
+        querySize: state.search.querySize
     }
 }
 
@@ -68,13 +88,5 @@ const mapDispatchToProps = dispatch => {
         searchAll: () => dispatch(searchAll())
     };
 };
-
-// export default compose(
-//     firestoreConnect(['properties']),
-//     connect((state, props) => ({
-//         properties: state.firestore.ordered.properties
-//     })),
-//     connect(mapStateToProps)
-// )(Browse)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Browse)
