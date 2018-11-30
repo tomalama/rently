@@ -9,10 +9,8 @@ import UnAuthenticatedContainer from "../UnAuthenticatedContainer";
 
 // General
 import Home from "../../components/Home";
-
 // Admin
 import Login from "../../components/Login";
-
 // Agent
 import SignUp from "../../components/SignUp";
 

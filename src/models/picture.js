@@ -8,6 +8,6 @@ export class Picture {
 
     constructor(content) {
 
-        this.content = content;
+        this.content = content ? content : '';
     }
 }
