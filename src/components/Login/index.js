@@ -13,7 +13,7 @@ import "./Login.scss";
 
 class Login extends Component {
   state = {
-    email: "",
+    username: "",
     password: ""
   };
 
@@ -24,13 +24,28 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
+    // Prevent nav
     e.preventDefault();
-    this.props.login(this.state);
+
+    if (!this.state.username && !this.state.password) {
+      this.setState({
+        authError: "Invalid username or password"
+      });
+    } else {
+      this.props.login(this.state);
+    }
+  };
+
+  componentDidMount = () => {
+    const { authError, auth } = this.props;
+    this.setState({
+      authError,
+      auth
+    });
   };
 
   render() {
-    const { authError, auth } = this.props;
-    if (auth.uid) return <Redirect to="/" />;
+    if (this.state.auth && this.state.auth.uid) return <Redirect to="/" />;
     return (
       <div className="wrapper">
         <div className="login">
@@ -38,9 +53,9 @@ class Login extends Component {
             <h5 className="Log-into-rently">Log into rently</h5>
             <div>
               <input
-                type="email"
-                id="email"
-                placeholder="Email address"
+                type="text"
+                id="username"
+                placeholder="Username"
                 onChange={this.handleChange}
               />
             </div>
@@ -54,7 +69,11 @@ class Login extends Component {
             </div>
             <div>
               <button className="login-button">Log In</button>
-              <div>{authError ? <p>{authError}</p> : null}</div>
+              <div>
+                {this.state.authError && (
+                  <p className="error-text">{"Invalid username or password"}</p>
+                )}
+              </div>
             </div>
           </form>
         </div>

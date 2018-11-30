@@ -1,10 +1,18 @@
 export const login = credentials => {
-  return (dispatch, getState, { getFirebase }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
+    const firestore = getFirestore();
+
+    const query = await firestore
+      .collection("users")
+      .where("username", "==", credentials.username)
+      .get();
+
+    const email = query.docs[0].data().email;
 
     firebase
       .auth()
-      .signInWithEmailAndPassword(credentials.email, credentials.password)
+      .signInWithEmailAndPassword(email, credentials.password)
       .then(() => {
         dispatch({ type: "LOGIN_SUCCESS" });
       })
@@ -40,6 +48,7 @@ export const signUp = newUser => {
           .collection("users")
           .doc(resp.user.uid)
           .set({
+            email: newUser.email,
             username: newUser.username,
             firstName: newUser.firstName,
             lastName: newUser.lastName,
