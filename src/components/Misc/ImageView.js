@@ -8,7 +8,7 @@ export default class ImageView extends Component {
   render() {
     return (
       <div className={"image-view" + (!this.props.image ? ' empty' : '')}>
-        <img src={this.props.image}  />
+        <img className="image-view__img" src={this.props.image}  />
       </div>
     );
   }

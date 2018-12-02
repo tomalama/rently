@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background: #f9f9f9;
+    font-family: Roboto;
 }
 
 
@@ -47,7 +48,6 @@ body {
 
 .add-property-form__title {
     height: 24px;
-    font-family: Roboto;
     font-size: 20px;
     font-weight: 900;
     font-style: normal;
@@ -72,7 +72,6 @@ body {
         position: relative;
         background-color: #ebebeb;
         border-radius: 50%;
-        font-family: Roboto;
         font-weight: 500;
         font-style: normal;
         font-stretch: normal;
@@ -90,9 +89,8 @@ body {
     }
 
     .header__text {
-        font-family: Roboto;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 900;
         font-style: normal;
         font-stretch: normal;
         letter-spacing: 0.7px;
@@ -116,6 +114,7 @@ body {
             display: flex;
             justify-content: flex-end;
             padding-right: 5px;
+            font-weight: 900;
         }
 
         .property-form__content {
@@ -163,7 +162,6 @@ body {
         box-shadow: 0 2px 4px 0 rgba(155, 155, 155, 0.5);
         background-color: #e86e42;
         border: none;
-        font-family: Roboto;
         font-size: 20px;
         font-weight: 500;
         font-style: normal;
@@ -185,7 +183,6 @@ body {
     box-shadow: 0 2px 4px 0 rgba(155, 155, 155, 0.5);
     background-color: #428ee8;
     border: none;
-    font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
     font-style: normal;
@@ -194,4 +191,15 @@ body {
     letter-spacing: 0.7px;
     text-align: center;
     color: #ffffff;
+}
+
+.radio {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.7px;
+  color: #000000;
 }

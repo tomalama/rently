@@ -54,7 +54,7 @@ class AddProperty extends Component {
   };
 
   handleFileChange = e => {
-    if (e.target.files.length >= 5) {
+    if (e.target.files.length > 5) {
       alert("You may only upload a maximum of 5 images")
     } else {
       this.setState({ images: e.target.files });
