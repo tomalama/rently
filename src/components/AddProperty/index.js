@@ -4,15 +4,19 @@ import _ from "lodash";
 
 import { addProperty } from "../../store/actions/property";
 import { provinces, locations } from "../../constants/geographic-info";
+import { alphabetRegex, postalCodeRegex } from '../../constants/regex';
 import ImageView from "../Misc/ImageView";
 import './index.scss'
 
 const MAX_IMAGES = 5;
 
+const inputStyleError = { borderColor: 'red' }
+const inputStyleSuccess = { borderColor: 'green' }
+
 class AddProperty extends Component {
 
   state = {
-    propertyType: '',
+    propertyType: 'Apartment',
     rent: '',
     streetNumber: '',
     streetName: '',
@@ -24,18 +28,30 @@ class AddProperty extends Component {
     numBathrooms: '',
     numOtherRooms: '',
     images: [],
-    imagePreviews: []
+    imagePreviews: [],
+    validInputs: [],
+    invalidInputs: []
   };
 
   handleChange = e => {
+    const valid = this.validateInput(e.target.id, e.target.value);
+    const invalidInputs = this.state.invalidInputs;
+
+    if (valid) 
+      _.pull(invalidInputs, e.target.id);
+    else
+      invalidInputs.push(e.target.id);
+    
+
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+      invalidInputs
     });
   };
 
   handleProxyFile = () => {
     this.refs.fileUploader.click();
-  }
+  };
 
   handleFileChange = e => {
     if (e.target.files.length >= 5) {
@@ -46,12 +62,26 @@ class AddProperty extends Component {
         this.updateImagePreview(image, index);
       });
     }
-  }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.addProperty(this.state)
   }
+
+  validateInput = (inputId, inputValue) => {
+    // Only need to validate streetName, postalCode, and City.
+    // The rest are handled by the input type
+    if (inputId === 'streetName') {
+      return alphabetRegex.test(inputValue);
+    } else if (inputId === 'city') {
+      return alphabetRegex.test(inputValue);
+    } else if (inputId === 'postalCode') {
+      return postalCodeRegex.test(inputValue);
+    } 
+
+    return true;
+  };
 
   updateImagePreview = (file, index) => {
     let reader = new FileReader();
@@ -62,7 +92,7 @@ class AddProperty extends Component {
     };
 
     reader.readAsDataURL(file);
-  }
+  };
 
   render() {
     return (
@@ -91,7 +121,9 @@ class AddProperty extends Component {
                         id="propertyType" 
                         value="Apartment"
                         checked={this.state.propertyType === 'Apartment'}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} 
+                        required
+                      />
                       Apartment
                     </label>
                   </div>
@@ -102,7 +134,9 @@ class AddProperty extends Component {
                         id="propertyType" 
                         value="House"
                         checked={this.state.propertyType === 'House'}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} 
+                        required
+                      />
                       House
                     </label>
                   </div>
@@ -112,10 +146,11 @@ class AddProperty extends Component {
                 <div className='property-form__label'>Rent:</div>
                 <div className='property-form__input'>
                   <input 
-                    type="text"
+                    type="number"
                     id="rent"
                     value={this.state.rent}
                     onChange={this.handleChange}
+                    style={this.state.invalidInputs.includes('rent') ? inputStyleError : undefined}
                   />
                 </div>
               </div>
@@ -124,10 +159,11 @@ class AddProperty extends Component {
                 <div className='property-form__input'>
                   <span className='add-property-form__input-composition'>
                     <input 
-                      type="text"
+                      type="number"
                       id="streetNumber"
                       value={this.state.streetNumber}
                       onChange={this.handleChange}
+                      required
                     />
                     <div>Street Number</div>
                   </span>
@@ -137,6 +173,8 @@ class AddProperty extends Component {
                       id="streetName"
                       value={this.state.streetName}
                       onChange={this.handleChange}
+                      required
+                      style={this.state.invalidInputs.includes('streetName') ? inputStyleError : undefined}
                     />
                     <div>Street Address</div>
                   </span>
@@ -151,6 +189,7 @@ class AddProperty extends Component {
                       id="city"
                       value={this.state.city}
                       onChange={this.handleChange}
+                      required
                     />
                     <div>City</div>
                   </span>
@@ -167,6 +206,7 @@ class AddProperty extends Component {
                       id="postalCode"
                       value={this.state.postalCode}
                       onChange={this.handleChange}
+                      required
                     />
                     <div>Postal Code</div>
                   </span>
@@ -184,10 +224,11 @@ class AddProperty extends Component {
                 <div className='property-form__label'>Number of Bedrooms:</div>
                 <div className='property-form__input'>
                   <input 
-                    type="text"
+                    type="number"
                     id="numBedrooms"
                     value={this.state.numBedrooms}
                     onChange={this.handleChange}
+                    required
                   />
                 </div>
               </div>
@@ -195,10 +236,11 @@ class AddProperty extends Component {
                 <div className='property-form__label'>Number of Bathrooms:</div>
                 <div className='property-form__input'>
                   <input 
-                    type="text"
+                    type="number"
                     id="numBathrooms"
                     value={this.state.numBathrooms}
                     onChange={this.handleChange}
+                    required
                   />
                 </div>
               </div>
@@ -206,10 +248,11 @@ class AddProperty extends Component {
                 <div className='property-form__label'>Number of Other Rooms:</div>
                 <div className='property-form__input'>
                   <input 
-                    type="text"
+                    type="number"
                     id="numOtherRooms"
                     value={this.state.numOtherRooms}
                     onChange={this.handleChange}
+                    required
                   />
                 </div>
               </div>
