@@ -21,10 +21,10 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <AppRoute exact path="/" layout={layout} component={Home} />
-          <AppRoute exact path="/login" layout={layout} component={Login} />
-          <AppRoute exact path="/signup" layout={layout} component={SignUp} />
-          <AppRoute exact path="/add-property" layout={layout} component={AddProperty} />
+          <AppRoute exact path="/" layout={AppContainer} component={Home} />
+          <AppRoute exact path="/login" layout={AppContainer} component={Login} />
+          <AppRoute exact path="/signup" layout={AppContainer} component={SignUp} />
+          <AppRoute exact path="/add-property" layout={AppContainer} component={AddProperty} />
         </Switch>
       </BrowserRouter>
     );
