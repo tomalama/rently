@@ -29,7 +29,8 @@ class AddProperty extends Component {
     imagePreviews: [],
     validInputs: [],
     invalidInputs: [],
-    error: false
+    error: false,
+    imageError: false
   };
 
   handleChange = e => {
@@ -53,12 +54,33 @@ class AddProperty extends Component {
   };
 
   handleFileChange = e => {
-    if (e.target.files.length > 5) {
-      alert("You may only upload a maximum of 5 images")
+    let errorMessage = '';
+    let sizeError = false;
+    let typeError = false;
+
+    if (e.target.files.length > 5) 
+      errorMessage += 'You may only upload a maximum of 5 images. ';
+    
+    Array.from(e.target.files).forEach((image, index) => {
+      if (image.size > 5000000 && !sizeError) {
+        errorMessage += 'Your images must be no larger 5 MB. ';
+        sizeError = true;
+      }
+
+      if (image.type !== 'image/jpeg' && !typeError) {
+        errorMessage += 'You may only upload JPG files. ';
+        typeError = true
+      }
+    });
+
+    if (errorMessage) {
+      this.setState({ imageError: errorMessage });
     } else {
-      this.setState({ images: e.target.files });
+      this.setState({ images: e.target.files, imageError: false });
       Array.from(e.target.files).forEach((image, index) => {
-        this.updateImagePreview(image, index);
+        console.log(image);
+        if (image.size)
+          this.updateImagePreview(image, index);
       });
     }
   };
@@ -277,7 +299,7 @@ class AddProperty extends Component {
                 </div>
               </div>
 
-              {this.state.error && <p className="add-property-form__error">{this.state.error}</p>}
+              {this.state.error && <p className="error-msg">{this.state.error}</p>}
             </div>
           </div>
 
@@ -306,6 +328,7 @@ class AddProperty extends Component {
                 ref="fileUploader"
                 onChange={this.handleFileChange}
               />
+              {this.state.imageError && <p className="error-msg">{this.state.imageError}</p>}
             </div>
 
           </div>
