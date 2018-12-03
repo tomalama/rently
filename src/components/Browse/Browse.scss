@@ -19,7 +19,6 @@
 	display: flex;
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
-	margin-top: 15px;
 	padding: 1.5%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -96,7 +95,8 @@ img {
 .rc-pagination-item {
     border-radius: 50%;
     margin-right: 2%;
-    float: none;
+	float: none;
+	outline: none;
 }
 
 .rc-pagination-item:hover a{
@@ -110,7 +110,8 @@ img {
 .rc-pagination-next, .rc-pagination-prev {
     margin-right: 2%;
     float: none;
-    border: 0;
+	border: 0;
+	outline: none;
 }
 
 .rc-pagination-next a, .rc-pagination-prev a{
@@ -125,4 +126,9 @@ ul {
 
 li {
     display: inline-block;
+}
+
+.total {
+	margin: 1% 0 0 1.5%;
+	color: #0a002a;
 }

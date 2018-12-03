@@ -1,5 +1,5 @@
 //React
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 //Redux
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ class Browse extends Component {
             currentPage: 1,
             pageSize: 1,
             browserWidth: window.innerWidth * .75,
-            browserHeight: window.innerHeight
+            browserHeight: window.innerHeight * 0.9 - 20
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -31,30 +31,35 @@ class Browse extends Component {
     updateWindowDimensions = () => {
         this.setState({
             browserWidth: window.innerWidth * .75,
-            browserHeight: window.innerHeight,
+            browserHeight: window.innerHeight * 0.9 - 20,
             pageSize: Math.floor(this.state.browserWidth/CARD_WIDTH) *
                 Math.floor(this.state.browserHeight/CARD_HEIGHT)
         })
     }
     
-    renderProperty = (property, index) => {
-        var lowerRange = (this.state.currentPage - 1) * this.state.pageSize
-        var upperRange = (this.state.currentPage) * this.state.pageSize
+    renderProperty = (id, index) => {
+        var lowerRange = (this.state.currentPage - 1) * this.state.pageSize;
+        var upperRange = (this.state.currentPage) * this.state.pageSize;
+        const imageURL = (this.props.properties[id].imageURLs) ? "url("+this.props.properties[id].imageURLs[0]+")"
+            : "url(http://cdn.home-designing.com/wp-content/uploads/2017/05/wood-white-and-charcoal-modern-exterior-paint-themes.jpg)";
+        console.log(imageURL);
         if(index >= lowerRange && index < upperRange)
         return (
-            <div className="card" key={index}>
-                <span className="card-header" style={{backgroundImage: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsxk7HOaKjZk3rlDtNngrk2KWnhJuNI6MCLVlIso9KFIp6ICRbMg)"}}>
-                    <span className="card-title">
-                        <h3>{property.streetName}</h3>
+            <a href={"/property?id="+id} key={id}>
+                <div className="card">
+                    <span className="card-header" style={{backgroundImage: imageURL}}>
+                        <span className="card-title">
+                            <h3>{this.props.properties[id].streetName}</h3>
+                        </span>
                     </span>
-                </span>
-                <span className="card-summary">
-                    ${property.rent} /month
-                </span>
-                <span className="card-meta">
-                    {property.location}
-                </span>
-            </div>
+                    <span className="card-summary">
+                        ${this.props.properties[id].rent} /month
+                    </span>
+                    <span className="card-meta">
+                        {this.props.properties[id].location}
+                    </span>
+                </div>
+            </a>
         )
     }
 
@@ -82,9 +87,12 @@ class Browse extends Component {
                     {this.props.properties !== undefined 
                         && this.props.properties.length < 1 
                         && <div className="no-results">No results found</div>}
+                    {this.props.properties !== undefined
+                        && <div className="total">{this.props.querySize} results found</div>
+                    }
                     <div className="cards">
-                        {this.props.properties !== undefined 
-                            && this.props.properties.map((element, index) => this.renderProperty(element, index))}
+                        {this.props.properties !== undefined
+                            && Object.keys(this.props.properties).map(this.renderProperty)}
                     </div>
                 </div>
                 <div>
@@ -103,7 +111,6 @@ class Browse extends Component {
 const mapStateToProps = state => {
     return {
         properties: state.search.properties,
-        querySnapshot: state.search.querySnapshot,
         querySize: state.search.querySize
     }
 }
