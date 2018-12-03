@@ -4,14 +4,12 @@ import _ from "lodash";
 
 import { addProperty } from "../../store/actions/property";
 import { provinces, locations } from "../../constants/geographic-info";
-import { alphabetRegex, postalCodeRegex } from '../../constants/regex';
+import { alphabetRegex, postalCodeRegex, integerRegex } from '../../constants/regex';
 import ImageView from "../Misc/ImageView";
 import './index.scss'
 
 const MAX_IMAGES = 5;
-
 const inputStyleError = { borderColor: 'red' }
-const inputStyleSuccess = { borderColor: 'green' }
 
 class AddProperty extends Component {
 
@@ -30,7 +28,8 @@ class AddProperty extends Component {
     images: [],
     imagePreviews: [],
     validInputs: [],
-    invalidInputs: []
+    invalidInputs: [],
+    error: false
   };
 
   handleChange = e => {
@@ -66,7 +65,12 @@ class AddProperty extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addProperty(this.state)
+    if (this.state.invalidInputs.length > 0) {
+      this.setState({ error: true });
+    } else {
+      this.setState({ error: false });
+      this.props.addProperty(this.state)
+    }
   }
 
   validateInput = (inputId, inputValue) => {
@@ -78,6 +82,8 @@ class AddProperty extends Component {
       return alphabetRegex.test(inputValue);
     } else if (inputId === 'postalCode') {
       return postalCodeRegex.test(inputValue);
+    } else if (inputId === 'numBedrooms' || inputId === 'numBathrooms' || inputId === 'numOtherRooms') {
+      return integerRegex.test(inputValue);
     } 
 
     return true;
@@ -151,6 +157,7 @@ class AddProperty extends Component {
                     value={this.state.rent}
                     onChange={this.handleChange}
                     style={this.state.invalidInputs.includes('rent') ? inputStyleError : undefined}
+                    required
                   />
                 </div>
               </div>
@@ -176,7 +183,7 @@ class AddProperty extends Component {
                       required
                       style={this.state.invalidInputs.includes('streetName') ? inputStyleError : undefined}
                     />
-                    <div>Street Address</div>
+                    <div>Street Name</div>
                   </span>
                 </div>
               </div>
@@ -190,6 +197,7 @@ class AddProperty extends Component {
                       value={this.state.city}
                       onChange={this.handleChange}
                       required
+                      style={this.state.invalidInputs.includes('city') ? inputStyleError : undefined}
                     />
                     <div>City</div>
                   </span>
@@ -207,6 +215,7 @@ class AddProperty extends Component {
                       value={this.state.postalCode}
                       onChange={this.handleChange}
                       required
+                      style={this.state.invalidInputs.includes('postalCode') ? inputStyleError : undefined}
                     />
                     <div>Postal Code</div>
                   </span>
@@ -229,6 +238,7 @@ class AddProperty extends Component {
                     value={this.state.numBedrooms}
                     onChange={this.handleChange}
                     required
+                    style={this.state.invalidInputs.includes('numBedrooms') ? inputStyleError : undefined}
                   />
                 </div>
               </div>
@@ -241,6 +251,7 @@ class AddProperty extends Component {
                     value={this.state.numBathrooms}
                     onChange={this.handleChange}
                     required
+                    style={this.state.invalidInputs.includes('numBathrooms') ? inputStyleError : undefined}
                   />
                 </div>
               </div>
@@ -253,9 +264,12 @@ class AddProperty extends Component {
                     value={this.state.numOtherRooms}
                     onChange={this.handleChange}
                     required
+                    style={this.state.invalidInputs.includes('numOtherRooms') ? inputStyleError : undefined}
                   />
                 </div>
               </div>
+
+              {this.state.error && <p className="add-property-form__error">There were errors in the form values you entered, please correct the form fields highlighted in red</p>}
             </div>
           </div>
 
@@ -279,10 +293,11 @@ class AddProperty extends Component {
                 style={{display: 'none'}}
                 id="upload-btn"
                 type="file"
+                accept="image/*"
                 multiple="multiple"
                 ref="fileUploader"
                 onChange={this.handleFileChange}
-                />
+              />
             </div>
 
           </div>
