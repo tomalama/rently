@@ -9,7 +9,7 @@ import { Redirect } from "react-router-dom";
 import { login } from "../../store/actions/auth";
 
 // CSS
-import "./Login.scss";
+import styles from "./Login.module.scss";
 
 class Login extends Component {
   state = {
@@ -47,14 +47,15 @@ class Login extends Component {
   render() {
     if (this.state.auth && this.state.auth.uid) return <Redirect to="/" />;
     return (
-      <div className="wrapper">
-        <div className="login">
+      <div className={styles.wrapper}>
+        <div className={styles.login}>
           <form onSubmit={this.handleSubmit}>
-            <h5 className="Log-into-rently">Log into rently</h5>
+            <h5 className={styles.loginTitle}>Log into rently</h5>
             <div>
               <input
                 type="text"
                 id="username"
+                className={styles.username}
                 placeholder="Username"
                 onChange={this.handleChange}
               />
@@ -63,22 +64,25 @@ class Login extends Component {
               <input
                 type="password"
                 id="password"
+                className={styles.password}
                 placeholder="Password"
                 onChange={this.handleChange}
               />
             </div>
             <div>
-              <button className="login-button">Log In</button>
+              <button className={styles.loginButton}>Log In</button>
               <div>
                 {this.state.authError && (
-                  <p className="error-text">{"Invalid username or password"}</p>
+                  <p className={styles.errorText}>
+                    {"Invalid username or password"}
+                  </p>
                 )}
               </div>
             </div>
           </form>
         </div>
         <img
-          className="logo"
+          className={styles.logo}
           src={window.location.origin + "/img/logo.svg"}
           alt={"logo"}
         />

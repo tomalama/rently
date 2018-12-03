@@ -15,7 +15,7 @@
   background-color: #ffffff;
 }
 
-.Log-into-rently {
+.loginTitle {
   font-size: 2vh;
   font-weight: bold;
   font-style: normal;
@@ -27,8 +27,8 @@
   margin: 4vh 0;
 }
 
-#username,
-#password {
+.username,
+.password {
   width: 70%;
   height: 3vh;
   border-radius: 4px;
@@ -40,8 +40,8 @@
   border-style: solid;
 }
 
-#email:focus,
-#password:focus {
+.username:focus,
+.password:focus {
   outline: none;
   border-color: #e86e42;
 }
@@ -50,7 +50,7 @@
   color: #bfbfbf;
 }
 
-.login-button {
+.loginButton {
   color: white;
   width: 50%;
   height: 4.5vh;
@@ -64,6 +64,10 @@
   outline: none;
 }
 
+.errorText {
+  color: red;
+}
+
 .logo {
   height: 3.5vh;
   user-drag: none;
@@ -71,8 +75,4 @@
   -webkit-user-drag: none;
   opacity: 0.2;
   margin-bottom: 3vh;
-}
-
-.error-text {
-  color: red;
 }
