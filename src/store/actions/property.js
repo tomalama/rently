@@ -21,7 +21,9 @@ export const addProperty = newProperty => {
           contentType: 'image/jpeg',
         };
 
-        Array.from(images).forEach((image, index) => {
+        let imageURLs = [];
+
+        images.forEach((image, index) => {
           let uploadTask = storageRef.child('images/' + docRef.id + '/' + image.name).put(image, metadata);
 
           uploadTask.on('state_changed', (snapshot) => {
@@ -42,6 +44,11 @@ export const addProperty = newProperty => {
           }, () => {
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
               console.log('File available at', downloadURL);
+              imageURLs.push(downloadURL);
+              firestore
+                .collection('properties')
+                .doc(docRef.id)
+                .set({ imageURLs }, { merge: true })
             });
           });
         });
