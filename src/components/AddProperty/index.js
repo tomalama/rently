@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { addProperty } from "../../store/actions/property";
 import { provinces, locations } from "../../constants/geographic-info";
-import { alphabetRegex, postalCodeRegex, integerRegex } from '../../constants/regex';
+import { locationNameRegex, postalCodeRegex, integerRegex } from '../../constants/regex';
 import ImageView from "../Misc/ImageView";
 import './index.scss'
 
@@ -65,11 +65,19 @@ class AddProperty extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.invalidInputs.length > 0) {
-      this.setState({ error: true });
+
+    let errorMessage = '';
+    if (this.state.invalidInputs.length > 0) 
+      errorMessage += 'There were errors in the form values you entered, please correct the form fields highlighted in red. ';
+    
+    if (this.state.images.length == 0) 
+      errorMessage += 'Please upload at least one image for the property.'
+
+    if (errorMessage) {
+      this.setState({ error: errorMessage });
     } else {
       this.setState({ error: false });
-      this.props.addProperty(this.state)
+      this.props.addProperty(this.state);
     }
   }
 
@@ -77,9 +85,9 @@ class AddProperty extends Component {
     // Only need to validate streetName, postalCode, and City.
     // The rest are handled by the input type
     if (inputId === 'streetName') {
-      return alphabetRegex.test(inputValue);
+      return locationNameRegex.test(inputValue);
     } else if (inputId === 'city') {
-      return alphabetRegex.test(inputValue);
+      return locationNameRegex.test(inputValue);
     } else if (inputId === 'postalCode') {
       return postalCodeRegex.test(inputValue);
     } else if (inputId === 'numBedrooms' || inputId === 'numBathrooms' || inputId === 'numOtherRooms') {
@@ -269,7 +277,7 @@ class AddProperty extends Component {
                 </div>
               </div>
 
-              {this.state.error && <p className="add-property-form__error">There were errors in the form values you entered, please correct the form fields highlighted in red</p>}
+              {this.state.error && <p className="add-property-form__error">{this.state.error}</p>}
             </div>
           </div>
 
