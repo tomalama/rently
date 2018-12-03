@@ -13,6 +13,8 @@ import Login from "../../components/Login";
 // Agent
 import SignUp from "../../components/SignUp";
 
+import PropertyCard from '../../components/PropertyCard'
+
 import "./style.scss";
 
 export default class App extends Component {
@@ -24,6 +26,7 @@ export default class App extends Component {
           <AppRoute exact path="/" layout={AppContainer} component={Home} />
           <AppRoute exact path="/login" layout={AppContainer} component={Login} />
           <AppRoute exact path="/signup" layout={AppContainer} component={SignUp} />
+          <AppRoute exact path='/demo' layout={AppContainer} component={PropertyCard} />
         </Switch>
       </BrowserRouter>
     );

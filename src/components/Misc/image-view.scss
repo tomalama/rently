@@ -1,0 +1,14 @@
+.image-view {
+    display: inline-block;
+    width: 136px;
+    height: 142px;
+    border-radius: 4px;
+
+    &.empty {
+        background-color: #d8d8d8;
+    }
+
+    ~ .image-view {
+        margin-left: 20px;
+    }
+}

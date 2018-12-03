@@ -1,0 +1,250 @@
+$margin: 26px;
+$card-v: 42px; $card-h: 36px;
+$main-card-height: 142px;
+
+
+// stylings
+.property-card {
+    display: flex;
+    flex-direction: column;
+    padding: $card-v/2 $card-h/2;
+
+    & > * ~ * {
+        margin-bottom: $margin;
+    }
+
+    :last-child {
+        margin-bottom: unset;
+    }
+
+    .property-card__main-pic {
+        order: 1;
+
+        .image-view {
+            width: 100% !important;
+            height: $main-card-height*1.4 !important;
+
+            & ~ .image-view {
+                margin-left: unset;
+            }
+        }
+    }
+
+    .property-card__content {
+        display: flex;
+        flex-direction: column;
+        
+        &.content-1 {
+            order: 2;
+        }
+
+        &.content-2 {
+            order: 4;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .property-card__location-composite {
+            order: 2;
+        }
+
+        .property-card__house-rent {
+            order: 3;
+        }
+
+        .property-card__other-pics {
+            display: none !important;
+        }
+
+        .property-card__bedrooms,
+        .property-card__bathrooms,
+        .property-card__other {
+            flex: 0 1;
+            display: flex;
+            flex-direction: row;
+            
+            img {
+                order: 2;
+                width: 28px;
+            }
+
+            .number {
+                order: 1;
+                margin-right: .5em;
+            }
+
+            .text {
+                display: none;
+            }
+        }
+    }
+
+    .property-card__dividor {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .property-card {
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        padding: $card-v $card-h;
+    
+
+        & > * ~ * {
+            margin-bottom: unset;
+        }
+
+        & > :first-child {
+            margin-right: $margin/2;
+        }
+    
+        & > :last-child {
+            margin-left: $margin/2;
+        }
+    
+        & > :not(:last-child):not(:first-child) {
+            margin: 0 $margin/2;
+        }
+    
+        .property-card__main-pic {
+            order: 1;
+
+            .image-view {
+                width: 170px !important;
+                height: $main-card-height !important;
+            }
+        }
+        
+        .property-card__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+    
+            &.content-1 {
+                order: 2;
+            }
+
+            &.content-2 {
+                order: 4;
+                flex-direction: column;
+            }
+
+            .property-card__location-composite {
+                order: 1;
+            }
+
+            .property-card__house-rent {
+                order: 2;
+            }
+
+            .property-card__other-pics {
+                order: 3;
+                display: unset !important;
+                justify-content: flex-start;
+                
+                .image-view {
+                    width: 50px !important;
+                    height: 50px !important;
+                }
+            }
+    
+            .property-card__bedrooms,
+            .property-card__bathrooms,
+            .property-card__other {
+                flex: 1;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                img {
+                    order: 1;
+                    margin-right: .5em;
+                    width: 28px;
+                }
+
+                .number {
+                    order: 2;
+                }
+
+                .text {
+                    order: 3;
+                    display: unset;
+                    margin-left: .2em;
+                }
+            }
+        }
+    
+        .property-card__dividor {
+            display: unset !important;
+            order: 3
+        }
+    }
+}
+
+//specific stylings
+.property-card {
+    box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
+    background-color: #ffffff;
+
+    .property-card__content {
+
+        .property-card__other-pics {
+            display: flex;
+        }
+
+        .property-card__bedrooms,
+        .property-card__bathrooms,
+        .property-card__other {
+            font-family: Roboto;
+            font-size: 20px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: 0.7px;
+            text-align: center;
+            color: #000000;
+        }
+
+        .property-card__house-address {
+            font-family: Roboto;
+            font-size: 24px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;  
+            line-height: normal;
+            letter-spacing: 0.9px;
+            color: #000000;
+        }
+        
+        .property-card__house-location {
+            font-family: Roboto;
+            font-size: 12px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: 0.9px;
+            color: #b5b5b5;
+        }
+        
+        .property-card__house-rent {
+            font-family: Roboto;
+            font-size: 22px;  
+            font-weight: 500;  
+            font-style: normal;  
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: 0.9px;
+            color: #e86e42;
+        }
+    }
+
+    .property-card__dividor {
+        width: 2px;
+        background-color: #e4e4e4;
+    }
+}

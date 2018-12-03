@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 /**
  * HEADER info
  * I will be sealing the data objects so we cannot accidentally add
@@ -6,15 +8,24 @@
 
  export class Property {
 
-    constructor(propertyType, numBedrooms, numBathrooms, numOtherRooms, rentCost, pictures, address) {
+    constructor(propertyType, numBedrooms, numBathrooms, numOtherRooms, rent, province, city, streetNumber, streetName, postalCode, location, images) {
 
         this.propertyType = propertyType;
         this.numBedrooms = numBedrooms;
         this.numBathrooms = numBathrooms;
         this.numOtherRooms = numOtherRooms;
-        this.rentCost = rentCost;
-        this.address = address;
+        this.rent = rent;
+        this.province = province;
+        this.city = city;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.postalCode = postalCode;
+        this.location = location;
         //this line is to enforce the 0..5
-        this.pictures = pictures && pictures.length > 0 ? pictures.splice(0,5) : []
+        this.images = images && images.length > 0 ? images.splice(0,5) : _.times(5, _.constant(null))
+    }
+
+    getFullAddress() {
+        return `${this.streetNumber} ${this.streetName} ${this.city}, ${this.province}`;
     }
  }
