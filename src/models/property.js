@@ -29,4 +29,4 @@ import _ from 'lodash'
     getFullAddress() {
         return `${this.streetNumber} ${this.streetName} ${this.city}, ${this.province}`;
     }
- }
+}

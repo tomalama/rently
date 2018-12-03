@@ -16,13 +16,13 @@ nav {
   -webkit-user-drag: none;
 }
 
-.right-links {
+.rightLinks {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex: 1;
 
-  .right-link {
+  .rightLink {
     font-size: 20px;
     font-weight: 900;
     color: #ffffff;
@@ -43,7 +43,7 @@ nav {
       display: flex;
       align-items: center;
 
-      .arrow-down {
+      .arrowDown {
         margin-left: 6px;
       }
     }
@@ -102,7 +102,7 @@ nav {
     border: 1px solid transparent;
 
     &:hover {
-      opacity: 1.0;
+      opacity: 1;
       filter: alpha(opacity=100);
       border: 1px solid #f76632;
     }
