@@ -8,17 +8,21 @@ export const login = credentials => {
       .where("username", "==", credentials.username)
       .get();
 
-    const email = query.docs[0].data().email;
+    if (!query.docs.length) {
+      dispatch({ type: "LOGIN_ERROR", err: "Login failed" });
+    } else {
+      const email = query.docs[0].data().email;
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, credentials.password)
-      .then(() => {
-        dispatch({ type: "LOGIN_SUCCESS" });
-      })
-      .catch(err => {
-        dispatch({ type: "LOGIN_ERROR", err });
-      });
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, credentials.password)
+        .then(() => {
+          dispatch({ type: "LOGIN_SUCCESS" });
+        })
+        .catch(err => {
+          dispatch({ type: "LOGIN_ERROR", err });
+        });
+    }
   };
 };
 

@@ -14,7 +14,8 @@ import styles from "./Login.module.scss";
 class Login extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    authError: ""
   };
 
   handleChange = e => {
@@ -27,25 +28,21 @@ class Login extends Component {
     // Prevent nav
     e.preventDefault();
 
-    if (!this.state.username && !this.state.password) {
+    if (!this.state.username || !this.state.password) {
       this.setState({
         authError: "Invalid username or password"
       });
     } else {
+      this.setState({
+        authError: ""
+      });
       this.props.login(this.state);
     }
   };
 
-  componentDidMount = () => {
-    const { authError, auth } = this.props;
-    this.setState({
-      authError,
-      auth
-    });
-  };
-
   render() {
-    if (this.state.auth && this.state.auth.uid) return <Redirect to="/" />;
+    const { authError, auth } = this.props;
+    if (auth.uid) return <Redirect to="/" />;
     return (
       <div className={styles.wrapper}>
         <div className={styles.login}>
@@ -72,10 +69,16 @@ class Login extends Component {
             <div>
               <button className={styles.loginButton}>Log In</button>
               <div>
-                {this.state.authError && (
+                {this.state.authError ? (
                   <p className={styles.errorText}>
-                    {"Invalid username or password"}
+                    {"Empty username or password"}
                   </p>
+                ) : (
+                  authError && (
+                    <p className={styles.errorText}>
+                      {"Invalid username or password"}
+                    </p>
+                  )
                 )}
               </div>
             </div>
