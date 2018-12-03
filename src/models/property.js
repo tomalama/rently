@@ -8,7 +8,7 @@ import _ from 'lodash'
 
  export class Property {
 
-    constructor(propertyType, numBedrooms, numBathrooms, numOtherRooms, rent, province, city, streetNumber, streetName, postalCode, location, images) {
+    constructor(propertyType, numBedrooms, numBathrooms, numOtherRooms, rent, province, city, streetNumber, streetName, postalCode, location, deleted, images) {
 
         this.propertyType = propertyType;
         this.numBedrooms = numBedrooms;
@@ -21,6 +21,7 @@ import _ from 'lodash'
         this.streetNumber = streetNumber;
         this.postalCode = postalCode;
         this.location = location;
+        this.deleted = deleted;
         //this line is to enforce the 0..5
         this.images = images && images.length > 0 ? images.splice(0,5) : _.times(5, _.constant(null))
     }
