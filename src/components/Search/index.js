@@ -156,7 +156,7 @@ class Search extends Component {
                                     allowCross={false}
                                     min={0}
                                     max={(this.props.maxRent !== undefined) ? parseInt(this.props.maxRent) : 1}
-                                    step={100}
+                                    step={1}
                                     defaultValue={(this.props.maxRent !== undefined) ? [0, parseInt(this.props.maxRent)] : [0, 1]}
                                     onChange={this.handleRentalChange}
                                 />
