@@ -121,10 +121,10 @@ class AddProperty extends Component {
 
   updateImagePreview = (file, index) => {
     let reader = new FileReader();
+    let imagePreviews = this.state.imagePreviews;
     reader.onloadend = () => {      
-      // I know this is bad practice but whatever lmao
-      this.state.imagePreviews[index] = reader.result;
-      this.forceUpdate();
+      imagePreviews[index] = reader.result;
+      this.setState({ imagePreviews });
     };
 
     reader.readAsDataURL(file);
