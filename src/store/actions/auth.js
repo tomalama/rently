@@ -1,16 +1,28 @@
 export const login = credentials => {
-  return (dispatch, getState, { getFirebase }) => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
+    const firestore = getFirestore();
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(credentials.email, credentials.password)
-      .then(() => {
-        dispatch({ type: "LOGIN_SUCCESS" });
-      })
-      .catch(err => {
-        dispatch({ type: "LOGIN_ERROR", err });
-      });
+    const query = await firestore
+      .collection("users")
+      .where("username", "==", credentials.username)
+      .get();
+
+    if (!query.docs.length) {
+      dispatch({ type: "LOGIN_ERROR", err: "Login failed" });
+    } else {
+      const email = query.docs[0].data().email;
+
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, credentials.password)
+        .then(() => {
+          dispatch({ type: "LOGIN_SUCCESS" });
+        })
+        .catch(err => {
+          dispatch({ type: "LOGIN_ERROR", err });
+        });
+    }
   };
 };
 
@@ -40,6 +52,7 @@ export const signUp = newUser => {
           .collection("users")
           .doc(resp.user.uid)
           .set({
+            email: newUser.email,
             username: newUser.username,
             firstName: newUser.firstName,
             lastName: newUser.lastName,

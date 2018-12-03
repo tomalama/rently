@@ -16,15 +16,29 @@ import AddProperty from "../../components/AddProperty";
 import "./style.scss";
 
 export default class App extends Component {
-
   render() {
     return (
       <BrowserRouter>
         <Switch>
           <AppRoute exact path="/" layout={AppContainer} component={Home} />
-          <AppRoute exact path="/login" layout={AppContainer} component={Login} />
-          <AppRoute exact path="/signup" layout={AppContainer} component={SignUp} />
-          <AppRoute exact path="/add-property" layout={AppContainer} component={AddProperty} />
+          <AppRoute
+            exact
+            path="/login"
+            layout={AppContainer}
+            component={Login}
+          />
+          <AppRoute
+            exact
+            path="/signup"
+            layout={AppContainer}
+            component={SignUp}
+          />
+          <AppRoute
+            exact
+            path="/add-property"
+            layout={AppContainer}
+            component={AddProperty}
+          />
         </Switch>
       </BrowserRouter>
     );

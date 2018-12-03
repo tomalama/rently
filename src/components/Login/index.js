@@ -8,10 +8,14 @@ import { Redirect } from "react-router-dom";
 // Actions
 import { login } from "../../store/actions/auth";
 
+// CSS
+import styles from "./Login.module.scss";
+
 class Login extends Component {
   state = {
-    email: "",
-    password: ""
+    username: "",
+    password: "",
+    authError: ""
   };
 
   handleChange = e => {
@@ -21,30 +25,70 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
+    // Prevent nav
     e.preventDefault();
-    this.props.login(this.state);
+
+    if (!this.state.username || !this.state.password) {
+      this.setState({
+        authError: "Invalid username or password"
+      });
+    } else {
+      this.setState({
+        authError: ""
+      });
+      this.props.login(this.state);
+    }
   };
 
   render() {
     const { authError, auth } = this.props;
     if (auth.uid) return <Redirect to="/" />;
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h5>Login</h5>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={this.handleChange} />
-          </div>
-          <div>
-            <button>Login</button>
-            <div>{authError ? <p>{authError}</p> : null}</div>
-          </div>
-        </form>
+      <div className={styles.wrapper}>
+        <div className={styles.login}>
+          <form onSubmit={this.handleSubmit}>
+            <h5 className={styles.loginTitle}>Log into rently</h5>
+            <div>
+              <input
+                type="text"
+                id="username"
+                className={styles.username}
+                placeholder="Username"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                id="password"
+                className={styles.password}
+                placeholder="Password"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div>
+              <button className={styles.loginButton}>Log In</button>
+              <div>
+                {this.state.authError ? (
+                  <p className={styles.errorText}>
+                    {"Empty username or password"}
+                  </p>
+                ) : (
+                  authError && (
+                    <p className={styles.errorText}>
+                      {"Invalid username or password"}
+                    </p>
+                  )
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
+        <img
+          className={styles.logo}
+          src={window.location.origin + "/img/logo.svg"}
+          alt={"logo"}
+        />
       </div>
     );
   }
