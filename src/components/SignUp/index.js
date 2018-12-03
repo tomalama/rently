@@ -38,10 +38,6 @@ class SignUp extends Component {
         <form onSubmit={this.handleSubmit}>
           <h5>Sign Up</h5>
           <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={this.handleChange} />
-          </div>
-          <div>
             <label htmlFor="username">Username</label>
             <input type="text" id="username" onChange={this.handleChange} />
           </div>
@@ -56,6 +52,10 @@ class SignUp extends Component {
           <div>
             <label htmlFor="lastName">Last Name</label>
             <input type="text" id="lastName" onChange={this.handleChange} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" onChange={this.handleChange} />
           </div>
           <div>
             <label htmlFor="type">Type</label>
