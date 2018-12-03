@@ -92,7 +92,7 @@ class AddProperty extends Component {
     if (this.state.invalidInputs.length > 0) 
       errorMessage += 'There were errors in the form values you entered, please correct the form fields highlighted in red. ';
     
-    if (this.state.images.length == 0) 
+    if (this.state.images.length === 0) 
       errorMessage += 'Please upload at least one image for the property.'
 
     if (errorMessage) {
