@@ -5,7 +5,7 @@ import { signOut } from "../../store/actions/auth";
 import * as _ from "lodash";
 import { firebaseConnect, isLoaded } from "react-redux-firebase";
 
-import "./style.scss";
+import styles from "./NavigationBar.module.scss";
 
 export class NavigationBar extends Component {
   state = {
@@ -92,16 +92,18 @@ export class NavigationBar extends Component {
     return (
       <nav ref={node => (this.node = node)}>
         <img
-          className="logo"
+          className={styles.logo}
           src={window.location.origin + "/img/logo.svg"}
           alt={"logo"}
         />
-        <div className="right-links">
+        <div className={styles.rightLinks}>
           {_.map(this.getNavbarLinks(), (link, idx) => {
             return (
               <a
                 key={idx}
-                className={"right-link " + (link.class ? link.class : "")}
+                className={`${styles.rightLink} ${
+                  link.class ? link.class : ""
+                }`}
                 href={link.url}
               >
                 {link.title}
@@ -110,7 +112,7 @@ export class NavigationBar extends Component {
           })}
           {auth.uid && user && (
             <button
-              className="right-link profile"
+              className={`${styles.rightLink} ${styles.profile}`}
               onClick={() => {
                 this.setState({ showDropdown: true });
               }}
@@ -121,7 +123,7 @@ export class NavigationBar extends Component {
               {user.firstName}
               {isLoaded(user) && (
                 <img
-                  className="arrow-down"
+                  className={styles.arrowDown}
                   src={window.location.origin + "/img/arrow_down.svg"}
                   alt={""}
                 />
@@ -130,7 +132,7 @@ export class NavigationBar extends Component {
           )}
         </div>
         {showDropdown && (
-          <div className="dropdown">
+          <div className={styles.dropdown}>
             {_.map(this.getDropdownLinks(), (link, idx) => {
               return (
                 <a key={idx} href={link.url}>
@@ -138,7 +140,7 @@ export class NavigationBar extends Component {
                 </a>
               );
             })}
-            <button className="signout" onClick={this.signOut}>
+            <button className={styles.signout} onClick={this.signOut}>
               Sign Out
             </button>
           </div>
