@@ -6,10 +6,12 @@ const searchReducer = (state = initState, action) => {
             console.log("Search success");
             const properties = action.payload.properties;
             const querySize = action.payload.querySize;
+            const maxRent = action.payload.maxRent;
             return {
                 ...state,
                 properties,
-                querySize
+                querySize,
+                maxRent
             };
         }
         

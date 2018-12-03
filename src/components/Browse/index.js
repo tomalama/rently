@@ -45,7 +45,6 @@ class Browse extends Component {
         var upperRange = (this.state.currentPage) * this.state.pageSize;
         const imageURL = (this.props.properties[id].imageURLs) ? "url("+this.props.properties[id].imageURLs[0]+")"
             : "url(http://cdn.home-designing.com/wp-content/uploads/2017/05/wood-white-and-charcoal-modern-exterior-paint-themes.jpg)";
-        console.log(imageURL);
         if(index >= lowerRange && index < upperRange)
         return (
             <a href={"/property?id="+id} key={id}>

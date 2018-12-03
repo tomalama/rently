@@ -2,22 +2,32 @@ const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 
 const addPropertyToArray = querySnapshot => {
     const properties = [];
+    const queryData = [];
+    var highestRent = 0;
     if(querySnapshot.docs.length > 0) {
         querySnapshot.forEach((docSnapshot) => {
             const data = docSnapshot.data();
+            if(data.rent > highestRent) {
+                highestRent = data.rent;
+            }
             properties.push(data);
         })
     }
-    return properties;
+    queryData.push(properties);
+    queryData.push(highestRent);
+    return queryData;
 }
 
 const dispatchAction = (dbRef, dispatch) => {
     dbRef.then(querySnapshot => {
-        const properties = addPropertyToArray(querySnapshot);
+        const queryData = addPropertyToArray(querySnapshot);
+        const properties = queryData[0];
+        const maxRent = queryData[1];
         const querySize = properties.length;
+
         dispatch({ 
             type: SEARCH_SUCCESS,
-            payload: { properties, querySnapshot, querySize }
+            payload: { properties, querySize, maxRent }
         })
     })
 }

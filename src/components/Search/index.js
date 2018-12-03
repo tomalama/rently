@@ -40,7 +40,7 @@ class Search extends Component {
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 100000
+        maximalRent: 100
     };
 
     bedroomFormatter = v => {
@@ -155,9 +155,9 @@ class Search extends Component {
                                     marks={moneyMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={100000}
+                                    max={(this.props.maxRent !== undefined) ? parseInt(this.props.maxRent) : 1}
                                     step={100}
-                                    defaultValue={[0, 100000]}
+                                    defaultValue={(this.props.maxRent !== undefined) ? [0, parseInt(this.props.maxRent)] : [0, 1]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
@@ -178,7 +178,7 @@ class Search extends Component {
 
 const mapStateToProps = state => {
     return {
-        properties: state.properties
+        maxRent: state.search.maxRent
     };
 };
 
