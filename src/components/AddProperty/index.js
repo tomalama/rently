@@ -78,9 +78,7 @@ class AddProperty extends Component {
     } else {
       this.setState({ images: e.target.files, imageError: false });
       Array.from(e.target.files).forEach((image, index) => {
-        console.log(image);
-        if (image.size)
-          this.updateImagePreview(image, index);
+        this.updateImagePreview(image, index);
       });
     }
   };
