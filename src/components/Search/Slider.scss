@@ -1,0 +1,17 @@
+.rc-slider-tooltip-inner {
+    border-radius: 2px;
+    background-color: #e86e42;
+}
+
+.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+    border-top-color: #e86e42;
+}
+
+.rc-slider-track {
+    background-color: #e86e42;
+}
+
+.rc-slider-handle:hover, .rc-slider-handle {
+    border-color: #ffffff;
+    box-shadow: 0 1px 4px 0 rgba(29, 29, 29, 0.5);
+}

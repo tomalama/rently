@@ -15,8 +15,10 @@ import 'rc-slider/assets/index.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-//Components
-import './Search.scss'
+import styles from "./Search.module.scss";
+
+//Slider package scss
+import './Slider.scss'
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 const Range = createSliderWithTooltip(Slider.Range);
@@ -96,11 +98,11 @@ class Search extends Component {
 
     render() {
         return (
-            <div className="form-container">
-                <div className="form-body">
+            <div className={styles.formContainer}>
+                <div className={styles.formBody}>
                     <form onSubmit={this.handleSubmit}>
                         <h2>Filter</h2>
-                        <div className="input-field">
+                        <div className={styles.inputField}>
                             <label htmlFor="location">Location</label>
                             <Dropdown
                                 options={["Ottawa", "Gatineau", "All of Ottawa and Gatineau"]}
@@ -108,7 +110,7 @@ class Search extends Component {
                                 onChange={this.handleLocationChange}
                             />
                         </div>
-                        <div className="input-field">
+                        <div className={styles.inputField}>
                             <label htmlFor="typeOfProperty">Type of property</label>
                             <Dropdown
                                 options={["House", "Apartment"]}
@@ -116,7 +118,7 @@ class Search extends Component {
                                 onChange={this.handleTypeOfPropertyChange}
                             />
                         </div>
-                        <div className="input-field">
+                        <div className={styles.inputField}>
                             <label htmlFor="numberOfBedrooms">Number of bedrooms</label>
                             <div>
                                 <SliderWithTooltip
@@ -131,7 +133,7 @@ class Search extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="input-field">
+                        <div className={styles.inputField}>
                             <label htmlFor="numberOfBathrooms">Number of bathrooms</label>
                             <div>
                                 <SliderWithTooltip
@@ -145,7 +147,7 @@ class Search extends Component {
                                     onChange={this.handleBathroomChange}/>
                             </div>
                         </div>
-                        <div className="input-field">
+                        <div className={styles.inputField}>
                             <label htmlFor="rentalFee">Rental Fee</label>
                             <div>
                                 <Range
@@ -161,7 +163,7 @@ class Search extends Component {
                             </div>
                         </div>
                         <div>
-                            <button className="search-button">Search</button>
+                            <button className={styles.searchButton}>Search</button>
                         </div>
                     </form>
                     {   

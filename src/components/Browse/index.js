@@ -11,7 +11,10 @@ import 'rc-pagination/assets/index.css';
 //Actions
 import { searchAll } from '../../store/actions/search';
 
-import './Browse.scss';
+import styles from "./Browse.module.scss";
+
+//Pagination package scss
+import "./Pagination.scss";
 
 const CARD_WIDTH = 286;
 const CARD_HEIGHT = 261;
@@ -46,16 +49,16 @@ class Browse extends Component {
         if(index >= lowerRange && index < upperRange)
         return (
             <a href={"/property?id="+id} key={id}>
-                <div className="card">
-                    <span className="card-header" style={{backgroundImage: imageURL}}>
-                        <span className="card-title">
+                <div className={styles.card}>
+                    <span className={styles.cardHeader} style={{backgroundImage: imageURL}}>
+                        <span className={styles.cardTitle}>
                             <h3>{this.props.properties[id].streetName}</h3>
                         </span>
                     </span>
-                    <span className="card-summary">
+                    <span className={styles.cardSummary}>
                         ${this.props.properties[id].rent} /month
                     </span>
-                    <span className="card-meta">
+                    <span className={styles.cardMeta}>
                         {this.props.properties[id].location}
                     </span>
                 </div>
@@ -83,20 +86,21 @@ class Browse extends Component {
     render() {
         return (
             <div>
-                <div className="card-container">
+                <div className={styles.cardContainer}>
                     {this.props.properties !== undefined 
                         && this.props.properties.length < 1 
-                        && <div className="no-results">No results found</div>}
+                        && <div className={styles.noResults}>No results found</div>}
                     {this.props.properties !== undefined
-                        && <div className="total">{this.props.querySize} results found</div>
+                        && this.props.properties.length >= 1
+                        && <div className={styles.total}>{this.props.querySize} results found</div>
                     }
-                    <div className="cards">
+                    <div className={styles.cards}>
                         {this.props.properties !== undefined
                             && Object.keys(this.props.properties).map(this.renderProperty)}
                     </div>
                 </div>
                 <div>
-                    <Pagination className="pagination"
+                    <Pagination className={styles.pagination}
                             current={this.state.currentPage}
                             pageSize={this.state.pageSize}
                             total={this.props.querySize}
