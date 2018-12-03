@@ -6,12 +6,12 @@ import AppRoute from "../AppRoute";
 import AppContainer from "../AppContainer";
 // General
 import Home from "../../components/Home";
-
 // Admin
 import Login from "../../components/Login";
-
 // Agent
 import SignUp from "../../components/SignUp";
+// Owner
+import AddProperty from "../../components/AddProperty";
 
 import "./style.scss";
 
@@ -24,6 +24,7 @@ export default class App extends Component {
           <AppRoute exact path="/" layout={AppContainer} component={Home} />
           <AppRoute exact path="/login" layout={AppContainer} component={Login} />
           <AppRoute exact path="/signup" layout={AppContainer} component={SignUp} />
+          <AppRoute exact path="/add-property" layout={AppContainer} component={AddProperty} />
         </Switch>
       </BrowserRouter>
     );

@@ -1,0 +1,210 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    font-family: Roboto;
+}
+
+
+
+.add-property-form {
+    margin: 145px 132px;
+
+    input {
+
+        &{
+            box-sizing: border-box;
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+            border: 1px solid #bfbfbf;
+            
+            
+            &:focus {
+                border: 1px solid #e86e42;
+            }
+        }
+
+        :not([type="checkbox"]) {
+            height: 29px;
+            box-sizing: border-box;
+        }
+
+        &[type="number"]::-webkit-outer-spin-button,
+        &[type="number"]::-webkit-inner-spin-button, {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &[type="number"] {
+            -moz-appearance: textfield
+        }
+    }
+
+    select {
+        height: 29px;
+        box-sizing: border-box;
+    }
+}
+
+.add-property-form__title {
+    height: 24px;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.7px;
+    color: #0a002a;
+}
+
+.add-property-form__header {
+    display: flex;
+    flex: 0 1;
+    line-height: 26px;
+
+    * ~ * {
+        margin-left: 12px;
+    }
+
+    .header__number {
+        width: 26px;
+        height: 26px;
+        position: relative;
+        background-color: #ebebeb;
+        border-radius: 50%;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 0.7px;
+        color: #0a002a;
+        line-height: 26px;
+    
+        * {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .header__text {
+        font-size: 16px;
+        font-weight: 900;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: 0.7px;
+        color: #000000;
+    }
+}
+
+.add-property-form__form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+    // margin-left: 40px;
+
+    .property-form__row {
+        display: flex;
+        flex-direction: row;
+        padding: 8px 0;
+
+        .property-form__label {
+            width: 20%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 5px;
+            font-weight: 900;
+        }
+
+        .property-form__content {
+            flex: 1;
+        }
+    }
+}
+
+.add-property-form__input-composition {
+    display: inline-block;
+
+    + .add-property-form__input-composition {
+        margin-left: 8px;
+    }
+
+    &> *:last-child {
+        display: block;
+        font-size: 10px;
+        font-weight: 100;
+    }
+}
+
+.add-property-form__card {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
+    background-color: #ffffff;
+    padding: 24px 15px;
+
+    ~ .add-property-form__card {
+        margin-top: 40px;
+    }
+
+}
+
+.add-property-form__upload {
+    margin-top: 35px;
+    margin-left: 40px;
+
+    .add-property-form__upload-btn {
+        width: 268px;
+        height: 54px;
+        border-radius: 28px;
+        padding: 15px 42px;
+        margin: 20px 0;
+        box-shadow: 0 2px 4px 0 rgba(155, 155, 155, 0.5);
+        background-color: #e86e42;
+        border: none;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 0.7px;
+        text-align: center;
+        color: #ffffff;
+    }
+}
+
+.add-property-form__submit {
+    display: block;
+    width: 268px;
+    height: 54px;
+    padding: 15px 42px;
+    margin: 40px auto;
+    border-radius: 28px;
+    box-shadow: 0 2px 4px 0 rgba(155, 155, 155, 0.5);
+    background-color: #428ee8;
+    border: none;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.7px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.radio {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.7px;
+  color: #000000;
+}
+
+.error-msg {
+    color: red;
+    text-align: center;
+}

@@ -1,0 +1,103 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+}
+
+/* 
+    I use container for the component that will be shown
+ */
+.container {
+    margin: 145px 132px;
+}
+
+/* 
+    Currently using the for titles like Update Property within the content
+ */
+.content-title {
+    height: 24px;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.7px;
+    color: #0a002a;
+}
+
+/* 
+    example is of cards in update property
+ */
+.form-card {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
+    background-color: #ffffff;
+    padding: 24px 15px;
+}
+
+.form-card ~ .form-card {
+    margin-top: 40px;
+}
+
+/* Custom radio button */
+/* The container */
+.custom-radio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.custom-radio:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.custom-radio input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.custom-radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.custom-radio input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.custom-radio .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}

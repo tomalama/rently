@@ -7,11 +7,11 @@
  export class RentRecord {
 
     constructor(email, rentCost, rentalDate, rentalTime, customer, property) {
-        this.email = email;
-        this.rentCost = rentCost;
-        this.rentalDate = rentalDate;
-        this.rentalTime = rentalTime;
-        this.customer = customer;
-        this.property = property;
+        this.email = email ? email : '';
+        this.rentCost = rentCost ? rentCost : '';
+        this.rentalDate = rentalDate ? rentalDate : '';
+        this.rentalTime = rentalTime ? rentalTime : '';
+        this.customer = customer ? customer : null;
+        this.property = property ? property : null;
     }
  }

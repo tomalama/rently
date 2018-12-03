@@ -58,6 +58,7 @@ export class NavigationBar extends Component {
         return [
           { title: "My Account", url: "/" },
           { title: "My Properties", url: "/" },
+          { title: "Add Property", url: "/add-property" },
           { title: "Visit History", url: "/" },
         ];
       case "admin":
