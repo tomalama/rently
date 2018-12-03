@@ -1,20 +1,22 @@
 const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 
 const addPropertyToArray = querySnapshot => {
-    const properties = [];
+    const properties = {};
     const queryData = [];
     var highestRent = 0;
     if(querySnapshot.docs.length > 0) {
         querySnapshot.forEach((docSnapshot) => {
+            const id = docSnapshot.id;
             const data = docSnapshot.data();
             if(data.rent > highestRent) {
                 highestRent = data.rent;
             }
-            properties.push(data);
+            properties[id] = data;
         })
     }
     queryData.push(properties);
     queryData.push(highestRent);
+    
     return queryData;
 }
 
@@ -23,7 +25,7 @@ const dispatchAction = (dbRef, dispatch) => {
         const queryData = addPropertyToArray(querySnapshot);
         const properties = queryData[0];
         const maxRent = queryData[1];
-        const querySize = properties.length;
+        const querySize = Object.keys(properties).length;
 
         dispatch({ 
             type: SEARCH_SUCCESS,

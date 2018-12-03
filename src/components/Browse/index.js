@@ -80,6 +80,7 @@ class Browse extends Component {
     }
 
     render() {
+        console.log(this.props.querySize);
         return (
             <div>
                 <div className="card-container">
@@ -96,7 +97,7 @@ class Browse extends Component {
                     </div>
                 </div>
                 <div>
-                    <Pagination
+                    <Pagination className="pagination"
                             current={this.state.currentPage}
                             pageSize={this.state.pageSize}
                             total={this.props.querySize}
