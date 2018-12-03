@@ -8,7 +8,7 @@ const addPropertyToArray = querySnapshot => {
         querySnapshot.forEach((docSnapshot) => {
             const id = docSnapshot.id;
             const data = docSnapshot.data();
-            if(data.rent > highestRent) {
+            if(parseInt(data.rent) > highestRent) {
                 highestRent = data.rent;
             }
             properties[id] = data;
