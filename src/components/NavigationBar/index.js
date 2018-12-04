@@ -27,9 +27,8 @@ export class NavigationBar extends Component {
         return [{ title: "Search", url: "/" }];
       case "owner":
         return [{ title: "Search", url: "/" }];
-      case "admin":
-        // TODO: not sure what the links are yet
-        return [];
+      case "agent":
+        return [{ title: "Search", url: "/" }];
       default:
         return [
           { title: "Search", url: "/" },
@@ -57,9 +56,11 @@ export class NavigationBar extends Component {
           { title: "Add Property", url: "/add-property" },
           { title: "Visit History", url: "/" }
         ];
-      case "admin":
-        // TODO: not sure what the links are yet
-        return [];
+      case "agent":
+        return [
+          { title: "My Account", url: "/my-account" },
+          { title: "Create Account", url: "/create-account" }
+        ];
       default:
         return [];
     }

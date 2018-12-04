@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const login = credentials => {
   return async (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
@@ -40,26 +42,28 @@ export const signOut = () => {
 };
 
 export const signUp = newUser => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firebase = getFirebase();
+  return async (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then(resp => {
-        return firestore
-          .collection("users")
-          .doc(resp.user.uid)
-          .set({
-            email: newUser.email,
-            username: newUser.username,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            type: newUser.type,
-            maxRent: newUser.maxRent,
-            created: firestore.FieldValue.serverTimestamp()
-          });
+    const resp = await axios.post(
+      "https://tomalama.lib.id/create-users-on-firebase@0.0.2/",
+      {
+        email: newUser.email,
+        password: newUser.password
+      }
+    );
+
+    return firestore
+      .collection("users")
+      .doc(resp.data)
+      .set({
+        email: newUser.email,
+        username: newUser.username,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        type: newUser.type,
+        maxRent: newUser.maxRent,
+        created: firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
