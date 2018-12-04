@@ -9,6 +9,7 @@ import ViewAccount from "../../components/ViewAccount";
 import Login from "../../components/Login";
 import SignUp from "../../components/SignUp";
 import AddProperty from "../../components/AddProperty";
+import VisitingList from '../../components/VisitingList'
 
 import "./style.scss";
 
@@ -41,6 +42,12 @@ export default class App extends Component {
             path="/add-property"
             layout={AppContainer}
             component={AddProperty}
+          />
+          <AppRoute
+            exact
+            path='/visiting-list'
+            layout={AppContainer}
+            component={VisitingList}
           />
         </Switch>
       </BrowserRouter>
