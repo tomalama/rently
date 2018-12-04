@@ -69,6 +69,7 @@ nav {
   right: 58px;
   top: 64px;
   transition: width 2s, height 2s, background-color 2s, transform 2s;
+  z-index: 100;
 
   a {
     font-size: 20px;

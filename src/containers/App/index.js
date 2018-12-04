@@ -4,20 +4,12 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import AppRoute from "../AppRoute";
 import AppContainer from "../AppContainer";
 
-// General
 import Home from "../../components/Home";
 import ViewAccount from "../../components/ViewAccount";
-
-// Admin
 import Login from "../../components/Login";
-
-// Agent
 import SignUp from "../../components/SignUp";
-
-// Owner
 import AddProperty from "../../components/AddProperty";
 
-// CSS
 import "./style.scss";
 
 export default class App extends Component {
