@@ -12,7 +12,7 @@ export class NavigationBar extends Component {
     showDropdown: false
   };
   customerDropdownLinks = [
-    { title: "My Account", url: "/" },
+    { title: "My Account", url: "/my-account" },
     { title: "My Visiting List", url: "/" }
   ];
 
@@ -47,12 +47,12 @@ export class NavigationBar extends Component {
     switch (user.type) {
       case "customer":
         return [
-          { title: "My Account", url: "/" },
+          { title: "My Account", url: "/my-account" },
           { title: "My Visiting List", url: "/" }
         ];
       case "owner":
         return [
-          { title: "My Account", url: "/" },
+          { title: "My Account", url: "/my-account" },
           { title: "My Properties", url: "/" },
           { title: "Add Property", url: "/add-property" },
           { title: "Visit History", url: "/" }

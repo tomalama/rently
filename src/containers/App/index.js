@@ -2,18 +2,13 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import AppRoute from "../AppRoute";
-
 import AppContainer from "../AppContainer";
-// General
-import Home from "../../components/Home";
-// Admin
-import Login from "../../components/Login";
-// Agent
-import SignUp from "../../components/SignUp";
-// Owner
-import AddProperty from "../../components/AddProperty";
 
-import PropertyCard from '../../components/PropertyCard'
+import Home from "../../components/Home";
+import ViewAccount from "../../components/ViewAccount";
+import Login from "../../components/Login";
+import SignUp from "../../components/SignUp";
+import AddProperty from "../../components/AddProperty";
 
 import "./style.scss";
 
@@ -34,6 +29,12 @@ export default class App extends Component {
             path="/signup"
             layout={AppContainer}
             component={SignUp}
+          />
+          <AppRoute
+            exact
+            path="/my-account"
+            layout={AppContainer}
+            component={ViewAccount}
           />
           <AppRoute
             exact
