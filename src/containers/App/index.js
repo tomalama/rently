@@ -13,6 +13,8 @@ import SignUp from "../../components/SignUp";
 // Owner
 import AddProperty from "../../components/AddProperty";
 
+import PropertyCard from '../../components/PropertyCard'
+
 import "./style.scss";
 
 export default class App extends Component {
