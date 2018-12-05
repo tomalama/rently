@@ -246,23 +246,28 @@ export const deleteProperty = (userId, propertyId, profile) => {
         }
       });
     }
+    if (!(propertyId && typeof(propertyId) === 'string' && propertyId.length > 0)) {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'propertyId needs to be a non-null string which is not empty'
+        }
+      });
+    }
 
     const firestore = getFirestore();
 
     firestore
-      .collection('owner-lists')
-      .doc(userId)
+      .collection('properties')
+      .doc(propertyId)
       .get()
       .then(query => {
 
         const result = query.data();
         if (result) {
           //if there is a list, check if the propertyId exists
-          if (propertyId && result.data.find(property => property === propertyId)) {
-
-            firestore
-              .collection('properties')
-              .doc(propertyId)
+          if (result.userId == userId) {
+            query
               .set({
                 deleted: true
               }, { merge: true })
@@ -285,7 +290,7 @@ export const deleteProperty = (userId, propertyId, profile) => {
           return dispatch({
             type: 'DELETE_PROPERTY_ERROR',
             err: {
-              message: 'There is no owner list'
+              message: 'There is no property'
             }
           })
         }
