@@ -156,6 +156,11 @@
           margin-bottom: 16px;
         }
 
+        &.disabled {
+          opacity: 0.6;
+          filter: alpha(opacity=60);
+        }
+
         &.scnd {
           color: #e86e42;
           background-color: #ffffff;

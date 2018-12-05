@@ -1,21 +1,46 @@
 import React, { Component } from "react";
 import * as _ from "lodash";
 import { connect } from "react-redux";
-import { getProperty } from "../../store/actions/property";
+import { getProperty, addToVisitingList } from "../../store/actions/property";
+import { getVisitingList } from "../../store/actions/visitingList";
 
 import "./styles.scss";
 
 class PropertyDeepDive extends Component {
+  state = {
+      inVisitingList: false,
+  }
 
   componentDidMount() {
     const { propertyId } = this.props.match.params;
-    const { getProperty } = this.props;
-    console.log(propertyId);
+    const { auth, getProperty, getVisitingList } = this.props;
     getProperty(propertyId);
+    getVisitingList(auth.uid);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { propertyId } = this.props.match.params;
+    const { visitingList } = nextProps;
+    const inVisitingList = _.indexOf((visitingList && visitingList.data) || [], propertyId) >= 0;
+    console.log(`it is found in the list: ${inVisitingList}`);
+    this.setState({ inVisitingList: inVisitingList })
+  }
+
+  addToVisitingList = () => {
+    const { auth, user, addToVisitingList } = this.props;
+    const { propertyId } = this.props.match.params;
+    console.log(`adding to visiting list`);
+    this.setState({ inVisitingList: true });
+    addToVisitingList(auth.uid, user, propertyId)
   }
 
   render() {
-    const { auth, property, fetching } = this.props;
+    const { auth, user, property, visitingList, addToVisitingList } = this.props;
+    const { propertyId } = this.props.match.params;
+    const { inVisitingList } = this.state;
+
+    const isOwner = (auth.uid && user && user.type === "owner") && (auth.uid === property && property.userId);
+    const isCustomer = auth.uid && user && user.type === "customer";
 
     if (!property) {
       return <div></div>;
@@ -64,10 +89,24 @@ class PropertyDeepDive extends Component {
             <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${property.city},${property.province}&zoom=12&size=400x164&key=AIzaSyALZvqSgkzhLBtORw7iej52P3M-pvl4K5w`} />
           </div>
         </div>
-        <div className="actions-container">
-          <button className="btn">Edit Property</button>
-          <button className="btn scnd">Delete Property</button>
-        </div>
+        { (isOwner || isCustomer) &&
+          <div className="actions-container">
+            { isOwner &&
+              <div>
+                <button className="btn">Edit Property</button>
+                <button className="btn scnd">Delete Property</button>
+              </div>
+            }
+            { isCustomer &&
+              <div>
+                { inVisitingList ?
+                  <button className="btn disabled" disabled={true}>Added to Visiting List</button> :
+                  <button className="btn" onClick={this.addToVisitingList}>Add to Visiting List</button>
+                }
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>;
   }
@@ -79,11 +118,15 @@ const mapStateToProps = (state) => {
     property: state.property.property,
     fetching: state.property.fetching,
     auth: state.firebase.auth,
+    user: state.firebase.profile,
+    visitingList: state.visitingList.visitingList,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProperty: (propertyId) => dispatch(getProperty(propertyId))
+    getProperty: (propertyId) => dispatch(getProperty(propertyId)),
+    getVisitingList: (userId) => dispatch(getVisitingList(userId)),
+    addToVisitingList: (userId, profile, propertyId) => dispatch(addToVisitingList(userId, profile, propertyId)),
   };
 };
 
