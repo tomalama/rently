@@ -32,7 +32,7 @@ class PropertyDeepDive extends Component {
     console.log(user.maxRent);
     console.log(property.rent);
     if (parseInt(user.maxRent) < parseInt(property.rent)) {
-      this.setState({ error: "Customers' max rent is too low" });
+      this.setState({ error: "The monthly rent for this property exceeds your maximum rent" });
       return
     }
     this.setState({ inVisitingList: true, error: null });
