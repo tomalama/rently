@@ -3,17 +3,25 @@ import firebase from 'firebase';
 
 const storageRef = firebase.storage().ref();
 
-export const addToVisitingList = (userId, profile, propertyId, successcb, errorcb) => {
+export const addToVisitingList = (userId, profile, propertyId) => {
   return (dispatch, getState, { getFirestore }) => {
 
     //pre checks
     if (profile.type !== 'customer') {
-      console.error('cannot add to visiting list if you are not a customer');
-      return;
+      return dispatch({
+        type: 'ADD_TO_VISITING_LIST_ERROR',
+        err: {
+          message: 'cannot add to visiting list if you are not a customer'
+        }
+      });
     }
     if (!(userId && typeof(userId) === 'string' && userId.length > 0)) {
-      console.error('userId needs to be a non-null string which is not empty')
-      return;
+      return dispatch({
+        type: 'ADD_TO_VISITING_LIST_ERROR',
+        err: {
+          message: 'userId needs to be a non-null string which is not empty'
+        }
+      });
     }
 
     const firestore = getFirestore();
@@ -37,8 +45,19 @@ export const addToVisitingList = (userId, profile, propertyId, successcb, errorc
             .set({
               data: result.data
             })
-            .then(successcb ? successcb : () => {})
-            .catch(errorcb ? errorcb : e => console.log(e))
+            .then(() => dispatch({
+              type: 'ADD_TO_VISITING_LIST_SUCCESS',
+              payload: {
+                message: 'Successfully updated the visiting list'
+              }
+            }))
+            .catch(e => dispatch({
+              type: 'ADD_TO_VISITING_LIST_ERROR',
+              err: {
+                error: e,
+                message: 'Unknown error setting the visiting list data'
+              }
+            }))
           }
           
         } else {
@@ -49,11 +68,28 @@ export const addToVisitingList = (userId, profile, propertyId, successcb, errorc
             .set({
               data: propertyId ? [propertyId] : [] 
             })
-            .then(successcb ? successcb : () => {})
-            .catch(errorcb ? errorcb : e => console.log(e))
+            .then(() => dispatch({
+              type: 'ADD_TO_VISITING_LIST_SUCCESS',
+              payload: {
+                message: 'Successfully updated the visiting list'
+              }
+            }))
+            .catch(e => dispatch({
+              type: 'ADD_TO_VISITING_LIST_ERROR',
+              err: {
+                error: e,
+                message: 'Unknown error setting the visiting list data'
+              }
+            }))
         }
       })
-      .catch(errorcb ? errorcb : e => console.log(e))
+      .catch(e => dispatch({
+        type: 'ADD_TO_VISITING_LIST_ERROR',
+        err: {
+          error: e,
+          message: 'Unknown error fetching the visiting list'
+        }
+      }))
   }
 }
 
