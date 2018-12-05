@@ -69,9 +69,10 @@ export const updateProperty = newProperty => {
 
     firestore
       .collection('properties')
-      .add(trimmedProperty)
-      .then((docRef) => {
-        console.log(`New Property added with ID: ${docRef.id}`);
+      .doc(trimmedProperty.propertyId)
+      .set({ ...trimmedProperty }, { merge: true })
+      .then(() => {
+        console.log(`Updated Property with ID: ${trimmedProperty.propertyId}`);
         // Prepare the image files for uploading
         const metadata = {
           contentType: 'image/jpeg',
@@ -80,7 +81,7 @@ export const updateProperty = newProperty => {
         let imageURLs = [];
 
         images.forEach((image, index) => {
-          let uploadTask = storageRef.child('images/' + docRef.id + '/' + image.name).put(image, metadata);
+          let uploadTask = storageRef.child('images/' + trimmedProperty.propertyId + '/' + image.name).put(image, metadata);
 
           uploadTask.on('state_changed', (snapshot) => {
             let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -103,13 +104,12 @@ export const updateProperty = newProperty => {
               imageURLs.push(downloadURL);
               firestore
                 .collection('properties')
-                .doc(docRef.id)
+                .doc(trimmedProperty.propertyId)
                 .set({ imageURLs }, { merge: true })
             });
           });
         });
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.log(`Error adding Property: ${error}`);
       });
   }

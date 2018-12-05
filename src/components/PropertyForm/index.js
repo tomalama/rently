@@ -96,7 +96,8 @@ class PropertyForm extends Component {
     if (this.state.invalidInputs.length > 0)
       errorMessage += 'There were errors in the form values you entered, please correct the form fields highlighted in red. ';
 
-    if (this.state.images.length === 0)
+    // Don't need to check for new files if this is update mode
+    if (this.state.images.length === 0 && this.props.type === 'add')
       errorMessage += 'Please upload at least one image for the property.'
 
     if (errorMessage) {
@@ -106,7 +107,7 @@ class PropertyForm extends Component {
       if (this.props.type === 'add')
         this.props.addProperty(this.state);
       else if (this.props.type === 'update')
-        console.log('Update property called');
+        this.props.updateProperty(this.state);
       
     }
   }
