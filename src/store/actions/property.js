@@ -3,6 +3,60 @@ import firebase from 'firebase';
 
 const storageRef = firebase.storage().ref();
 
+export const addToVisitingList = (userId, profile, propertyId, successcb, errorcb) => {
+  return (dispatch, getState, { getFirestore }) => {
+
+    //pre checks
+    if (profile.type !== 'customer') {
+      console.error('cannot add to visiting list if you are not a customer');
+      return;
+    }
+    if (!(userId && typeof(userId) === 'string' && userId.length > 0)) {
+      console.error('userId needs to be a non-null string which is not empty')
+      return;
+    }
+
+    const firestore = getFirestore();
+
+    firestore
+      .collection('visiting-list')
+      .doc(userId)
+      .get()
+      .then(query => {
+
+        const result = query.data();
+        if (result) {
+          
+          if (propertyId && !result.data.find(val => val === propertyId)) {
+
+            result.data.push(propertyId)
+
+            firestore
+            .collection('visiting-list')
+            .doc(userId)
+            .set({
+              data: result.data
+            })
+            .then(successcb ? successcb : () => {})
+            .catch(errorcb ? errorcb : e => console.log(e))
+          }
+          
+        } else {
+
+          firestore
+            .collection('visiting-list')
+            .doc(userId)
+            .set({
+              data: propertyId ? [propertyId] : [] 
+            })
+            .then(successcb ? successcb : () => {})
+            .catch(errorcb ? errorcb : e => console.log(e))
+        }
+      })
+      .catch(errorcb ? errorcb : e => console.log(e))
+  }
+}
+
 export const addProperty = newProperty => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
