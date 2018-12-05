@@ -15,7 +15,7 @@ class AddProperty extends Component {
 
   state = {
     propertyType: 'Apartment',
-    rent: '',
+    rent: 0,
     streetNumber: '',
     streetName: '',
     city: '',

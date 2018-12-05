@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 import ImageView from '../Misc/ImageView'
 import { Property } from '../../models/property'
@@ -14,33 +15,20 @@ class PropertyCard extends React.Component {
 
     static propTypes = {
         property: PropTypes.instanceOf(Property).isRequired,
-        clickHandler: PropTypes.func,
         showStatus: PropTypes.bool
     }
 
-    static defaultProps = {
-        property: new Property(
-            'House',
-            1,
-            1,
-            1,
-            2000,
-            'ON',
-            'Ottawa',
-            415,
-            'Wilbrod St',
-            'k1n6m7',
-            'Sandy Hill',
-            false
-        ),
-        showStatus: true
+    state = {
+        redirect: false
     }
 
     render() {
 
-        const { property, showStatus, clickHandler } = this.props; 
+        const { property, showStatus } = this.props; 
 
-        return <div className='property-card' onClick={clickHandler ? clickHandler : this.defaultClickHandler}>
+        if (this.state.redirect) return <Redirect push to={'/property/' + property.id + '/'} />
+
+        return <div className='property-card' onClick={this.handleClick}>
             <div className='property-card__main-pic'>
                 <ImageView image={property.images[0]} />
             </div>
@@ -92,8 +80,8 @@ class PropertyCard extends React.Component {
         </div>
     }
 
-    defaultClickHandler = (e) => {
-        console.log(e, this);
+    handleClick = (e) => {
+        this.setState({redirect: true});
     }
 }
 

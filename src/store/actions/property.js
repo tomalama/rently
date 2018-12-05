@@ -64,6 +64,7 @@ export const addProperty = newProperty => {
     // Trim the unnecessary fields from the AddProperty state object
     const images = Array.from(newProperty.images);
     let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError']);
+    trimmedProperty.rent = parseInt(trimmedProperty.rent);
 
     firestore
       .collection('properties')

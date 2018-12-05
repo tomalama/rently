@@ -10,7 +10,6 @@ import { firebaseConnect, isLoaded } from "react-redux-firebase";
 class ViewAccount extends Component {
   render() {
     const { auth, profile } = this.props;
-    console.log(profile);
 
     if (!auth.uid) return <Redirect to="/login" />;
 
