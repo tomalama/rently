@@ -29,7 +29,6 @@ class PropertyDeepDive extends Component {
   addToVisitingList = () => {
     const { auth, user, addToVisitingList } = this.props;
     const { propertyId } = this.props.match.params;
-    console.log(`adding to visiting list`);
     this.setState({ inVisitingList: true });
     addToVisitingList(auth.uid, user, propertyId)
   }
@@ -39,8 +38,12 @@ class PropertyDeepDive extends Component {
     const { propertyId } = this.props.match.params;
     const { inVisitingList } = this.state;
 
-    const isOwner = (auth.uid && user && user.type === "owner") && (auth.uid === property && property.userId);
+    const isOwner = (auth.uid && user && user.type === "owner") && (auth.uid === (property && property.userId));
     const isCustomer = auth.uid && user && user.type === "customer";
+
+    console.log(auth.uid);
+    console.log(property && property.userId);
+    console.log(isOwner);
 
     if (!property) {
       return <div></div>;
@@ -92,13 +95,13 @@ class PropertyDeepDive extends Component {
         { (isOwner || isCustomer) &&
           <div className="actions-container">
             { isOwner &&
-              <div>
+              <div className="btn-container">
                 <button className="btn">Edit Property</button>
                 <button className="btn scnd">Delete Property</button>
               </div>
             }
             { isCustomer &&
-              <div>
+              <div className="btn-container">
                 { inVisitingList ?
                   <button className="btn disabled" disabled={true}>Added to Visiting List</button> :
                   <button className="btn" onClick={this.addToVisitingList}>Add to Visiting List</button>
