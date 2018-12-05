@@ -80,20 +80,20 @@ class Browse extends Component {
     }
 
     render() {
-        console.log(this.props.querySize);
+
         return (
             <div>
                 <div className="card-container">
                     {this.props.properties !== undefined 
-                        && this.props.properties.length < 1 
+                        && Object.keys(this.props.properties).length < 1 
                         && <div className="no-results">No results found</div>}
                     {this.props.properties !== undefined
-                        && this.props.properties.length >= 1
+                        && Object.keys(this.props.properties).length >= 1
                         && <div className="total">{this.props.querySize} results found</div>
                     }
                     <div className="cards">
                         {this.props.properties !== undefined
-                            && Object.keys(this.props.properties).map(this.renderProperty)}
+                            && Object.keys(this.props.properties).map((id, index) => this.renderProperty(id, index))}
                     </div>
                 </div>
                 <div>

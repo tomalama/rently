@@ -15,6 +15,9 @@ import 'rc-slider/assets/index.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+//Locations
+import { locations } from "../../constants/geographic-info";
+
 import "./Search.scss";
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
@@ -32,12 +35,13 @@ const moneyMarks = {
 
 class Search extends Component {
     state = {
-        location: "Ottawa",
+        location: "Ontario",
         typeOfProperty: "House",
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 100
+        maximalRent: 50,
+        maxRent: 50
     };
 
     bedroomFormatter = v => {
@@ -93,7 +97,20 @@ class Search extends Component {
         this.props.search(this.state);
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.maxRent !== this.props.maxRent) {
+            if (prevProps.maxRent !== undefined) {
+                if (this.state.maxRent <= prevProps.maxRent) {
+                    this.setState({
+                        maxRent: prevProps.maxRent
+                    })
+                }
+            }
+        }
+    }
+
     render() {
+        
         return (
             <div className="form-container">
                 <div className="form-body">
@@ -102,7 +119,7 @@ class Search extends Component {
                         <div className="input-field">
                             <label htmlFor="location">Location</label>
                             <Dropdown
-                                options={["Ottawa", "Gatineau", "All of Ottawa and Gatineau"]}
+                                options={locations}
                                 value={this.state.location}
                                 onChange={this.handleLocationChange}
                             />
@@ -152,9 +169,13 @@ class Search extends Component {
                                     marks={moneyMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={(this.props.maxRent !== undefined) ? parseInt(this.props.maxRent) : 1}
+                                    max={(this.props.maxRent !== undefined && this.props.maxRent >= 1 && this.props.maxRent >= this.state.maxRent)
+                                        ? parseInt(this.props.maxRent) 
+                                        : this.state.maxRent}
                                     step={1}
-                                    defaultValue={(this.props.maxRent !== undefined) ? [0, parseInt(this.props.maxRent)] : [0, 1]}
+                                    defaultValue={(this.props.maxRent !== undefined && this.props.maxRent >= 1 && this.props.maxRent >= this.state.maxRent) 
+                                        ? [0, parseInt(this.props.maxRent)] 
+                                        : [0, this.state.maxRent]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
