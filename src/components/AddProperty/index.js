@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { addProperty } from '../../store/actions/property';
 
 import PropertyForm from '../PropertyForm';
-import './index.scss'
 
 class AddProperty extends Component {
 

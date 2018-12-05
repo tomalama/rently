@@ -6,6 +6,7 @@ import { addProperty, updateProperty } from "../../store/actions/property";
 import { provinces, locations } from "../../constants/geographic-info";
 import { locationNameRegex, postalCodeRegex, integerRegex } from '../../constants/regex';
 import ImageView from "../Misc/ImageView";
+import './property-form.scss'
 
 const MAX_IMAGES = 5;
 const inputStyleError = { borderColor: 'red' }
@@ -31,6 +32,12 @@ class PropertyForm extends Component {
     error: false,
     imageError: false
   };
+
+  componentWillMount() {
+    if (this.props.type === 'update') {
+      this.setState(this.props.propertyState);
+    }
+  }
 
   handleChange = e => {
     const valid = this.validateInput(e.target.id, e.target.value);
@@ -334,7 +341,7 @@ class PropertyForm extends Component {
 
           </div>
 
-          <button className='add-property-form__submit' type="submit">Add Property</button>
+          <button className='add-property-form__submit' type="submit">{this.props.type === 'add' ? 'Add Property' : 'Update Property'}</button>
         </form>
       </div>
     );
