@@ -8,8 +8,9 @@ import _ from 'lodash'
 
  export class Property {
 
-    constructor(propertyType, numBedrooms, numBathrooms, numOtherRooms, rent, province, city, streetNumber, streetName, postalCode, location, deleted, images) {
+    constructor(id, propertyType, numBedrooms, numBathrooms, numOtherRooms, rent, province, city, streetNumber, streetName, postalCode, location, deleted, images) {
 
+        this.id = id;
         this.propertyType = propertyType;
         this.numBedrooms = numBedrooms;
         this.numBathrooms = numBathrooms;

@@ -1,3 +1,41 @@
 .visiting-list {
-    
+    margin: 20px;
+
+    .visiting-list__title {
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 1.2px;
+        color: #000000;
+    }
+
+    .visiting-list__properties {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+
+        &> * ~ * {
+            margin-top: 25px;
+        }
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .visiting-list {
+        margin: 20px 40px;
+
+        .visiting-list__title {
+            font-size: 36px;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .visiting-list {
+        margin: 40px 60px;
+
+    }
 }
