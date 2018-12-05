@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { compose } from "redux";
+import { connect } from "react-redux";
 import _ from 'lodash';
+import { firebaseConnect } from "react-redux-firebase";
 
 import { addProperty } from '../../store/actions/property';
 
@@ -19,9 +21,10 @@ class AddProperty extends Component {
   }
 }
 
-const mapStateToProps = ({state}) => {
+const mapStateToProps = state => {
   return {
-    state
+    auth: state.firebase.auth,
+    user: state.firebase.profile
   };
 };
 
@@ -31,8 +34,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  firebaseConnect(),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(AddProperty);
-

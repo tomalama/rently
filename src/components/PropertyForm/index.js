@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { compose } from "redux";
+import { connect } from "react-redux";
 import _ from "lodash";
+import { firebaseConnect } from "react-redux-firebase";
 
 import { addProperty, updateProperty } from "../../store/actions/property";
 import { provinces, locations } from "../../constants/geographic-info";
@@ -34,6 +36,7 @@ class PropertyForm extends Component {
   };
 
   componentWillMount() {
+    this.setState({ userId: this.props.auth.uid });
     if (this.props.type === 'update') {
       this.setState(this.props.propertyState);
     }
@@ -350,9 +353,10 @@ class PropertyForm extends Component {
 
 }
 
-const mapStateToProps = ({ state }) => {
+const mapStateToProps = state => {
   return {
-    state
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
   };
 };
 
@@ -363,7 +367,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  firebaseConnect(),
+  connect(mapStateToProps, mapDispatchToProps)
 )(PropertyForm);
