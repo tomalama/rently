@@ -267,7 +267,9 @@ export const deleteProperty = (userId, propertyId, profile) => {
         if (result) {
           //if there is a list, check if the propertyId exists
           if (result.userId == userId) {
-            query
+            firestore
+              .collection('properties')
+              .doc(propertyId)
               .set({
                 deleted: true
               }, { merge: true })
@@ -284,6 +286,13 @@ export const deleteProperty = (userId, propertyId, profile) => {
                   message: 'Unknown error setting the deleted attribute'
                 }
               }));
+          } else {
+            return dispatch({
+              type: 'DELETE_PROPERTY_ERROR',
+              err: {
+                message: 'The property id and user id did not match'
+              }
+            })
           }
         } else {
           //if no list, then dispath
