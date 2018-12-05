@@ -4,6 +4,8 @@ import { Redirect } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
 
 // Actions
 import { signUp } from "../../store/actions/auth";
@@ -31,8 +33,12 @@ class SignUp extends Component {
   };
 
   render() {
-    const { auth, authError } = this.props;
-    if (auth.uid) return <Redirect to="/" />;
+    const { auth, authError, createdAccount, profile } = this.props;
+
+    if (isLoaded(profile)) {
+      if (!auth.uid || profile.type !== "agent") return <Redirect to="/" />;
+    }
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -72,7 +78,13 @@ class SignUp extends Component {
           )}
           <div>
             <button>Sign Up</button>
-            <div>{authError ? <p>{authError}</p> : null}</div>
+            <div>
+              {createdAccount ? (
+                <p>Nice</p>
+              ) : authError ? (
+                <p>{authError}</p>
+              ) : null}
+            </div>
           </div>
         </form>
       </div>
@@ -83,7 +95,9 @@ class SignUp extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    createdAccount: state.auth.createdAccount,
+    profile: state.firebase.profile
   };
 };
 
@@ -93,7 +107,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  firebaseConnect(),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(SignUp);

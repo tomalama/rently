@@ -26,7 +26,7 @@ export default class App extends Component {
           />
           <AppRoute
             exact
-            path="/signup"
+            path="/create-account"
             layout={AppContainer}
             component={SignUp}
           />
