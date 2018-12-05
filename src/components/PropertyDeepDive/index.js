@@ -9,6 +9,7 @@ import "./styles.scss";
 class PropertyDeepDive extends Component {
   state = {
       inVisitingList: false,
+      error: null,
   }
 
   componentDidMount() {
@@ -22,28 +23,29 @@ class PropertyDeepDive extends Component {
     const { propertyId } = this.props.match.params;
     const { visitingList } = nextProps;
     const inVisitingList = _.indexOf((visitingList && visitingList.data) || [], propertyId) >= 0;
-    console.log(`it is found in the list: ${inVisitingList}`);
     this.setState({ inVisitingList: inVisitingList })
   }
 
   addToVisitingList = () => {
-    const { auth, user, addToVisitingList } = this.props;
+    const { auth, user, addToVisitingList, property} = this.props;
     const { propertyId } = this.props.match.params;
-    this.setState({ inVisitingList: true });
+    console.log(user.maxRent);
+    console.log(property.rent);
+    if (parseInt(user.maxRent) < parseInt(property.rent)) {
+      this.setState({ error: "Customers' max rent is too low" });
+      return
+    }
+    this.setState({ inVisitingList: true, error: null });
     addToVisitingList(auth.uid, user, propertyId)
   }
 
   render() {
     const { auth, user, property, visitingList, addToVisitingList } = this.props;
     const { propertyId } = this.props.match.params;
-    const { inVisitingList } = this.state;
+    const { inVisitingList, error } = this.state;
 
     const isOwner = (auth.uid && user && user.type === "owner") && (auth.uid === (property && property.userId));
     const isCustomer = auth.uid && user && user.type === "customer";
-
-    console.log(auth.uid);
-    console.log(property && property.userId);
-    console.log(isOwner);
 
     if (!property) {
       return <div></div>;
@@ -106,6 +108,7 @@ class PropertyDeepDive extends Component {
                   <button className="btn disabled" disabled={true}>Added to Visiting List</button> :
                   <button className="btn" onClick={this.addToVisitingList}>Add to Visiting List</button>
                 }
+                { error &&  <p className="error">{error}</p> }
               </div>
             }
           </div>
