@@ -151,7 +151,7 @@ export const addProperty = newProperty => {
 };
 
 
-export const deleteProperty = (userId, propertyID, profile) => {
+export const deleteProperty = (userId, propertyId, profile) => {
   return (dispatch, getState, { getFirestore }) => {
     
     if (profile.type !== 'owner') {

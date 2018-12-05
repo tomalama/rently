@@ -8,12 +8,12 @@ import "./style.scss";
 import { Property } from "../../models/property";
 
 function getVisitingList(userId, visitingLists, properties) {
-  if (visitingLists[userId]) {
-    return visitingLists[userId].data.map(propertyId => {
+  if (visitingLists && visitingLists[userId]) {
+    return visitingLists[userId].data.reduce((sum, propertyId) => {
       if (!properties[propertyId].deleted) {
         const propertyData = properties[propertyId];
 
-        return new Property(
+        sum.push(new Property(
           propertyId,
           propertyData.propertyType,
           propertyData.numBedrooms,
@@ -28,9 +28,11 @@ function getVisitingList(userId, visitingLists, properties) {
           propertyData.location,
           propertyData.deleted ? propertyData.deleted : false,
           propertyData.imageURLs
-        );
+        ));
       }
-    });
+
+      return sum;
+    }, []);
   }
 }
 
