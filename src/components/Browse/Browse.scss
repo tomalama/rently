@@ -26,9 +26,6 @@
 }
 
 .card {
-	@media (max-width: 256px) {
-		width: 100%;
-    }
     width: 256px;
 	position: relative;
 	margin-bottom: 20px; 
