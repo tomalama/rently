@@ -15,6 +15,10 @@ const propertyReducer = (state = initState, action) => {
       console.log("Added property");
       return state;
 
+    case "UPDATE_PROPERTY":
+      console.log("Updated property");
+      return state;
+
     case "ADD_TO_VISITING_LIST_ERROR":
 
       console.error(action.err.e, action.err.message);

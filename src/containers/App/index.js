@@ -8,6 +8,7 @@ import ViewAccount from "../../components/ViewAccount";
 import Login from "../../components/Login";
 import SignUp from "../../components/SignUp";
 import AddProperty from "../../components/AddProperty";
+import UpdateProperty from "../../components/UpdateProperty";
 import VisitingList from '../../components/VisitingList'
 import PropertyDeepDive from "../../components/PropertyDeepDive";
 
@@ -43,6 +44,12 @@ export default class App extends Component {
             path="/add-property"
             layout={AppContainer}
             component={AddProperty}
+          />
+          <AppRoute
+            exact
+            path="/update-property"
+            layout={AppContainer}
+            component={UpdateProperty}
           />
           <AppRoute
             exact
