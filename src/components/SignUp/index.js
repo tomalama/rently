@@ -10,6 +10,8 @@ import { firebaseConnect, isLoaded } from "react-redux-firebase";
 // Actions
 import { signUp } from "../../store/actions/auth";
 
+import "./SignUp.scss";
+
 class SignUp extends Component {
   state = {
     email: "",
@@ -40,50 +42,111 @@ class SignUp extends Component {
     }
 
     return (
-      <div>
+      <div className="signup-form">
+        <h1 className="signup-form__title">Sign Up</h1>
+        <br />
         <form onSubmit={this.handleSubmit}>
-          <h5>Sign Up</h5>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input type="text" id="firstName" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input type="text" id="lastName" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" onChange={this.handleChange} />
-          </div>
-          <div>
-            <label htmlFor="type">Type</label>
-            <select id="type" onChange={this.handleChange}>
-              <option value="customer">Customer</option>
-              <option value="owner">Owner</option>
-            </select>
-          </div>
-          {this.state.type === "customer" && (
-            <div>
-              <label htmlFor="maxRent">Maximum Rent per Month</label>
-              <input type="number" id="maxRent" onChange={this.handleChange} />
+          <div className="signup-form__card">
+            <div className="signup-form__header">
+              <span className="header__text">Enter Details</span>
             </div>
-          )}
-          <div>
-            <button>Sign Up</button>
-            <div>
-              {createdAccount ? (
-                <p>Nice</p>
-              ) : authError ? (
-                <p>{authError}</p>
-              ) : null}
+            <div className="signup-form__form">
+              <div className="signup-form__row">
+                <div className="signup-form__label">Username:</div>
+                <div className="signup-form__input">
+                  <input
+                    type="text"
+                    id="username"
+                    required
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="signup-form__row">
+                <div className="signup-form__label">Password:</div>
+                <div className="signup-form__input">
+                  <input
+                    type="password"
+                    id="password"
+                    required
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="signup-form__row">
+                <div className="signup-form__label">First Name:</div>
+                <div className="signup-form__input">
+                  <input
+                    type="text"
+                    id="firstName"
+                    required
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="signup-form__row">
+                <div className="signup-form__label">Last Name:</div>
+                <div className="signup-form__input">
+                  <input
+                    type="text"
+                    id="lastName"
+                    required
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="signup-form__row">
+                <div className="signup-form__label">Email:</div>
+                <div className="signup-form__input">
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="signup-form__row">
+                <div className="signup-form__label">Type:</div>
+                <div className="signup-form__input">
+                  <select id="type" onChange={this.handleChange}>
+                    <option value="customer">Customer</option>
+                    <option value="owner">Owner</option>
+                  </select>
+                </div>
+              </div>
+              {this.state.type === "customer" && (
+                <div className="signup-form__row">
+                  <div className="signup-form__label">
+                    Maximum Rent per Month:
+                  </div>
+                  <div className="signup-form__input">
+                    <input
+                      type="number"
+                      id="maxRent"
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+              )}
+              <div>
+                <button className="signup-form__submit" type="submit">
+                  Sign Up
+                </button>
+                <div>
+                  {createdAccount ? (
+                    <p>Successfully created user account.</p>
+                  ) : authError ? (
+                    <p className="error-msg">{authError}</p>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
         </form>

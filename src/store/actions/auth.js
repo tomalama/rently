@@ -48,6 +48,27 @@ export const signUp = newUser => {
   return async (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
 
+    const query = await firestore
+      .collection("users")
+      .where("username", "==", newUser.username)
+      .get();
+
+    if (query.docs.length) {
+      return dispatch({
+        type: "SIGNUP_ERROR",
+        err: { message: "The username already exists." }
+      });
+    }
+
+    if (newUser.password.length < 5) {
+      return dispatch({
+        type: "SIGNUP_ERROR",
+        err: {
+          message: "The password must be a string with at least 6 characters."
+        }
+      });
+    }
+
     const resp = await axios.post(
       "https://tomalama.lib.id/create-users-on-firebase@0.0.2/",
       {
