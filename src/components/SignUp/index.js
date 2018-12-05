@@ -33,7 +33,7 @@ class SignUp extends Component {
   };
 
   render() {
-    const { auth, authError, profile } = this.props;
+    const { auth, authError, createdAccount, profile } = this.props;
 
     if (isLoaded(profile)) {
       if (!auth.uid || profile.type !== "agent") return <Redirect to="/" />;
@@ -78,7 +78,13 @@ class SignUp extends Component {
           )}
           <div>
             <button>Sign Up</button>
-            <div>{authError ? <p>{authError}</p> : null}</div>
+            <div>
+              {createdAccount ? (
+                <p>Nice</p>
+              ) : authError ? (
+                <p>{authError}</p>
+              ) : null}
+            </div>
           </div>
         </form>
       </div>
@@ -90,6 +96,7 @@ const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
+    createdAccount: state.auth.createdAccount,
     profile: state.firebase.profile
   };
 };

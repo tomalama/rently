@@ -11,11 +11,14 @@ export const login = credentials => {
       .get();
 
     if (!query.docs.length) {
-      dispatch({ type: "LOGIN_ERROR", err: "Login failed" });
+      return dispatch({
+        type: "LOGIN_ERROR",
+        err: { message: "Login failed" }
+      });
     } else {
       const email = query.docs[0].data().email;
 
-      firebase
+      return firebase
         .auth()
         .signInWithEmailAndPassword(email, credentials.password)
         .then(() => {
@@ -52,6 +55,10 @@ export const signUp = newUser => {
         password: newUser.password
       }
     );
+
+    if (resp.data.code) {
+      return dispatch({ type: "SIGNUP_ERROR", err: resp.data });
+    }
 
     return firestore
       .collection("users")
