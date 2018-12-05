@@ -5,6 +5,7 @@ $main-card-height: 142px;
 
 // stylings
 .property-card {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     padding: $card-v/2 $card-h/2;
