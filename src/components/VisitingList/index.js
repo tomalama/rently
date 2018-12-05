@@ -10,24 +10,26 @@ import { Property } from "../../models/property";
 function getVisitingList(userId, visitingLists, properties) {
   if (visitingLists[userId]) {
     return visitingLists[userId].data.map(propertyId => {
-      const propertyData = properties[propertyId];
+      if (!properties[propertyId].deleted) {
+        const propertyData = properties[propertyId];
 
-      return new Property(
-        propertyId,
-        propertyData.propertyType,
-        propertyData.numBedrooms,
-        propertyData.numBathrooms,
-        propertyData.numOtherRooms,
-        propertyData.rent,
-        propertyData.province,
-        propertyData.city,
-        propertyData.streetNumber,
-        propertyData.streetName,
-        propertyData.postalCode,
-        propertyData.location,
-        propertyData.deleted ? propertyData.deleted : false,
-        propertyData.imageURLs
-      );
+        return new Property(
+          propertyId,
+          propertyData.propertyType,
+          propertyData.numBedrooms,
+          propertyData.numBathrooms,
+          propertyData.numOtherRooms,
+          propertyData.rent,
+          propertyData.province,
+          propertyData.city,
+          propertyData.streetNumber,
+          propertyData.streetName,
+          propertyData.postalCode,
+          propertyData.location,
+          propertyData.deleted ? propertyData.deleted : false,
+          propertyData.imageURLs
+        );
+      }
     });
   }
 }

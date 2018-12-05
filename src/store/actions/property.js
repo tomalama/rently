@@ -149,3 +149,77 @@ export const addProperty = newProperty => {
       });
   } 
 };
+
+
+export const deleteProperty = (userId, propertyID, profile) => {
+  return (dispatch, getState, { getFirestore }) => {
+    
+    if (profile.type !== 'owner') {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'cannot delete the property if you are not an owner'
+        }
+      })
+    }
+    if (!(userId && typeof(userId) === 'string' && userId.length > 0)) {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'userId needs to be a non-null string which is not empty'
+        }
+      });
+    }
+
+    const firestore = getFirestore();
+
+    firestore
+      .collection('owner-lists')
+      .doc(userId)
+      .get()
+      .then(query => {
+
+        const result = query.data();
+        if (result) {
+          //if there is a list, check if the propertyId exists
+          if (propertyId && result.data.find(property => property === propertyId)) {
+
+            firestore
+              .collection('properties')
+              .doc(propertyId)
+              .set({
+                deleted: true
+              }, { merge: true })
+              .then(() => dispatch({
+                type: 'DELETE_PROPERTY_SUCCESS',
+                payload: {
+                  message: 'Successfully deleted the property'
+                }
+              }))
+              .catch(e => dispatch({
+                type: 'DELETE_PROPERTY_ERROR',
+                err: {
+                  error: e,
+                  message: 'Unknown error setting the deleted attribute'
+                }
+              }));
+          }
+        } else {
+          //if no list, then dispath
+          return dispatch({
+            type: 'DELETE_PROPERTY_ERROR',
+            err: {
+              message: 'There is no owner list'
+            }
+          })
+        }
+      })
+      .catch(e => dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          error: e,
+          message: 'Unknown error fetching the owner list'
+        }
+      }))
+  }
+}
