@@ -8,6 +8,10 @@ const propertyReducer = (state = initState, action) => {
       console.log("Added property");
       return state;
 
+    case "UPDATE_PROPERTY":
+      console.log("Updated property");
+      return state;
+
     default:
       return state;
   }
