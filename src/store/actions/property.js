@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import firebase from 'firebase';
-
 const storageRef = firebase.storage().ref();
 
 export const addToVisitingList = (userId, profile, propertyId) => {
@@ -34,7 +33,7 @@ export const addToVisitingList = (userId, profile, propertyId) => {
 
         const result = query.data();
         if (result) {
-          
+
           if (propertyId && !result.data.find(val => val === propertyId)) {
 
             result.data.push(propertyId)
@@ -59,14 +58,14 @@ export const addToVisitingList = (userId, profile, propertyId) => {
               }
             }))
           }
-          
+
         } else {
 
           firestore
             .collection('visiting-list')
             .doc(userId)
             .set({
-              data: propertyId ? [propertyId] : [] 
+              data: propertyId ? [propertyId] : []
             })
             .then(() => dispatch({
               type: 'ADD_TO_VISITING_LIST_SUCCESS',
@@ -92,6 +91,27 @@ export const addToVisitingList = (userId, profile, propertyId) => {
       }))
   }
 }
+
+export const getProperty = (propertyId) => {
+  return (dispatch, getState, {getFirestore}) => {
+
+    dispatch({ type: "FETCHING_PROPERTY" });
+    const firestore = getFirestore();
+    firestore
+      .collection('properties')
+      .doc(propertyId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          dispatch({ type: "FETCHED_PROPERTY", payload: doc.data() });
+        } else {
+          dispatch({ type: "FETCHED_PROPERTY", payload: null });
+        }
+      }).catch((error) => {
+        dispatch({ type: "ERROR_FETCHING_PROPERTY", error });
+      });
+  }
+};
 
 export const addProperty = newProperty => {
   return (dispatch, getState, { getFirestore }) => {
@@ -147,5 +167,5 @@ export const addProperty = newProperty => {
       .catch((error) => {
         console.log(`Error adding Property: ${error}`);
       });
-  } 
+  }
 };

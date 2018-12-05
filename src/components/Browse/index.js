@@ -36,7 +36,7 @@ class Browse extends Component {
                 Math.floor(this.state.browserHeight/CARD_HEIGHT)
         })
     }
-    
+
     renderProperty = (id, index) => {
         var lowerRange = (this.state.currentPage - 1) * this.state.pageSize;
         var upperRange = (this.state.currentPage) * this.state.pageSize;
@@ -44,7 +44,7 @@ class Browse extends Component {
             : "url(http://cdn.home-designing.com/wp-content/uploads/2017/05/wood-white-and-charcoal-modern-exterior-paint-themes.jpg)";
         if(index >= lowerRange && index < upperRange)
         return (
-            <a href={"/property?id="+id} key={id}>
+            <a href={`/property/${id}/`} key={id}>
                 <div className="card">
                     <span className="card-header" style={{backgroundImage: imageURL}}>
                         <span className="card-title">
@@ -74,7 +74,7 @@ class Browse extends Component {
 
     componentDidMount() {
         this.props.searchAll();
-        
+
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -84,8 +84,8 @@ class Browse extends Component {
         return (
             <div>
                 <div className="card-container">
-                    {this.props.properties !== undefined 
-                        && Object.keys(this.props.properties).length < 1 
+                    {this.props.properties !== undefined
+                        && Object.keys(this.props.properties).length < 1
                         && <div className="no-results">No results found</div>}
                     {this.props.properties !== undefined
                         && Object.keys(this.props.properties).length >= 1
