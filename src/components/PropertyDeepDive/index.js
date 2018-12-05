@@ -140,7 +140,7 @@ class PropertyDeepDive extends Component {
             <div className="actions-container">
               {isOwner && (
                 <div className="btn-container">
-                  <button className="btn">Edit Property</button>
+                  <a href={`/update-property/${propertyId}`} className="btn">Edit Property</a>
                   <button className="btn scnd">Delete Property</button>
                 </div>
               )}

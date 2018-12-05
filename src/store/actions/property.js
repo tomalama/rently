@@ -170,7 +170,7 @@ export const addProperty = newProperty => {
   }
 };
 
-export const updateProperty = newProperty => {
+export const updateProperty = (newProperty, callback) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
 
