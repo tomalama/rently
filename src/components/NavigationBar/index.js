@@ -47,7 +47,7 @@ export class NavigationBar extends Component {
       case "customer":
         return [
           { title: "My Account", url: "/my-account" },
-          { title: "My Visiting List", url: "/" }
+          { title: "My Visiting List", url: "/visiting-list" }
         ];
       case "owner":
         return [
