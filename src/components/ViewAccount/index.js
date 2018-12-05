@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect, isLoaded } from "react-redux-firebase";
 
+import "./ViewAccount.scss";
 class ViewAccount extends Component {
   render() {
     const { auth, profile } = this.props;
@@ -18,60 +19,87 @@ class ViewAccount extends Component {
     }
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <h5>My Account</h5>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              disabled
-              defaultValue={profile.username}
-            />
-          </div>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              disabled
-              defaultValue={profile.firstName}
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              disabled
-              defaultValue={profile.lastName}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              disabled
-              defaultValue={profile.email}
-            />
-          </div>
-          <div>
-            <label htmlFor="type">Type</label>
-            <input type="text" id="type" disabled defaultValue={profile.type} />
-          </div>
-          {profile.type === "customer" && (
-            <div>
-              <label htmlFor="maxRent">Maximum Rent per Month</label>
-              <input
-                type="number"
-                id="maxRent"
-                disabled
-                defaultValue={profile.maxRent}
-              />
+      <div className="viewaccount-form">
+        <h1 className="viewaccount-form__title">My Account</h1>
+        <br />
+        <form>
+          <div className="viewaccount-form__card">
+            <div className="viewaccount-form__header">
+              <span className="header__text">Account Details</span>
             </div>
-          )}
+            <div className="viewaccount-form__form">
+              <div className="viewaccount-form__row">
+                <div className="viewaccount-form__label">Username:</div>
+                <div className="viewaccount-form__input">
+                  <input
+                    type="text"
+                    id="username"
+                    disabled
+                    defaultValue={profile.username}
+                  />
+                </div>
+              </div>
+              <div className="viewaccount-form__row">
+                <div className="viewaccount-form__label">First Name:</div>
+                <div className="viewaccount-form__input">
+                  <input
+                    type="text"
+                    id="firstName"
+                    disabled
+                    defaultValue={profile.firstName}
+                  />
+                </div>
+              </div>
+              <div className="viewaccount-form__row">
+                <div className="viewaccount-form__label">Last Name:</div>
+                <div className="viewaccount-form__input">
+                  <input
+                    type="text"
+                    id="lastName"
+                    disabled
+                    defaultValue={profile.lastName}
+                  />
+                </div>
+              </div>
+              <div className="viewaccount-form__row">
+                <div className="viewaccount-form__label">Email:</div>
+                <div className="viewaccount-form__input">
+                  <input
+                    type="email"
+                    id="email"
+                    disabled
+                    defaultValue={profile.email}
+                  />
+                </div>
+              </div>
+              <div className="viewaccount-form__row">
+                <div className="viewaccount-form__label">Type:</div>
+                <div className="viewaccount-form__input">
+                  <input
+                    type="text"
+                    id="type"
+                    disabled
+                    defaultValue={profile.type}
+                  />
+                </div>
+              </div>
+              {profile.type === "customer" && (
+                <div className="viewaccount-form__row">
+                  <div className="viewaccount-form__label">
+                    Maximum Rent Per Month:
+                  </div>
+                  <div className="viewaccount-form__input">
+                    <input
+                      type="number"
+                      id="maxRent"
+                      disabled
+                      defaultValue={profile.maxRent}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </form>
       </div>
     );
