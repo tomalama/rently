@@ -141,7 +141,9 @@ class SignUp extends Component {
                 </button>
                 <div>
                   {createdAccount ? (
-                    <p>Successfully created user account.</p>
+                    <p className="success-msg">
+                      Successfully created user account.
+                    </p>
                   ) : authError ? (
                     <p className="error-msg">{authError}</p>
                   ) : null}
