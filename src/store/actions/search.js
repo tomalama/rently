@@ -11,7 +11,6 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
           tmp.push(property);
         });
 
-        console.log(tmp);
         const properties = _.filter(tmp, (property) => {
           if (!filter) {
             return true;
