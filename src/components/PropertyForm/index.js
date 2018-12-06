@@ -167,6 +167,7 @@ class PropertyForm extends Component {
                       <input
                         type="radio"
                         id="propertyType"
+                        name='propertyType'
                         value="Apartment"
                         checked={this.state.propertyType === 'Apartment'}
                         onChange={this.handleChange}
@@ -180,6 +181,7 @@ class PropertyForm extends Component {
                       <input
                         type="radio"
                         id="propertyType"
+                        name='propertyType'
                         value="House"
                         checked={this.state.propertyType === 'House'}
                         onChange={this.handleChange}
