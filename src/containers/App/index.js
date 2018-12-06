@@ -11,6 +11,7 @@ import AddProperty from "../../components/AddProperty";
 import UpdateProperty from "../../components/UpdateProperty";
 import VisitingList from '../../components/VisitingList'
 import PropertyDeepDive from "../../components/PropertyDeepDive";
+import OwnerList from '../../components/OwnerViewProperties';
 
 import "./style.scss";
 
@@ -56,6 +57,12 @@ export default class App extends Component {
             path='/visiting-list'
             layout={AppContainer}
             component={VisitingList}
+          />
+          <AppRoute
+            exact
+            path='/my-properties'
+            layout={AppContainer}
+            component={OwnerList}
           />
         </Switch>
       </BrowserRouter>
