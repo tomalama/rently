@@ -39,121 +39,122 @@ class SignUp extends Component {
 
     if (isLoaded(profile)) {
       if (!auth.uid || profile.type !== "agent") return <Redirect to="/" />;
-    }
 
-    return (
-      <div className="signup-form">
-        <h1 className="signup-form__title">Sign Up</h1>
-        <br />
-        <form onSubmit={this.handleSubmit}>
-          <div className="signup-form__card">
-            <div className="signup-form__header">
-              <span className="header__text">Enter Details</span>
-            </div>
-            <div className="signup-form__form">
-              <div className="signup-form__row">
-                <div className="signup-form__label">Username:</div>
-                <div className="signup-form__input">
-                  <input
-                    type="text"
-                    id="username"
-                    required
-                    onChange={this.handleChange}
-                  />
-                </div>
+      return (
+        <div className="signup-form">
+          <h1 className="signup-form__title">Sign Up</h1>
+          <br />
+          <form onSubmit={this.handleSubmit}>
+            <div className="signup-form__card">
+              <div className="signup-form__header">
+                <span className="header__text">Enter Details</span>
               </div>
-
-              <div className="signup-form__row">
-                <div className="signup-form__label">Password:</div>
-                <div className="signup-form__input">
-                  <input
-                    type="password"
-                    id="password"
-                    required
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="signup-form__row">
-                <div className="signup-form__label">First Name:</div>
-                <div className="signup-form__input">
-                  <input
-                    type="text"
-                    id="firstName"
-                    required
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="signup-form__row">
-                <div className="signup-form__label">Last Name:</div>
-                <div className="signup-form__input">
-                  <input
-                    type="text"
-                    id="lastName"
-                    required
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="signup-form__row">
-                <div className="signup-form__label">Email:</div>
-                <div className="signup-form__input">
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="signup-form__row">
-                <div className="signup-form__label">Type:</div>
-                <div className="signup-form__input">
-                  <select id="type" onChange={this.handleChange}>
-                    <option value="customer">Customer</option>
-                    <option value="owner">Owner</option>
-                  </select>
-                </div>
-              </div>
-              {this.state.type === "customer" && (
+              <div className="signup-form__form">
                 <div className="signup-form__row">
-                  <div className="signup-form__label">
-                    Maximum Rent per Month:
-                  </div>
+                  <div className="signup-form__label">Username:</div>
                   <div className="signup-form__input">
                     <input
-                      type="number"
-                      id="maxRent"
+                      type="text"
+                      id="username"
                       required
                       onChange={this.handleChange}
                     />
                   </div>
                 </div>
-              )}
-              <div>
-                <button className="signup-form__submit" type="submit">
-                  Sign Up
-                </button>
+
+                <div className="signup-form__row">
+                  <div className="signup-form__label">Password:</div>
+                  <div className="signup-form__input">
+                    <input
+                      type="password"
+                      id="password"
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="signup-form__row">
+                  <div className="signup-form__label">First Name:</div>
+                  <div className="signup-form__input">
+                    <input
+                      type="text"
+                      id="firstName"
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="signup-form__row">
+                  <div className="signup-form__label">Last Name:</div>
+                  <div className="signup-form__input">
+                    <input
+                      type="text"
+                      id="lastName"
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="signup-form__row">
+                  <div className="signup-form__label">Email:</div>
+                  <div className="signup-form__input">
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="signup-form__row">
+                  <div className="signup-form__label">Type:</div>
+                  <div className="signup-form__input">
+                    <select id="type" onChange={this.handleChange}>
+                      <option value="customer">Customer</option>
+                      <option value="owner">Owner</option>
+                    </select>
+                  </div>
+                </div>
+                {this.state.type === "customer" && (
+                  <div className="signup-form__row">
+                    <div className="signup-form__label">
+                      Maximum Rent per Month:
+                    </div>
+                    <div className="signup-form__input">
+                      <input
+                        type="number"
+                        id="maxRent"
+                        required
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </div>
+                )}
                 <div>
-                  {createdAccount ? (
-                    <p className="success-msg">
-                      Successfully created user account.
-                    </p>
-                  ) : authError ? (
-                    <p className="error-msg">{authError}</p>
-                  ) : null}
+                  <button className="signup-form__submit" type="submit">
+                    Sign Up
+                  </button>
+                  <div>
+                    {createdAccount ? (
+                      <p className="success-msg">
+                        Successfully created user account.
+                      </p>
+                    ) : authError ? (
+                      <p className="error-msg">{authError}</p>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-    );
+          </form>
+        </div>
+      );
+    }
+    return <div />;
   }
 }
 
