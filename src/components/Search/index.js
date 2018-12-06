@@ -24,14 +24,10 @@ const SliderWithTooltip = createSliderWithTooltip(Slider);
 const Range = createSliderWithTooltip(Slider.Range);
 
 const roomMarks = {
-    0: <strong>0</strong>,
-    10: <strong>10</strong>
+    0: <p>0</p>,
+    10: <p>10</p>
 }
 
-const moneyMarks = {
-    0: <strong>0</strong>,
-    100000: <strong>100K</strong>
-}
 
 class Search extends Component {
     state = {
@@ -43,6 +39,10 @@ class Search extends Component {
         maximalRent: 50,
         maxRent: 50
     };
+
+    rentMarks = {
+      0: <p>0</p>
+    }
 
     bedroomFormatter = v => {
         return `${v} bedrooms`
@@ -67,11 +67,11 @@ class Search extends Component {
             typeOfProperty: e.value
         })
     }
-    
+
     handleBedroomChange = e => {
         this.setState({
             numberOfBedrooms: e
-        })   
+        })
     }
 
     handleBathroomChange = e => {
@@ -88,12 +88,12 @@ class Search extends Component {
     }
 
     validation = () => {
-        return this.state.location || this.state.typeOfProperty || this.state.numberOfBedrooms 
+        return this.state.location || this.state.typeOfProperty || this.state.numberOfBedrooms
             || this.state.numberOfBathrooms || this.state.minimalRent || this.state.maximalRent;
     }
 
-    handleSubmit = e => {
-        e.preventDefault();
+    handleSubmit = (e) => {
+        e.preventDefault()
         this.props.search(this.state);
     }
 
@@ -107,10 +107,15 @@ class Search extends Component {
                 }
             }
         }
+        this.rentMarks = {
+          0: <p>0</p>
+        }
+        this.rentMarks[this.props.maxRent || this.state.maxRent] = <p>{this.props.maxRent || this.state.maxRent}</p>;
+
     }
 
     render() {
-        
+
         return (
             <div className="form-container">
                 <div className="form-body">
@@ -166,16 +171,12 @@ class Search extends Component {
                             <div>
                                 <Range
                                     tipFormatter={this.moneyFormatter}
-                                    marks={moneyMarks}
+                                    marks={this.rentMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={(this.props.maxRent !== undefined && this.props.maxRent >= 1 && this.props.maxRent >= this.state.maxRent)
-                                        ? parseInt(this.props.maxRent) 
-                                        : this.state.maxRent}
+                                    max={this.props.maxRent || this.state.maxRent}
                                     step={1}
-                                    defaultValue={(this.props.maxRent !== undefined && this.props.maxRent >= 1 && this.props.maxRent >= this.state.maxRent) 
-                                        ? [0, parseInt(this.props.maxRent)] 
-                                        : [0, this.state.maxRent]}
+                                    defaultValue={[0, this.props.maxRent || this.state.maxRent]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
@@ -184,7 +185,7 @@ class Search extends Component {
                             <button className="search-button">Search</button>
                         </div>
                     </form>
-                    {   
+                    {
                         !this.validation() ? <p style={{color: 'red'}}>Form cannot be empty</p>
                         : ""
                     }
