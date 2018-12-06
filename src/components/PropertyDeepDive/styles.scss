@@ -62,6 +62,12 @@
         height: 344px;
         box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
         overflow: hidden;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.1);
+        }
 
         img {
           width: 100%;
@@ -80,6 +86,12 @@
           height: 98px;
           box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
           overflow: hidden;
+          transition: all 0.2s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.1);
+          }
 
           &:not(:last-child) {
             margin-bottom: 26px;
@@ -181,6 +193,38 @@
             background-color: #428ee8;
             border: 1px solid transparent;
           }
+        }
+      }
+    }
+  }
+
+  .modal {
+    .content {
+      .image-preview-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+
+        .control {
+          height: 24px;
+          width: 24px;
+          padding: 16px;
+          border-radius: 50%;
+          background-color: #ebebeb;
+          border: none;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.6;
+            filter: alpha(opacity=60);
+          }
+        }
+
+        .image-preview {
+          width: 75%;
+          max-height: 100%;
         }
       }
     }
