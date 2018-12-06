@@ -27,7 +27,7 @@ const dispatchAction = (dbRef, dispatch) => {
         const maxRent = queryData[1];
         const querySize = Object.keys(properties).length;
 
-        dispatch({ 
+        dispatch({
             type: SEARCH_SUCCESS,
             payload: { properties, querySize, maxRent }
         })
