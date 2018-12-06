@@ -32,8 +32,7 @@ class Browse extends Component {
         this.setState({
             browserWidth: window.innerWidth * .75,
             browserHeight: window.innerHeight * 0.9 - 20,
-            pageSize: Math.floor(this.state.browserWidth/CARD_WIDTH) *
-                Math.floor(this.state.browserHeight/CARD_HEIGHT)
+            pageSize: 25,
         })
     }
 
@@ -44,7 +43,7 @@ class Browse extends Component {
             : "url(http://cdn.home-designing.com/wp-content/uploads/2017/05/wood-white-and-charcoal-modern-exterior-paint-themes.jpg)";
         if(index >= lowerRange && index < upperRange)
         return (
-            <a href={`/property/${id}/`} key={id}>
+            <a href={`/property/${this.props.properties[id].propertyId}/`} key={id}>
                 <div className="card">
                     <span className="card-header" style={{backgroundImage: imageURL}}>
                         <span className="card-title">
@@ -80,7 +79,7 @@ class Browse extends Component {
     }
 
     render() {
-
+        console.log(this.props.properties);
         return (
             <div>
                 <div className="card-container">
@@ -95,8 +94,6 @@ class Browse extends Component {
                         {this.props.properties !== undefined
                             && Object.keys(this.props.properties).map((id, index) => this.renderProperty(id, index))}
                     </div>
-                </div>
-                <div>
                     <Pagination className="pagination"
                             current={this.state.currentPage}
                             pageSize={this.state.pageSize}

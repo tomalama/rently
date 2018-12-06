@@ -52,7 +52,7 @@ export class NavigationBar extends Component {
       case "owner":
         return [
           { title: "My Account", url: "/my-account" },
-          { title: "My Properties", url: "/" },
+          { title: "My Properties", url: "/my-properties" },
           { title: "Add Property", url: "/add-property" },
           { title: "Visit History", url: "/" }
         ];
