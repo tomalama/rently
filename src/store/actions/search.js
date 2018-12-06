@@ -6,7 +6,9 @@ const dispatchAction = (dbRef, filter, dispatch) => {
     dbRef.then(querySnapshot => {
         const tmp = [];
         querySnapshot.forEach((doc) => {
-          tmp.push(doc.data());
+          const property = doc.data();
+          property['propertyId'] = doc.id;
+          tmp.push(property);
         });
         const properties = _.filter(tmp, (property) => {
           if (!filter) {
