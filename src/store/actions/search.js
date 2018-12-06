@@ -6,12 +6,15 @@ const addPropertyToArray = querySnapshot => {
     var highestRent = 0;
     if(querySnapshot.docs.length > 0) {
         querySnapshot.forEach((docSnapshot) => {
+            
             const id = docSnapshot.id;
             const data = docSnapshot.data();
-            if(parseInt(data.rent) > highestRent) {
-                highestRent = data.rent;
+            if (!data.deleted) {
+                if(parseInt(data.rent) > highestRent) {
+                    highestRent = data.rent;
+                }
+                properties[id] = data;
             }
-            properties[id] = data;
         })
     }
     queryData.push(properties);
