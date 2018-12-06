@@ -43,32 +43,37 @@ class VisitingList extends React.Component {
   render() {
     const { visitingLists, properties, auth, profile } = this.props;
 
-    if (!auth.uid) return <Redirect to="/login" />;
+    if (isLoaded(profile)) {
+      if (!auth.uid) return <Redirect to="/login" />;
 
-    if (profile.type !== "customer") return <Redirect to="/" />;
+      if (profile.type !== "customer") return <Redirect to="/" />;
 
-    const loaded = isLoaded(visitingLists) && isLoaded(properties);
+      const loaded = isLoaded(visitingLists) && isLoaded(properties);
 
-    if (loaded)
-      var visitingList = getVisitingList(auth.uid, visitingLists, properties);
+      if (loaded)
+        var visitingList = getVisitingList(auth.uid, visitingLists, properties);
 
-    return (
-      <div className="visiting-list">
-        <h2 className="visiting-list__title">My Visiting List</h2>
+      return (
+        <div className="visiting-list">
+          <h2 className="visiting-list__title">My Visiting List</h2>
 
-        <div className="visiting-list__properties">
-          {!loaded && <span>Loading</span>}
-          {loaded &&
-            visitingList &&
-            visitingList.map((property, i) => {
-              return <PropertyCard key={i} property={property} />;
-            })}
-          {loaded && !visitingList && (
-            <span>It's quiet here... Add something to your visiting list!</span>
-          )}
+          <div className="visiting-list__properties">
+            {!loaded && <span>Loading</span>}
+            {loaded &&
+              visitingList &&
+              visitingList.map((property, i) => {
+                return <PropertyCard key={i} property={property} />;
+              })}
+            {loaded && !visitingList && (
+              <span>
+                It's quiet here... Add something to your visiting list!
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return <div />;
   }
 }
 

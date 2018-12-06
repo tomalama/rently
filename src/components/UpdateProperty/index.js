@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import * as _ from "lodash";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firebaseConnect } from "react-redux-firebase";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
+import { Redirect } from "react-router-dom";
 
-import { updateProperty, getProperty } from '../../store/actions/property';
+import { updateProperty, getProperty } from "../../store/actions/property";
 
-import PropertyForm from '../PropertyForm';
+import PropertyForm from "../PropertyForm";
 
 class UpdateProperty extends Component {
   componentDidMount() {
@@ -17,39 +18,47 @@ class UpdateProperty extends Component {
 
   render() {
     const { propertyId } = this.props.match.params;
-    const { property } = this.props;
+    const { property, auth, profile } = this.props;
 
-    if (!property) {
-      return <div></div>;
+    if (isLoaded(profile)) {
+      if (!auth.uid) return <Redirect to="/login" />;
+
+      if (!property) {
+        return <div />;
+      }
+
+      if (profile.type !== "owner" || auth.uid !== property.userId)
+        return <Redirect to="/" />;
+
+      const propertyState = _.assign({ propertyId: propertyId }, property);
+      propertyState["imagePreviews"] = propertyState.imageURLs;
+
+      return (
+        <div>
+          <PropertyForm
+            type="update"
+            propertyState={propertyState}
+            redirect={`/property/${propertyId}`}
+          />
+        </div>
+      );
     }
-
-    const propertyState = _.assign({propertyId: propertyId}, property);
-    propertyState['imagePreviews'] = propertyState.imageURLs;
-
-    return (
-      <div>
-        <PropertyForm
-          type='update'
-          propertyState={propertyState}
-          redirect={`/property/${propertyId}`}
-        />
-      </div>
-    );
+    return <div />;
   }
 }
 
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    user: state.firebase.profile,
-    property: state.property.property,
+    profile: state.firebase.profile,
+    property: state.property.property
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     updateProperty: newProperty => dispatch(updateProperty(newProperty)),
-    getProperty: propertyId => dispatch(getProperty(propertyId)),
+    getProperty: propertyId => dispatch(getProperty(propertyId))
   };
 };
 
