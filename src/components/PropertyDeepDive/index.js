@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import * as _ from "lodash";
 import { connect } from "react-redux";
-import { getProperty, addToVisitingList } from "../../store/actions/property";
+import { getProperty, addToVisitingList, deleteProperty } from "../../store/actions/property";
 import { getVisitingList } from "../../store/actions/visitingList";
 
 import "./styles.scss";
 
 class PropertyDeepDive extends Component {
   state = {
+    isDeleted: false,
     inVisitingList: false,
     error: null
   };
@@ -23,10 +24,12 @@ class PropertyDeepDive extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { propertyId } = this.props.match.params;
-    const { visitingList } = nextProps;
+    const { visitingList, property } = nextProps;
     const inVisitingList =
       _.indexOf((visitingList && visitingList.data) || [], propertyId) >= 0;
-    this.setState({ inVisitingList: inVisitingList });
+    const isDeleted = (property && property.deleted);
+
+    this.setState({ inVisitingList: inVisitingList, isDeleted: isDeleted });
   }
 
   addToVisitingList = () => {
@@ -44,6 +47,13 @@ class PropertyDeepDive extends Component {
     addToVisitingList(auth.uid, user, propertyId);
   };
 
+  deleteProperty = () => {
+    const { auth, user, property, deleteProperty } = this.props;
+    const { propertyId } = this.props.match.params;
+    this.setState({ isDeleted: true });
+    deleteProperty(auth.uid, propertyId, user);
+  }
+
   render() {
     const {
       auth,
@@ -53,7 +63,7 @@ class PropertyDeepDive extends Component {
       addToVisitingList
     } = this.props;
     const { propertyId } = this.props.match.params;
-    const { inVisitingList, error } = this.state;
+    const { inVisitingList, error, isDeleted } = this.state;
 
     const isOwner =
       auth.uid &&
@@ -69,10 +79,9 @@ class PropertyDeepDive extends Component {
     return (
       <div className="property-deepdive-container">
         <div className="deep-dive-left">
-          <p className="title">{`${property.streetNumber} ${
-            property.streetName
-          }`}</p>
-          <p className="price">{`${property.rent} /month`}</p>
+          <p className="title">
+          {`${property.streetNumber} ${property.streetName} - ${property.propertyType}`}</p>
+          <p className="price">{`$${property.rent} /month`}</p>
           <div className="images-container">
             <div className="big-image">
               <img
@@ -141,7 +150,7 @@ class PropertyDeepDive extends Component {
               {isOwner && (
                 <div className="btn-container">
                   <a href={`/update-property/${propertyId}`} className="btn">Edit Property</a>
-                  <button className="btn scnd">Delete Property</button>
+                  <button className={"btn scnd " + (isDeleted ? "disabled" : "")} onClick={this.deleteProperty}>{isDeleted ? "Deleted" : "Delete Property"}</button>
                 </div>
               )}
               {isCustomer && (
@@ -180,7 +189,9 @@ const mapDispatchToProps = dispatch => {
     getProperty: propertyId => dispatch(getProperty(propertyId)),
     getVisitingList: userId => dispatch(getVisitingList(userId)),
     addToVisitingList: (userId, profile, propertyId) =>
-      dispatch(addToVisitingList(userId, profile, propertyId))
+      dispatch(addToVisitingList(userId, profile, propertyId)),
+    deleteProperty: (userId, propertyId, profile) =>
+      dispatch(deleteProperty(userId, propertyId, profile)),
   };
 };
 

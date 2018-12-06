@@ -229,7 +229,7 @@ export const updateProperty = (newProperty, callback) => {
 
 export const deleteProperty = (userId, propertyId, profile) => {
   return (dispatch, getState, { getFirestore }) => {
-    
+
     if (profile.type !== 'owner') {
       return dispatch({
         type: 'DELETE_PROPERTY_ERROR',
