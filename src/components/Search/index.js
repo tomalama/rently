@@ -19,6 +19,7 @@ import 'react-dropdown/style.css';
 import { locations } from "../../constants/geographic-info";
 
 import "./Search.scss";
+import { prepare } from "fast-glob/out/managers/options";
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 const Range = createSliderWithTooltip(Slider.Range);
@@ -36,7 +37,7 @@ class Search extends Component {
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 50,
+        maximalRent: 0,
         maxRent: 50
     };
 
@@ -100,11 +101,19 @@ class Search extends Component {
     componentDidUpdate(prevProps) {
         if(prevProps.maxRent !== this.props.maxRent) {
             if (prevProps.maxRent !== undefined) {
-                if (this.state.maxRent <= prevProps.maxRent) {
-                    this.setState({
-                        maxRent: prevProps.maxRent
-                    })
-                }
+                const max = Math.max(prevProps.maxRent, this.props.maxRent)
+                this.setState({
+                    maxRent: max
+                })
+            } else {
+                this.setState({
+                    maxRent: this.props.maxRent
+                })
+            }
+            if(this.state.maximalRent === 0 ) {
+                this.setState({
+                    maximalRent: this.props.maxRent
+                })
             }
         }
         this.rentMarks = {
@@ -174,7 +183,7 @@ class Search extends Component {
                                     marks={this.rentMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={this.props.maxRent}
+                                    max={this.state.maxRent}
                                     step={1}
                                     value={[this.state.minimalRent, this.state.maximalRent]}
                                     onChange={this.handleRentalChange}
