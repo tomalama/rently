@@ -111,8 +111,12 @@ class PropertyForm extends Component {
         this.props.addProperty(this.state);
       else if (this.props.type === 'update')
         this.props.updateProperty(this.state);
-      
+
     }
+
+    // if (this.props.redirect) {
+    //   window.location.href = this.props.redirect;
+    // }
   }
 
   validateInput = (inputId, inputValue) => {
@@ -167,6 +171,7 @@ class PropertyForm extends Component {
                       <input
                         type="radio"
                         id="propertyType"
+                        name='propertyType'
                         value="Apartment"
                         checked={this.state.propertyType === 'Apartment'}
                         onChange={this.handleChange}
@@ -180,6 +185,7 @@ class PropertyForm extends Component {
                       <input
                         type="radio"
                         id="propertyType"
+                        name='propertyType'
                         value="House"
                         checked={this.state.propertyType === 'House'}
                         onChange={this.handleChange}

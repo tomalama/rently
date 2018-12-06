@@ -1,39 +1,37 @@
 import React, { Component } from 'react';
+import * as _ from "lodash";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import _ from 'lodash';
 import { firebaseConnect } from "react-redux-firebase";
 
-import { updateProperty } from '../../store/actions/property';
+import { updateProperty, getProperty } from '../../store/actions/property';
 
 import PropertyForm from '../PropertyForm';
 
-// Below is an example of a property state that you can pass into the PropertyForm.
-// You can get all these state values from Firestore. 
-const testPropertyState = {
-  propertyId: 'SjQgHZVvJfMS3M72YE25',
-  propertyType: 'Apartment',
-  rent: '123',
-  streetNumber: '123',
-  streetName: 'Testing St',
-  city: 'Rack City',
-  province: 'AB',
-  postalCode: 'K1X1l2',
-  location: 'Alberta',
-  numBedrooms: '2',
-  numBathrooms: '1',
-  numOtherRooms: '3',
-  imagePreviews: ['https://firebasestorage.googleapis.com/v0/b/rently-8a83b.appspot.com/o/images%2FSjQgHZVvJfMS3M72YE25%2Fhi-dad.jpg?alt=media&token=24a70dc6-c2c6-40fd-8960-e3c011695dd8']
-}
-
 class UpdateProperty extends Component {
+  componentDidMount() {
+    const { propertyId } = this.props.match.params;
+    const { getProperty } = this.props;
+    getProperty(propertyId);
+  }
 
   render() {
+    const { propertyId } = this.props.match.params;
+    const { property } = this.props;
+
+    if (!property) {
+      return <div></div>;
+    }
+
+    const propertyState = _.assign({propertyId: propertyId}, property);
+    propertyState['imagePreviews'] = propertyState.imageURLs;
+
     return (
       <div>
         <PropertyForm
           type='update'
-          propertyState={testPropertyState}
+          propertyState={propertyState}
+          redirect={`/property/${propertyId}`}
         />
       </div>
     );
@@ -43,13 +41,15 @@ class UpdateProperty extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    user: state.firebase.profile
+    user: state.firebase.profile,
+    property: state.property.property,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateProperty: newProperty => dispatch(updateProperty(newProperty))
+    updateProperty: newProperty => dispatch(updateProperty(newProperty)),
+    getProperty: propertyId => dispatch(getProperty(propertyId)),
   };
 };
 
@@ -60,4 +60,3 @@ export default compose(
     mapDispatchToProps
   )
 )(UpdateProperty);
-

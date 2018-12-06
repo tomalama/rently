@@ -170,7 +170,7 @@ export const addProperty = newProperty => {
   }
 };
 
-export const updateProperty = newProperty => {
+export const updateProperty = (newProperty, callback) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
 
@@ -225,3 +225,91 @@ export const updateProperty = newProperty => {
       });
   }
 };
+
+
+export const deleteProperty = (userId, propertyId, profile) => {
+  return (dispatch, getState, { getFirestore }) => {
+    
+    if (profile.type !== 'owner') {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'cannot delete the property if you are not an owner'
+        }
+      })
+    }
+    if (!(userId && typeof(userId) === 'string' && userId.length > 0)) {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'userId needs to be a non-null string which is not empty'
+        }
+      });
+    }
+    if (!(propertyId && typeof(propertyId) === 'string' && propertyId.length > 0)) {
+      return dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          message: 'propertyId needs to be a non-null string which is not empty'
+        }
+      });
+    }
+
+    const firestore = getFirestore();
+
+    firestore
+      .collection('properties')
+      .doc(propertyId)
+      .get()
+      .then(query => {
+
+        const result = query.data();
+        if (result) {
+          //if there is a list, check if the propertyId exists
+          if (result.userId == userId) {
+            firestore
+              .collection('properties')
+              .doc(propertyId)
+              .set({
+                deleted: true
+              }, { merge: true })
+              .then(() => dispatch({
+                type: 'DELETE_PROPERTY_SUCCESS',
+                payload: {
+                  message: 'Successfully deleted the property'
+                }
+              }))
+              .catch(e => dispatch({
+                type: 'DELETE_PROPERTY_ERROR',
+                err: {
+                  error: e,
+                  message: 'Unknown error setting the deleted attribute'
+                }
+              }));
+          } else {
+            return dispatch({
+              type: 'DELETE_PROPERTY_ERROR',
+              err: {
+                message: 'The property id and user id did not match'
+              }
+            })
+          }
+        } else {
+          //if no list, then dispath
+          return dispatch({
+            type: 'DELETE_PROPERTY_ERROR',
+            err: {
+              message: 'There is no property'
+            }
+          })
+        }
+      })
+      .catch(e => dispatch({
+        type: 'DELETE_PROPERTY_ERROR',
+        err: {
+          error: e,
+          message: 'Unknown error fetching the owner list'
+        }
+      }))
+  }
+}

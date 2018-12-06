@@ -43,7 +43,7 @@ class Browse extends Component {
             : "url(http://cdn.home-designing.com/wp-content/uploads/2017/05/wood-white-and-charcoal-modern-exterior-paint-themes.jpg)";
         if(index >= lowerRange && index < upperRange)
         return (
-            <a href={`/property/${id}/`} key={id}>
+            <a href={`/property/${this.props.properties[id].propertyId}/`} key={id}>
                 <div className="card">
                     <span className="card-header" style={{backgroundImage: imageURL}}>
                         <span className="card-title">

@@ -1,31 +1,24 @@
+import * as _ from "lodash";
+
 const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 
-const addPropertyToArray = querySnapshot => {
-    const properties = {};
-    const queryData = [];
-    var highestRent = 0;
-    if(querySnapshot.docs.length > 0) {
-        querySnapshot.forEach((docSnapshot) => {
-            const id = docSnapshot.id;
-            const data = docSnapshot.data();
-            if(parseInt(data.rent) > highestRent) {
-                highestRent = data.rent;
-            }
-            properties[id] = data;
-        })
-    }
-    queryData.push(properties);
-    queryData.push(highestRent);
-    
-    return queryData;
-}
-
-const dispatchAction = (dbRef, dispatch) => {
+const dispatchAction = (dbRef, filter, dispatch) => {
     dbRef.then(querySnapshot => {
-        const queryData = addPropertyToArray(querySnapshot);
-        const properties = queryData[0];
-        const maxRent = queryData[1];
-        const querySize = Object.keys(properties).length;
+        const tmp = [];
+        querySnapshot.forEach((doc) => {
+          const property = doc.data();
+          property['propertyId'] = doc.id;
+          tmp.push(property);
+        });
+        const properties = _.filter(tmp, (property) => {
+          if (!filter) {
+            return true;
+          }
+          return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms;
+        });
+
+        const maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+        const querySize = properties.length;
 
         dispatch({
             type: SEARCH_SUCCESS,
@@ -43,14 +36,13 @@ export const search = filter => {
         const properties = propertyRef
             .where('location', '==', filter.location)
             .where('propertyType', '==', filter.typeOfProperty)
-            .where('numBedrooms', '==', filter.numberOfBedrooms)
-            .where('numBathrooms', '==', filter.numberOfBathrooms)
             .where('rent', '<=', filter.maximalRent)
             .where('rent', '>=', filter.minimalRent).get()
 
-        dispatchAction(properties, dispatch);
+        dispatchAction(properties, filter, dispatch);
     }
 }
+
 
 export const searchAll = () => {
     return(dispatch, getState, { getFirestore }) => {
@@ -58,6 +50,6 @@ export const searchAll = () => {
 
         const allProperties = db.collection('properties').get()
 
-        dispatchAction(allProperties, dispatch);
+        dispatchAction(allProperties, null, dispatch);
     }
 }
