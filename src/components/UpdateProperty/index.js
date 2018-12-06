@@ -24,6 +24,7 @@ class UpdateProperty extends Component {
     }
 
     const propertyState = _.assign({propertyId: propertyId}, property);
+    propertyState['imagePreviews'] = propertyState.imageURLs;
 
     return (
       <div>
