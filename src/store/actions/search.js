@@ -2,7 +2,7 @@ import * as _ from "lodash";
 
 const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 
-const dispatchAction = (dbRef, filter, dispatch) => {
+const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
     dbRef.then(querySnapshot => {
         const tmp = [];
         querySnapshot.forEach((doc) => {
@@ -16,14 +16,22 @@ const dispatchAction = (dbRef, filter, dispatch) => {
           }
           return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms;
         });
-
-        const maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+        
+        if (setHighestRent) var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
         const querySize = properties.length;
 
-        dispatch({
-            type: SEARCH_SUCCESS,
-            payload: { properties, querySize, maxRent }
-        })
+        if (setHighestRent) {
+            dispatch({
+                type: SEARCH_SUCCESS,
+                payload: { properties, querySize, maxRent }
+            })
+        } else {
+            dispatch({
+                type: SEARCH_SUCCESS,
+                payload: { properties, querySize }
+            })
+        }
+        
     })
 }
 
@@ -39,7 +47,7 @@ export const search = filter => {
             .where('rent', '<=', filter.maximalRent)
             .where('rent', '>=', filter.minimalRent).get()
 
-        dispatchAction(properties, filter, dispatch);
+        dispatchAction(properties, filter, false, dispatch);
     }
 }
 
@@ -50,6 +58,6 @@ export const searchAll = () => {
 
         const allProperties = db.collection('properties').get()
 
-        dispatchAction(allProperties, null, dispatch);
+        dispatchAction(allProperties, null, true, dispatch);
     }
 }

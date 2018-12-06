@@ -36,6 +36,8 @@ class PropertyCard extends React.Component {
 
                     <div className='property-card__house-location'>{property.location}</div>
 
+                    <div className='property-card__house-type'>{property.propertyType}</div>
+
                     <div className='property-card__house-rent'>$ {(property.rent ? property.rent : 0.00)} / month</div>
                 </div>
 
