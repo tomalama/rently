@@ -10,14 +10,18 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
           property['propertyId'] = doc.id;
           tmp.push(property);
         });
+
+        console.log(tmp);
         const properties = _.filter(tmp, (property) => {
           if (!filter) {
             return true;
           }
           return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms;
         });
-        
-        if (setHighestRent) var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+
+        if (setHighestRent) {
+          var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+        }
         const querySize = properties.length;
 
         if (setHighestRent) {
@@ -31,7 +35,7 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
                 payload: { properties, querySize }
             })
         }
-        
+
     })
 }
 
