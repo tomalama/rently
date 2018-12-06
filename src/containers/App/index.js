@@ -48,7 +48,7 @@ export default class App extends Component {
           />
           <AppRoute
             exact
-            path="/update-property"
+            path="/update-property/:propertyId/"
             layout={AppContainer}
             component={UpdateProperty}
           />
