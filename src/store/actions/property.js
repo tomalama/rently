@@ -119,7 +119,7 @@ export const addProperty = newProperty => {
 
     // Trim the unnecessary fields from the PropertyForm state object
     const images = newProperty.images;
-    let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError', 'selectedImageIndex']);
+    let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError', 'selectedImageIndex', 'success']);
     trimmedProperty.rent = parseInt(trimmedProperty.rent);
 
     firestore
@@ -177,7 +177,7 @@ export const updateProperty = (newProperty, callback) => {
     // Trim the unnecessary fields from the PropertyForm state object
     const images = newProperty.images;
     let imageURLs = newProperty.imagePreviews;
-    let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError', 'selectedImageIndex']);
+    let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError', 'selectedImageIndex', 'success']);
 
     firestore
       .collection('properties')

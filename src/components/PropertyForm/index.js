@@ -33,7 +33,8 @@ class PropertyForm extends Component {
     validInputs: [],
     invalidInputs: [],
     error: false,
-    imageError: false
+    imageError: false,
+    success: false
   };
 
   componentWillMount() {
@@ -64,7 +65,6 @@ class PropertyForm extends Component {
   };
 
   handleProxyFileSingle = index => {
-    console.log(this.state.images);
     this.setState({ selectedImageIndex: index});
     this.refs.fileUploaderSingle.click();
   };
@@ -124,24 +124,29 @@ class PropertyForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log('submit');
 
     let errorMessage = '';
     if (this.state.invalidInputs.length > 0)
       errorMessage += 'There were errors in the form values you entered, please correct the form fields highlighted in red. ';
 
     // Don't need to check for new files if this is update mode
-    if (this.state.images.length === 0 && this.props.type === 'add')
+    // Very weird and hacky if statement, but the only way I was able to get it to work
+    console.log(`Length: ${this.state.imagePreviews.length}, Type: ${this.props.type}`);
+    if (this.state.imagePreviews.length < 1 && this.props.type === 'add')
       errorMessage += 'Please upload at least one image for the property.'
 
+
+    console.log(errorMessage);
     if (errorMessage) {
       this.setState({ error: errorMessage });
     } else {
-      this.setState({ error: false });
-      if (this.props.type === 'add')
+      this.setState({ error: false, success: true });
+      if (this.props.type === 'add') {
         this.props.addProperty(this.state);
-      else if (this.props.type === 'update')
+      } else if (this.props.type === 'update') {
         this.props.updateProperty(this.state);
-
+      }
     }
 
     // if (this.props.redirect) {
@@ -397,7 +402,24 @@ class PropertyForm extends Component {
 
           </div>
 
-          <button className='add-property-form__submit' type="submit">{this.props.type === 'add' ? 'Add Property' : 'Update Property'}</button>
+          {this.state.success ? (
+            <button
+              className='add-property-form__submit--disabled'
+              type="submit"
+              disabled={true}
+            >
+              {this.props.type === 'add' ? 'Property Added!' : 'Property Updated!'}
+            </button>
+          ) : ( 
+              <button
+                className='add-property-form__submit'
+                type="submit"
+                disabled={false}
+              >
+                {this.props.type === 'add' ? 'Add Property' : 'Update Property'}
+              </button>
+          )}
+          
         </form>
       </div>
     );
