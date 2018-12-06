@@ -23,7 +23,7 @@ class AddProperty extends Component {
         </div>
       );
     }
-    return null;
+    return <div />;
   }
 }
 
