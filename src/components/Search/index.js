@@ -103,11 +103,12 @@ class Search extends Component {
             if (prevProps.maxRent !== undefined) {
                 const max = Math.max(prevProps.maxRent, this.props.maxRent)
                 this.setState({
-                    maxRent: max
+                    maxRent: max,
                 })
             } else {
                 this.setState({
-                    maxRent: this.props.maxRent
+                    maxRent: this.props.maxRent,
+                    maximalRent: this.props.maxRent
                 })
             }
         }
@@ -180,6 +181,7 @@ class Search extends Component {
                                     min={0}
                                     max={this.state.maxRent}
                                     step={1}
+                                    defaultValue={[this.state.minimalRent, this.state.maxRent]}
                                     value={[this.state.minimalRent, this.state.maxRent]}
                                     onChange={this.handleRentalChange}
                                 />
