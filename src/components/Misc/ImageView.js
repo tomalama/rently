@@ -8,7 +8,12 @@ export default class ImageView extends Component {
   render() {
     return (
       <div className={"image-view" + (!this.props.image ? ' empty' : '')}>
-        <img className="image-view__img" src={this.props.image} alt='' />
+        <img 
+          className="image-view__img" 
+          src={this.props.image} alt='' 
+          style={this.props.clickable ? { cursor: 'pointer' } : { cursor: 'mouse' }}
+          onClick={this.props.handleClick}
+        />
       </div>
     );
   }

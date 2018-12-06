@@ -11,6 +11,7 @@ import ImageView from "../Misc/ImageView";
 import './property-form.scss'
 
 const MAX_IMAGES = 5;
+const IMAGE_SIZE_LIMIT = 5000000;
 const inputStyleError = { borderColor: 'red' }
 
 class PropertyForm extends Component {
@@ -27,12 +28,13 @@ class PropertyForm extends Component {
     numBedrooms: '',
     numBathrooms: '',
     numOtherRooms: '',
-    images: [],
+    images: [MAX_IMAGES],
     imagePreviews: [],
     validInputs: [],
     invalidInputs: [],
     error: false,
-    imageError: false
+    imageError: false,
+    success: false
   };
 
   componentWillMount() {
@@ -62,7 +64,42 @@ class PropertyForm extends Component {
     this.refs.fileUploader.click();
   };
 
+  handleProxyFileSingle = index => {
+    this.setState({ selectedImageIndex: index});
+    this.refs.fileUploaderSingle.click();
+  };
+
   handleFileChange = e => {
+    let error = this.validateImages(e);
+
+    if (error) {
+      this.setState({ imageError: error });
+    } else {
+      const images = Array.from(e.target.files);
+      this.setState({ images, imageError: false });
+      images.forEach((image, index) => {
+        this.updateImagePreview(image, index);
+      });
+    }
+  };
+
+  handleSingleFileChange = e => {
+    let error = this.validateImages(e);
+
+    if (error) {
+      this.setState({ imageError: error });
+    } else {
+      const index = this.state.selectedImageIndex;
+      const images = this.state.images;
+      const newImage = e.target.files.item(0);
+      images[index] = newImage;
+
+      this.setState({ images, imageError: false });
+      this.updateImagePreview(newImage, index)
+    }
+  };
+
+  validateImages = e => {
     let errorMessage = '';
     let sizeError = false;
     let typeError = false;
@@ -71,7 +108,7 @@ class PropertyForm extends Component {
       errorMessage += 'You may only upload a maximum of 5 images. ';
 
     Array.from(e.target.files).forEach((image, index) => {
-      if (image.size > 5000000 && !sizeError) {
+      if (image.size > IMAGE_SIZE_LIMIT && !sizeError) {
         errorMessage += 'Your images must be no larger 5 MB. ';
         sizeError = true;
       }
@@ -82,36 +119,34 @@ class PropertyForm extends Component {
       }
     });
 
-    if (errorMessage) {
-      this.setState({ imageError: errorMessage });
-    } else {
-      this.setState({ images: e.target.files, imageError: false });
-      Array.from(e.target.files).forEach((image, index) => {
-        this.updateImagePreview(image, index);
-      });
-    }
-  };
+    return errorMessage
+  }
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log('submit');
 
     let errorMessage = '';
     if (this.state.invalidInputs.length > 0)
       errorMessage += 'There were errors in the form values you entered, please correct the form fields highlighted in red. ';
 
     // Don't need to check for new files if this is update mode
-    if (this.state.images.length === 0 && this.props.type === 'add')
+    // Very weird and hacky if statement, but the only way I was able to get it to work
+    console.log(`Length: ${this.state.imagePreviews.length}, Type: ${this.props.type}`);
+    if (this.state.imagePreviews.length < 1 && this.props.type === 'add')
       errorMessage += 'Please upload at least one image for the property.'
 
+
+    console.log(errorMessage);
     if (errorMessage) {
       this.setState({ error: errorMessage });
     } else {
-      this.setState({ error: false });
-      if (this.props.type === 'add')
+      this.setState({ error: false, success: true });
+      if (this.props.type === 'add') {
         this.props.addProperty(this.state);
-      else if (this.props.type === 'update')
+      } else if (this.props.type === 'update') {
         this.props.updateProperty(this.state);
-
+      }
     }
 
     // if (this.props.redirect) {
@@ -143,7 +178,8 @@ class PropertyForm extends Component {
       this.setState({ imagePreviews });
     };
 
-    reader.readAsDataURL(file);
+    if (file)
+      reader.readAsDataURL(file);
   };
 
   render() {
@@ -176,6 +212,7 @@ class PropertyForm extends Component {
                         checked={this.state.propertyType === 'Apartment'}
                         onChange={this.handleChange}
                         required
+                        disabled={this.props.type === 'update'}
                       />
                       Apartment
                     </label>
@@ -190,6 +227,7 @@ class PropertyForm extends Component {
                         checked={this.state.propertyType === 'House'}
                         onChange={this.handleChange}
                         required
+                        disabled={this.props.type === 'update'}
                       />
                       House
                     </label>
@@ -219,6 +257,7 @@ class PropertyForm extends Component {
                       value={this.state.streetNumber}
                       onChange={this.handleChange}
                       required
+                      disabled={this.props.type === 'update'}
                     />
                     <div>Street Number</div>
                   </span>
@@ -230,6 +269,7 @@ class PropertyForm extends Component {
                       onChange={this.handleChange}
                       required
                       style={this.state.invalidInputs.includes('streetName') ? inputStyleError : undefined}
+                      disabled={this.props.type === 'update'}
                     />
                     <div>Street Name</div>
                   </span>
@@ -272,7 +312,7 @@ class PropertyForm extends Component {
               <div className='property-form__row'>
                 <div className='property-form__label'>Location:</div>
                 <div className='property-form__input'>
-                  <select id="location" onChange={this.handleChange}>
+                  <select id="location" onChange={this.handleChange} disabled={this.props.type === 'update'}>
                     {locations.map(location => <option value={location} key={location}>{location}</option>)}
                   </select>
                 </div>
@@ -331,7 +371,14 @@ class PropertyForm extends Component {
             <div className="add-property-form__upload">
 
               <div className="image-container">
-                {_.range(MAX_IMAGES).map((img, index) => <ImageView image={this.state.imagePreviews[index]} key={index} />)}
+                {_.range(MAX_IMAGES).map((img, index) => 
+                  <ImageView 
+                    image={this.state.imagePreviews[index]} 
+                    key={index} 
+                    handleClick={!!this.state.imagePreviews[index] ? () => this.handleProxyFileSingle(index) : null}
+                    clickable={!!this.state.imagePreviews[index]}
+                  />
+                )}
               </div>
 
               <button
@@ -346,12 +393,37 @@ class PropertyForm extends Component {
                 ref="fileUploader"
                 onChange={this.handleFileChange}
               />
+              <input
+                style={{ display: 'none' }}
+                id="single-upload-btn"
+                type="file"
+                accept="image/*"
+                ref="fileUploaderSingle"
+                onChange={this.handleSingleFileChange}
+              />
               {this.state.imageError && <p className="error-msg">{this.state.imageError}</p>}
             </div>
 
           </div>
 
-          <button className='add-property-form__submit' type="submit">{this.props.type === 'add' ? 'Add Property' : 'Update Property'}</button>
+          {this.state.success ? (
+            <button
+              className='add-property-form__submit--disabled'
+              type="submit"
+              disabled={true}
+            >
+              {this.props.type === 'add' ? 'Property Added!' : 'Property Updated!'}
+            </button>
+          ) : ( 
+              <button
+                className='add-property-form__submit'
+                type="submit"
+                disabled={false}
+              >
+                {this.props.type === 'add' ? 'Add Property' : 'Update Property'}
+              </button>
+          )}
+          
         </form>
       </div>
     );
