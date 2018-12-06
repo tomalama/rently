@@ -7,12 +7,21 @@ const searchReducer = (state = initState, action) => {
             const properties = action.payload.properties;
             const querySize = action.payload.querySize;
             const maxRent = action.payload.maxRent;
-            return {
-                ...state,
-                properties,
-                querySize,
-                maxRent
-            };
+            
+            if (maxRent !== undefined && maxRent !== null) {
+                return {
+                    ...state,
+                    properties,
+                    querySize,
+                    maxRent
+                };
+            } else {
+                return {
+                    ...state,
+                    properties,
+                    querySize
+                }
+            }
         }
         
         default:

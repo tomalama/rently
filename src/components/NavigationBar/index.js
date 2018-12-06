@@ -53,8 +53,7 @@ export class NavigationBar extends Component {
         return [
           { title: "My Account", url: "/my-account" },
           { title: "My Properties", url: "/my-properties" },
-          { title: "Add Property", url: "/add-property" },
-          { title: "Visit History", url: "/" }
+          { title: "Add Property", url: "/add-property" }
         ];
       case "agent":
         return [

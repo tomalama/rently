@@ -54,6 +54,10 @@ $main-card-height: 142px;
 
             .property-card__location-composite {
                 order: 2;
+
+                &> * ~ * {
+                    margin-top: 5px;
+                }
             }
     
             .property-card__other-pics {
@@ -353,7 +357,8 @@ $main-card-height: 142px;
             color: #000000;
         }
         
-        .property-card__house-location {
+        .property-card__house-location,
+        .property-card__house-type {
             font-family: Roboto;
             font-size: 12px;
             font-weight: 500;

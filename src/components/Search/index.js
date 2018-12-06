@@ -174,9 +174,9 @@ class Search extends Component {
                                     marks={this.rentMarks}
                                     allowCross={false}
                                     min={0}
-                                    max={this.props.maxRent || this.state.maxRent}
+                                    max={this.props.maxRent}
                                     step={1}
-                                    defaultValue={[0, this.props.maxRent || this.state.maxRent]}
+                                    value={[this.state.minimalRent, this.state.maximalRent]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
