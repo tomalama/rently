@@ -2,6 +2,7 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded } from "react-redux-firebase";
+import { Redirect } from "react-router-dom";
 
 import PropertyCard from "../PropertyCard";
 import "./style.scss";
@@ -13,22 +14,24 @@ function getVisitingList(userId, visitingLists, properties) {
       if (!properties[propertyId].deleted) {
         const propertyData = properties[propertyId];
 
-        sum.push(new Property(
-          propertyId,
-          propertyData.propertyType,
-          propertyData.numBedrooms,
-          propertyData.numBathrooms,
-          propertyData.numOtherRooms,
-          propertyData.rent,
-          propertyData.province,
-          propertyData.city,
-          propertyData.streetNumber,
-          propertyData.streetName,
-          propertyData.postalCode,
-          propertyData.location,
-          propertyData.deleted ? propertyData.deleted : false,
-          propertyData.imageURLs
-        ));
+        sum.push(
+          new Property(
+            propertyId,
+            propertyData.propertyType,
+            propertyData.numBedrooms,
+            propertyData.numBathrooms,
+            propertyData.numOtherRooms,
+            propertyData.rent,
+            propertyData.province,
+            propertyData.city,
+            propertyData.streetNumber,
+            propertyData.streetName,
+            propertyData.postalCode,
+            propertyData.location,
+            propertyData.deleted ? propertyData.deleted : false,
+            propertyData.imageURLs
+          )
+        );
       }
 
       return sum;
@@ -38,7 +41,12 @@ function getVisitingList(userId, visitingLists, properties) {
 
 class VisitingList extends React.Component {
   render() {
-    const { visitingLists, properties, auth } = this.props;
+    const { visitingLists, properties, auth, profile } = this.props;
+
+    if (!auth.uid) return <Redirect to="/login" />;
+
+    if (profile.type !== "customer") return <Redirect to="/" />;
+
     const loaded = isLoaded(visitingLists) && isLoaded(properties);
 
     if (loaded)
@@ -69,6 +77,7 @@ export default compose(
   connect(state => ({
     auth: state.firebase.auth,
     visitingLists: state.firestore.data["visiting-list"],
-    properties: state.firestore.data.properties
+    properties: state.firestore.data.properties,
+    profile: state.firebase.profile
   }))
 )(VisitingList);
