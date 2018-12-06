@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { firebaseConnect } from "react-redux-firebase";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
 import { Redirect } from "react-router-dom";
 
 import { addProperty } from "../../store/actions/property";
@@ -12,15 +12,18 @@ import PropertyForm from "../PropertyForm";
 class AddProperty extends Component {
   render() {
     const { auth, profile } = this.props;
-    if (!auth.uid) return <Redirect to="/login" />;
+    if (isLoaded(profile)) {
+      if (!auth.uid) return <Redirect to="/login" />;
 
-    if (profile.type !== "owner") return <Redirect to="/" />;
+      if (profile.type !== "owner") return <Redirect to="/" />;
 
-    return (
-      <div>
-        <PropertyForm type="add" />
-      </div>
-    );
+      return (
+        <div>
+          <PropertyForm type="add" />
+        </div>
+      );
+    }
+    return null;
   }
 }
 
