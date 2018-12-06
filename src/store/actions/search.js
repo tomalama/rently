@@ -10,6 +10,7 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
           property['propertyId'] = doc.id;
           tmp.push(property);
         });
+
         const properties = _.filter(tmp, (property) => {
           if (!filter) {
             return property.deleted !== true;
@@ -17,8 +18,10 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
           return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms 
             && property.deleted !== true;
         });
-        
-        if (setHighestRent) var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+
+        if (setHighestRent) {
+          var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
+        }
         const querySize = properties.length;
 
         if (setHighestRent) {
@@ -32,7 +35,7 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
                 payload: { properties, querySize }
             })
         }
-        
+
     })
 }
 

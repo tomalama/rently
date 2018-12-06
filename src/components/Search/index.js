@@ -58,7 +58,7 @@ class Search extends Component {
 
     handleLocationChange = e => {
         this.setState({
-            location: e
+            location: e.value
         })
     }
 
