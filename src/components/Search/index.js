@@ -119,7 +119,6 @@ class Search extends Component {
     }
 
     render() {
-        console.log(this.state.maxRent);
 
         return (
             <div className="form-container">
