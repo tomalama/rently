@@ -11,6 +11,7 @@ import ImageView from "../Misc/ImageView";
 import './property-form.scss'
 
 const MAX_IMAGES = 5;
+const IMAGE_SIZE_LIMIT = 5000000;
 const inputStyleError = { borderColor: 'red' }
 
 class PropertyForm extends Component {
@@ -62,7 +63,42 @@ class PropertyForm extends Component {
     this.refs.fileUploader.click();
   };
 
+  handleProxyFileSingle = index => {
+    this.setState({ selectedImageIndex: index});
+    this.refs.fileUploaderSingle.click();
+  };
+
   handleFileChange = e => {
+    let error = this.validateImages(e);
+
+    if (error) {
+      this.setState({ imageError: error });
+    } else {
+      const images = Array.from(e.target.files);
+      this.setState({ images, imageError: false });
+      images.forEach((image, index) => {
+        this.updateImagePreview(image, index);
+      });
+    }
+  };
+
+  handleSingleFileChange = e => {
+    let error = this.validateImages(e);
+
+    if (error) {
+      this.setState({ imageError: error });
+    } else {
+      const index = this.state.selectedImageIndex;
+      const images = this.state.images;
+      const newImage = e.target.files.item(0);
+      images[index] = newImage;
+
+      this.setState({ images, imageError: false });
+      this.updateImagePreview(newImage, index)
+    }
+  };
+
+  validateImages = e => {
     let errorMessage = '';
     let sizeError = false;
     let typeError = false;
@@ -71,7 +107,7 @@ class PropertyForm extends Component {
       errorMessage += 'You may only upload a maximum of 5 images. ';
 
     Array.from(e.target.files).forEach((image, index) => {
-      if (image.size > 5000000 && !sizeError) {
+      if (image.size > IMAGE_SIZE_LIMIT && !sizeError) {
         errorMessage += 'Your images must be no larger 5 MB. ';
         sizeError = true;
       }
@@ -82,15 +118,8 @@ class PropertyForm extends Component {
       }
     });
 
-    if (errorMessage) {
-      this.setState({ imageError: errorMessage });
-    } else {
-      this.setState({ images: e.target.files, imageError: false });
-      Array.from(e.target.files).forEach((image, index) => {
-        this.updateImagePreview(image, index);
-      });
-    }
-  };
+    return errorMessage
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -325,7 +354,14 @@ class PropertyForm extends Component {
             <div className="add-property-form__upload">
 
               <div className="image-container">
-                {_.range(MAX_IMAGES).map((img, index) => <ImageView image={this.state.imagePreviews[index]} key={index} />)}
+                {_.range(MAX_IMAGES).map((img, index) => 
+                  <ImageView 
+                    image={this.state.imagePreviews[index]} 
+                    key={index} 
+                    handleClick={!!this.state.images[index] ? () => this.handleProxyFileSingle(index) : null}
+                    clickable={!!this.state.images[index]}
+                  />
+                )}
               </div>
 
               <button
@@ -339,6 +375,14 @@ class PropertyForm extends Component {
                 multiple="multiple"
                 ref="fileUploader"
                 onChange={this.handleFileChange}
+              />
+              <input
+                style={{ display: 'none' }}
+                id="single-upload-btn"
+                type="file"
+                accept="image/*"
+                ref="fileUploaderSingle"
+                onChange={this.handleSingleFileChange}
               />
               {this.state.imageError && <p className="error-msg">{this.state.imageError}</p>}
             </div>

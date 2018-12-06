@@ -118,7 +118,7 @@ export const addProperty = newProperty => {
     const firestore = getFirestore();
 
     // Trim the unnecessary fields from the PropertyForm state object
-    const images = Array.from(newProperty.images);
+    const images = newProperty.images;
     let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError']);
     trimmedProperty.rent = parseInt(trimmedProperty.rent);
 
@@ -134,7 +134,7 @@ export const addProperty = newProperty => {
 
         let imageURLs = [];
 
-        images.forEach((image, index) => {
+        images.forEach((image) => {
           let uploadTask = storageRef.child('images/' + docRef.id + '/' + image.name).put(image, metadata);
 
           uploadTask.on('state_changed', (snapshot) => {
@@ -175,7 +175,7 @@ export const updateProperty = newProperty => {
     const firestore = getFirestore();
 
     // Trim the unnecessary fields from the PropertyForm state object
-    const images = Array.from(newProperty.images);
+    const images = newProperty.images;
     let trimmedProperty = _.omit(newProperty, ['imagePreviews', 'images', 'validInputs', 'invalidInputs', 'error', 'imageError']);
 
     firestore
@@ -191,7 +191,7 @@ export const updateProperty = newProperty => {
 
         let imageURLs = [];
 
-        images.forEach((image, index) => {
+        images.forEach((image) => {
           let uploadTask = storageRef.child('images/' + trimmedProperty.propertyId + '/' + image.name).put(image, metadata);
 
           uploadTask.on('state_changed', (snapshot) => {
