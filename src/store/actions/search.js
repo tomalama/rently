@@ -12,9 +12,10 @@ const dispatchAction = (dbRef, filter, setHighestRent, dispatch) => {
         });
         const properties = _.filter(tmp, (property) => {
           if (!filter) {
-            return true;
+            return property.deleted !== true;
           }
-          return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms;
+          return property.numBedrooms >= filter.numberOfBedrooms && property.numBathrooms >= filter.numberOfBathrooms 
+            && property.deleted !== true;
         });
         
         if (setHighestRent) var maxRent = _.max(_.map(properties, (p) => { return parseInt(p.rent)}));
