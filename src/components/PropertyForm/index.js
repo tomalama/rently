@@ -212,6 +212,7 @@ class PropertyForm extends Component {
                         checked={this.state.propertyType === 'Apartment'}
                         onChange={this.handleChange}
                         required
+                        disabled={this.props.type === 'update'}
                       />
                       Apartment
                     </label>
@@ -226,6 +227,7 @@ class PropertyForm extends Component {
                         checked={this.state.propertyType === 'House'}
                         onChange={this.handleChange}
                         required
+                        disabled={this.props.type === 'update'}
                       />
                       House
                     </label>
@@ -255,6 +257,7 @@ class PropertyForm extends Component {
                       value={this.state.streetNumber}
                       onChange={this.handleChange}
                       required
+                      disabled={this.props.type === 'update'}
                     />
                     <div>Street Number</div>
                   </span>
@@ -266,6 +269,7 @@ class PropertyForm extends Component {
                       onChange={this.handleChange}
                       required
                       style={this.state.invalidInputs.includes('streetName') ? inputStyleError : undefined}
+                      disabled={this.props.type === 'update'}
                     />
                     <div>Street Name</div>
                   </span>
@@ -308,7 +312,7 @@ class PropertyForm extends Component {
               <div className='property-form__row'>
                 <div className='property-form__label'>Location:</div>
                 <div className='property-form__input'>
-                  <select id="location" onChange={this.handleChange}>
+                  <select id="location" onChange={this.handleChange} disabled={this.props.type === 'update'}>
                     {locations.map(location => <option value={location} key={location}>{location}</option>)}
                   </select>
                 </div>
