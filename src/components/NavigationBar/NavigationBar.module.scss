@@ -108,3 +108,21 @@ nav {
     }
   }
 }
+
+.signOutMsg {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  background: #e86e42;
+  border-radius: 1em;
+  padding: 0.8em 1.5em;  
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.7px;
+  text-align: center;
+  color: #ffffff;
+}

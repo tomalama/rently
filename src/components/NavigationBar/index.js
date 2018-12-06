@@ -9,7 +9,8 @@ import styles from "./NavigationBar.module.scss";
 
 export class NavigationBar extends Component {
   state = {
-    showDropdown: false
+    showDropdown: false,
+    showSignOut: false
   };
   customerDropdownLinks = [
     { title: "My Account", url: "/my-account" },
@@ -85,9 +86,19 @@ export class NavigationBar extends Component {
     document.removeEventListener("mousedown", this.handleOutsideClick, false);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.auth.uid && !this.props.auth.uid) {
+      //tell the nav to add a sign out button
+      this.setState({showSignOut: true})
+      setTimeout(() => {
+        this.setState({showSignOut: false})
+      }, 3500)
+    }
+  }
+
   render() {
     const { user, auth } = this.props;
-    const { showDropdown } = this.state;
+    const { showDropdown, showSignOut } = this.state;
 
     return (
       <nav ref={node => (this.node = node)}>
@@ -145,6 +156,9 @@ export class NavigationBar extends Component {
             </button>
           </div>
         )}
+        {showSignOut && 
+          <div className={styles.signOutMsg}>You have successfully signed out!</div>
+        }
       </nav>
     );
   }
