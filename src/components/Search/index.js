@@ -37,7 +37,7 @@ class Search extends Component {
         numberOfBedrooms: 0,
         numberOfBathrooms: 0,
         minimalRent: 0,
-        maximalRent: 50,
+        maximalRent: 0,
         maxRent: 50
     };
 
@@ -103,11 +103,15 @@ class Search extends Component {
             if (prevProps.maxRent !== undefined) {
                 const max = Math.max(prevProps.maxRent, this.props.maxRent)
                 this.setState({
-                    maxRent: max,
+                    maxRent: max
                 })
             } else {
                 this.setState({
-                    maxRent: this.props.maxRent,
+                    maxRent: this.props.maxRent
+                })
+            }
+            if(this.state.maximalRent === 0 ) {
+                this.setState({
                     maximalRent: this.props.maxRent
                 })
             }
@@ -181,8 +185,7 @@ class Search extends Component {
                                     min={0}
                                     max={this.state.maxRent}
                                     step={1}
-                                    defaultValue={[this.state.minimalRent, this.state.maxRent]}
-                                    value={[this.state.minimalRent, this.state.maxRent]}
+                                    value={[this.state.minimalRent, this.state.maximalRent]}
                                     onChange={this.handleRentalChange}
                                 />
                             </div>
