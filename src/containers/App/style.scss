@@ -5,6 +5,19 @@
   line-height: normal;
 }
 
+button {
+  cursor: pointer;
+  outline: none;
+
+  &:active {
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
 body {
   margin: 0;
 }

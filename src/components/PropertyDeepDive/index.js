@@ -4,13 +4,17 @@ import { connect } from "react-redux";
 import { getProperty, addToVisitingList, deleteProperty } from "../../store/actions/property";
 import { getVisitingList } from "../../store/actions/visitingList";
 
+import Modal from "../Modal";
+
 import "./styles.scss";
 
 class PropertyDeepDive extends Component {
   state = {
     isDeleted: false,
     inVisitingList: false,
-    error: null
+    error: null,
+    showModal: false,
+    activeImage: 0,
   };
 
   componentDidMount() {
@@ -29,7 +33,11 @@ class PropertyDeepDive extends Component {
       _.indexOf((visitingList && visitingList.data) || [], propertyId) >= 0;
     const isDeleted = (property && property.deleted);
 
-    this.setState({ inVisitingList: inVisitingList, isDeleted: isDeleted });
+    this.setState({
+      inVisitingList: inVisitingList,
+      isDeleted: isDeleted,
+      activeImage: (property && property.imageURLs & property.imageURLs[0])
+    });
   }
 
   addToVisitingList = () => {
@@ -54,6 +62,27 @@ class PropertyDeepDive extends Component {
     deleteProperty(auth.uid, propertyId, user);
   }
 
+  calculateImage = (step) => {
+    const { property } = this.props;
+    const { activeImage } = this.state;
+    let index = activeImage + step;
+    if (index < 0) {
+      index += property.imageURLs.length;
+    }
+    else {
+      index = index % property.imageURLs.length;
+    }
+    this.setState({ activeImage: index });
+  }
+
+  showImagePreviewModal = (idx) => {
+    this.setState({ showModal: true, activeImage: idx || 0 });
+  }
+
+  closeImagePreviewModal = () => {
+    this.setState({ showModal: false, activeImage: 0 });
+  }
+
   render() {
     const {
       auth,
@@ -63,7 +92,7 @@ class PropertyDeepDive extends Component {
       addToVisitingList
     } = this.props;
     const { propertyId } = this.props.match.params;
-    const { inVisitingList, error, isDeleted } = this.state;
+    const { inVisitingList, error, isDeleted, showModal, activeImage } = this.state;
 
     const isOwner =
       auth.uid &&
@@ -83,7 +112,7 @@ class PropertyDeepDive extends Component {
           {`${property.streetNumber} ${property.streetName} - ${property.propertyType}`}</p>
           <p className="price">{`$${property.rent} /month`}</p>
           <div className="images-container">
-            <div className="big-image">
+            <div className="big-image" onClick={() => this.showImagePreviewModal(0)}>
               <img
                 src={property.imageURLs && property.imageURLs[0]}
                 alt="big"
@@ -94,7 +123,7 @@ class PropertyDeepDive extends Component {
                 _.slice(property.imageURLs, 2, property.imageURLs.length),
                 (url, idx) => {
                   return (
-                    <div className="small-image">
+                    <div className="small-image" onClick={() => this.showImagePreviewModal(idx + 2)}>
                       <img key={idx} src={url} alt={`p-${idx}`} />
                     </div>
                   );
@@ -170,6 +199,19 @@ class PropertyDeepDive extends Component {
             </div>
           )}
         </div>
+
+          {showModal && <Modal close={this.closeImagePreviewModal}>
+            <div className="image-preview-container">
+              <div className="control left" onClick={() => this.calculateImage(-1)}>
+                <img src={window.location.origin + "/img/left.svg"} />
+              </div>
+              <img className="image-preview" src={property && property.imageURLs[activeImage]}/>
+              <div className="control right" onClick={() => this.calculateImage(1)}>
+                <img src={window.location.origin + "/img/right.svg"} />
+              </div>
+            </div>
+          </Modal>
+        }
       </div>
     );
   }
