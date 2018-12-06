@@ -6,6 +6,7 @@
   padding-left: 5%;
   padding-top: 1%;
   overflow-y: scroll;
+  height: 100vh;
 
   h2 {
     font-size: 26px;
@@ -33,7 +34,7 @@
 
 h2 {
   color: #0a002a;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
 }
 
 .search-button {
@@ -48,7 +49,7 @@ h2 {
 }
 
 .Dropdown-root {
-  margin: 0 0 8% 0;
+  margin: 0 0 8%;
 }
 
 .Dropdown-control {
@@ -68,7 +69,7 @@ h2 {
 }
 
 .rc-slider {
-  margin: 0 0 28% 0;
+  margin: 0 0 28%;
 }
 
 .rc-slider-tooltip-inner {
