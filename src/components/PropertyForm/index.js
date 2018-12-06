@@ -64,6 +64,7 @@ class PropertyForm extends Component {
   };
 
   handleProxyFileSingle = index => {
+    console.log(this.state.images);
     this.setState({ selectedImageIndex: index});
     this.refs.fileUploaderSingle.click();
   };
@@ -172,7 +173,8 @@ class PropertyForm extends Component {
       this.setState({ imagePreviews });
     };
 
-    reader.readAsDataURL(file);
+    if (file)
+      reader.readAsDataURL(file);
   };
 
   render() {
@@ -364,8 +366,8 @@ class PropertyForm extends Component {
                   <ImageView 
                     image={this.state.imagePreviews[index]} 
                     key={index} 
-                    handleClick={!!this.state.images[index] ? () => this.handleProxyFileSingle(index) : null}
-                    clickable={!!this.state.images[index]}
+                    handleClick={!!this.state.imagePreviews[index] ? () => this.handleProxyFileSingle(index) : null}
+                    clickable={!!this.state.imagePreviews[index]}
                   />
                 )}
               </div>
