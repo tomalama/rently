@@ -28,7 +28,7 @@ class PropertyForm extends Component {
     numBedrooms: '',
     numBathrooms: '',
     numOtherRooms: '',
-    images: [],
+    images: [MAX_IMAGES],
     imagePreviews: [],
     validInputs: [],
     invalidInputs: [],
